@@ -1,0 +1,7 @@
+package com.b112.prolog.user.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+}
