@@ -1,0 +1,22 @@
+.calendarHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 700px;
+}
+
+.yyyymm {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+
+}
+
+.arrow {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: baseline;
+
+}

@@ -1,0 +1,74 @@
+.calendar {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    height: 600px;
+}
+
+.week {
+    width: 100%;
+}
+
+.weeks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+.oneWeek {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.allDays {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    height: 100%;
+}
+
+
+.dayBox {
+    width: 100%;
+
+    .plusHover { 
+        .plusButton {
+        display: none;
+        }
+    }
+
+    &:hover{
+        background-color: rgb(174, 174, 174);
+        .plusHover {
+            .plusButton {
+                display: block;
+            }
+        }
+    } 
+}  
+
+
+.dayBox.selected {
+    background-color: pink;
+}
+
+.plusHover {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-content: center;
+    height: fit-content;
+}
+
+.plusButton {
+    width: 20px;
+    height: 20px;
+}
+
+.text.not-valid {
+    color: gray
+}
