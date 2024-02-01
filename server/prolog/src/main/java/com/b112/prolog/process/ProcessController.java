@@ -1,13 +1,13 @@
 package com.b112.prolog.process;
 
+import com.b112.prolog.process.Dto.ProcessDto;
+import com.b112.prolog.process.Entity.Process;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.bson.types.ObjectId;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,10 +16,24 @@ public class ProcessController {
 
     private final ProcessService processService;
 
-    @GetMapping("process")
+    @GetMapping("/process")
     public List<Process> findByAll(){
         System.out.println("HERE");
+//        return null;
         return processService.getProcessList();
+    }
+
+    @GetMapping("/{processid}")
+    public Optional<Process> findProcess(@PathVariable ObjectId processid){
+        System.out.println(processid+"oid cont");
+        return processService.getProcess(processid);
+    }
+
+    @PostMapping("/process")
+    public int insertProcess(@RequestBody ProcessDto dto){
+        //ProcessDto pc = processService.insertProcess(dto);
+        processService.insertProcess(dto);
+        return 1;
     }
 
 }

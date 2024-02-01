@@ -1,11 +1,9 @@
 package com.b112.prolog.process;
 
+import com.b112.prolog.process.Entity.Process;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface ProcessRepository extends MongoRepository<Process,String> {
-    List<Process> findByAll();
+public interface ProcessRepository extends MongoRepository<Process, ObjectId> {
 
 }
