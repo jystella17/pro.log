@@ -1,11 +1,13 @@
 package com.b112.prolog.process;
 
 import com.b112.prolog.process.Dto.ProcessDto;
+import com.b112.prolog.process.Dto.Template;
 import com.b112.prolog.process.Entity.Process;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,18 @@ public class ProcessService {
 
 //        System.out.println(processList.get(0).getId());
         return pc;
+
+    }
+
+    public void updateEssay(ObjectId oid, int templatetype){
+
+        Template essayTemplate = new Template(templatetype,"전형추가",null);
+        List<Template> lt = new ArrayList<>();
+        lt.add(essayTemplate);
+        Process updateEssay = Process.builder().essay(lt).build();
+        updateEssay.setId(oid);
+        processRepository.save(updateEssay);
+
 
 
     }

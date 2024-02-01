@@ -29,6 +29,14 @@ public class ProcessController {
         return processService.getProcess(processid);
     }
 
+    @PutMapping("/{processid}/essay")
+    public int updateEssay(@PathVariable ObjectId processid){
+        System.out.println("ess"+processid);
+        processService.updateEssay(processid,2);
+        return 1;
+    }
+
+
     @PostMapping("/process")
     public int insertProcess(@RequestBody ProcessDto dto){
         //ProcessDto pc = processService.insertProcess(dto);
