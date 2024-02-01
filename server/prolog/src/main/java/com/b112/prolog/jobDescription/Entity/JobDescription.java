@@ -8,7 +8,7 @@ import lombok.ToString;
 
 @Getter
 @Entity
-@Table(name ="JD")
+@Table(name ="JobDescription")
 @NoArgsConstructor
 @ToString
 public class JobDescription {
@@ -18,25 +18,31 @@ public class JobDescription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long jdId;
 
-    @Column(name="company_id")
-    private int companyId;
-
     @Column(name="link")
     private String link;
 
     @Column(name="keyword")
     private String keyword;
 
-    private String openingTimestamp;
+    @Column(name="openingDate")
+    private String openingDate;
 
-    private String expirationTimestamp;
+    @Column(name ="expirationDate")
+    private String expirationDate;
 
-    private String companyName;
+//    @Column(name="companyName")
+//    private String companyName;
+
+
+    @ManyToOne
+    @JoinColumn(name="company_id")
+    private Company company;
 
     @Column(name="job_title")
     private String jobTitle;
 
-    private String industryName;
+    @Column(name="industry")
+    private String industry;
 
     @Column(name="working_area")
     private String workingArea;
@@ -44,7 +50,8 @@ public class JobDescription {
     @Column(name="job_type")
     private String jobType;
 
-    private String jobMidCodeName;
+    @Column(name="jobMidCode")
+    private String jobMidCode;
 
     @Column(name="experience")
     private String experience;
@@ -53,10 +60,20 @@ public class JobDescription {
     private String education;
 
 
-
-
-
-
-
+    @Builder
+    public JobDescription(String link, String keyword, String openingDate, String expirationDate, Company company, String jobTitle, String industry, String workingArea, String jobType, String jobMidCode, String experience, String education) {
+        this.link = link;
+        this.keyword = keyword;
+        this.openingDate = openingDate;
+        this.expirationDate = expirationDate;
+        this.company = company;
+        this.jobTitle = jobTitle;
+        this.industry = industry;
+        this.workingArea = workingArea;
+        this.jobType = jobType;
+        this.jobMidCode = jobMidCode;
+        this.experience = experience;
+        this.education = education;
+    }
 }
 

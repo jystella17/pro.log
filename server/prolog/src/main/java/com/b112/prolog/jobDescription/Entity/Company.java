@@ -1,15 +1,15 @@
 package com.b112.prolog.jobDescription.Entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
 @Table(name ="Company")
-@NoArgsConstructor
+@RequiredArgsConstructor
 @ToString
 public class Company {
 
@@ -21,10 +21,13 @@ public class Company {
     @Column(name="name")
     private String companyName;
 
+//    @OneToMany(mappedBy = "company")
+//    private List<JobDescription> jobDescriptions = new ArrayList<>();
+
     @Builder
     public Company(Long companyId, String companyName) {
         this.companyId = companyId;
-        companyName = companyName;
+        this.companyName = companyName;
     }
 
 }
