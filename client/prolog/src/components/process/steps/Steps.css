@@ -1,30 +1,43 @@
 .steps {
     display: flex;
     flex-direction: row;
-    /* justify-content: space-around; */
-    height: 100px;
+    height: 70px;
 }
 
-.paperstep {
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(181, 251, 228);
+.step { 
     width: calc(100% / 3);
-    padding: 5px 10px;
 }
 
-.teststep {
+.content {
     display: flex;
-    flex-direction: column;
-    background-color: rgb(181, 251, 195);
-    width: calc(100% / 3);
-    padding: 5px 10px;
+    flex-direction: row;
+    align-items: center;
+    padding: 7%;
 }
 
-.interviewstep {
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(181, 203, 251);
-    width: calc(100% / 3);
-    padding: 5px 10px;
+.step.Paper {
+    background-color: rgb(245, 245, 245);
 }
+
+.step.Test {
+    background-color: rgb(245, 245, 245);
+}
+
+
+.step.Interview {
+    background-color: rgb(245, 245, 245);
+}
+
+.title {
+    font-weight: bold;
+}
+
+hr {
+    width: 85%;
+ 
+}
+svg {
+    height: 20px;
+    
+}
+

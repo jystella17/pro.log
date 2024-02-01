@@ -25,17 +25,17 @@
 }
 
 .paperBody {
-    background-color: rgb(181, 251, 228);
+    background-color: rgb(245, 245, 245);
     height: 500px;
 }
 
 .testBody {
-    background-color: rgb(181, 251, 195);
+    background-color: rgb(245, 245, 245);
     height: 500px;
 }
 
 .interviewBody {
-    background-color: rgb(181, 203, 251);
+    background-color: rgb(245, 245, 245);
     height: 500px;
 }
 
