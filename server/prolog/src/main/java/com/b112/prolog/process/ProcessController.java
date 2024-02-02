@@ -19,6 +19,7 @@ public class ProcessController {
     @GetMapping("/process")
     public List<Process> findByAll(){
         System.out.println("HERE");
+
 //        return null;
         return processService.getProcessList();
     }
@@ -33,6 +34,14 @@ public class ProcessController {
     public int updateEssay(@PathVariable ObjectId processid){
         System.out.println("ess"+processid);
         processService.updateEssay(processid,2);
+        return 1;
+    }
+
+    @PutMapping("/{processid}/test")
+    public int updateTest(@PathVariable ObjectId processid){
+        System.out.println("ess"+processid);
+        processService.updateTest(processid,2);
+
         return 1;
     }
 
