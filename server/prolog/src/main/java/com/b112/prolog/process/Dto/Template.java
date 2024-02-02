@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Template {
     private int template_type;
-    private String type_name;
+    private String template_name;
     private List<ObjectId> content;
 
 

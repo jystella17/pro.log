@@ -3,6 +3,7 @@ package com.b112.prolog.process;
 import com.b112.prolog.process.Dto.ProcessDto;
 import com.b112.prolog.process.Dto.Template;
 import com.b112.prolog.process.Entity.Process;
+import com.b112.prolog.process.Repository.ProcessRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -44,22 +45,37 @@ public class ProcessService {
 
     }
 
-    public void updateTest(ObjectId oid, int templatetype){
-        Template essayTemplate = new Template(templatetype,"이거 되는거지",null);
-        Template essayTemplate2 = new Template(templatetype,"aa22이거 되는거지",null);
+    public void updateTest(ObjectId oid, String step, int templatetype ){
+        String typename ="";   //이건 int Switch용
+        switch(templatetype) {
+            case 0:
+                typename="QnA";
+                break;
+            case 1:
+                typename="코테";
+                break;
+            case 2:
+                typename="토글";
+                break;
+            case 3:
+                typename="메모";
+                break;
+            default :System.out.println("Error");
+        }
 
-        List<Template> lt = new ArrayList<>();
-        lt.add(essayTemplate);
+        Template essayTemplate = new Template(templatetype,typename,null);
+
         Query q = new Query(Criteria.where("_id").is(oid));
         Update u = new Update();
 
-        u.set("company","NAVER");
+//        u.set("company","LINE"); //이건 테스트용입니다.
 //        u.set("essay",lt);
-        u.addToSet("essay",essayTemplate2);
+//        u.addToSet("essay",essayTemplate);
+
+        //서류, 코테 , 면접 Arr (templatename) 중 template 추가
+        u.push(step,essayTemplate);
+
         processRepository.CustomTemplate(q,u,Process.class);
-
-
-
 
 
     }

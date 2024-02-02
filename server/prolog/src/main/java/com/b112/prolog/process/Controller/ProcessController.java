@@ -1,7 +1,8 @@
-package com.b112.prolog.process;
+package com.b112.prolog.process.Controller;
 
 import com.b112.prolog.process.Dto.ProcessDto;
 import com.b112.prolog.process.Entity.Process;
+import com.b112.prolog.process.ProcessService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
@@ -37,10 +38,10 @@ public class ProcessController {
         return 1;
     }
 
-    @PutMapping("/{processid}/test")
-    public int updateTest(@PathVariable ObjectId processid){
+    @PutMapping("/{processid}/{step}/{templatetype}")
+    public int updateTest(@PathVariable ObjectId processid,@PathVariable String step ,@PathVariable int templatetype){
         System.out.println("ess"+processid);
-        processService.updateTest(processid,2);
+        processService.updateTest(processid,step,templatetype);
 
         return 1;
     }

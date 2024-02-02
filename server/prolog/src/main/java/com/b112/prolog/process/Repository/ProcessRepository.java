@@ -1,4 +1,4 @@
-package com.b112.prolog.process;
+package com.b112.prolog.process.Repository;
 
 import com.b112.prolog.process.Entity.Process;
 import org.bson.types.ObjectId;
