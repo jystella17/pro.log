@@ -24,7 +24,9 @@ function Weeks() {
     }
 
     return (
-        <div className="weeks">{weeks}</div>
+        <div className="weeks">
+            {weeks}
+        </div>
     )
 }
 
@@ -63,7 +65,7 @@ function CalendarBody({ Month, selectedDate }) {
                     <div className="plusHover"
                         >
                         <div className={
-                            format(Month, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>
+                            format(Month, 'M') !== format(day, 'M') ? 'text not-valid' : 'text'}>
                             {formattedDate}    
                         </div>
                         <CiSquarePlus className="plusButton" />    
@@ -87,17 +89,18 @@ function CalendarBody({ Month, selectedDate }) {
 
 export default function Calendar() {
     const [Month, setMonth] = useState(new Date())
-    // const [selectedDate, setSelectedDate] = useState(new Date())
+    const [selectedDate, setSelectedDate] = useState(new Date())
 
     return (
-        <>
+        <div className="calendar">
             <MainPageHeader Month={Month} setMonth={setMonth} />
-            <div className="calendar">
+            <div className="calendarBody">
                 <Weeks />
+                <hr className="line"/>
                 <CalendarBody
                     Month={Month}
                     selectedDate={selectedDate}/>
             </div>
-        </>
+        </div>
     )
 }

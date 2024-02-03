@@ -8,11 +8,11 @@ function CalendarHeader ({ Month, prevMonth, nextMonth }) {
     return (
         <div className="calendarHeader">
             <div className="yyyymm">
-                <div className="mm">
-                    {format(Month, 'M')}월 
+                <div className="yy" style={{marginRight: "10px", fontSize: "30px"}}>
+                    {format(Month, 'yyyy')}
                 </div>
-                <div className="yy">
-                    {format(Month, 'MMMM')}
+                <div className="mm">
+                    {format(Month, 'MMMM')} 
                 </div>
             </div>
             <div className="arrow">
