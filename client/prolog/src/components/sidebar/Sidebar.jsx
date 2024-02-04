@@ -1,8 +1,19 @@
 import React from "react";
-import SidebarData from "./SidebarData";
+import Router from "./Router";
 import SubMenu from "./SubMenu";
 import { NavLink } from "react-router-dom";
 import styled from "./Sidebar.module.css";
+
+
+// import { BrowserRouter, Route, Routes } from "react-router-dom";
+// import Sidebar from "./components/sidebar/Sidebar";
+// import Dashboard from "./pages/Dashboard";
+// import MyMaster from "./pages/MyMaster";
+// import MyPage from "./pages/MyPage";
+// import AllChatting from "./pages/AllChatting";
+// import MyChatting from "./pages/MyChatting";
+// import MainPage from "./pages/MainPage";
+
 
 function Sidebar() {
   return (
@@ -24,7 +35,7 @@ function Sidebar() {
             </svg>
           </NavLink>
         </div>
-        {SidebarData.map((item, index) => {
+        {Router.map((item, index) => {
           return <SubMenu item={item} key={index} />;
         })}
       </div>
@@ -34,3 +45,16 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+{/* <BrowserRouter>
+      <Sidebar>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/mymaster" element={<MyMaster />} />
+          <Route path="/myPage" element={<MyPage />} />
+          <Route path="/allchatting" element={<AllChatting />} />
+          <Route path="/mychatting" element={<MyChatting />} />
+        </Routes>
+      </Sidebar>
+    </BrowserRouter> */}
