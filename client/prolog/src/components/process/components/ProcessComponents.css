@@ -1,0 +1,10 @@
+.checkbox > label {
+    display: flex;
+    align-items: center;
+    margin: 0px 20px;
+}
+
+.checkbox {
+    display: flex;
+    align-content: center;
+}

@@ -1,0 +1,43 @@
+.steps {
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+}
+
+.step { 
+    width: calc(100% / 3);
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 7%;
+}
+
+.step.Paper {
+    background-color: rgb(245, 245, 245);
+}
+
+.step.Test {
+    background-color: rgb(245, 245, 245);
+}
+
+
+.step.Interview {
+    background-color: rgb(245, 245, 245);
+}
+
+.title {
+    font-weight: bold;
+}
+
+hr {
+    width: 85%;
+ 
+}
+svg {
+    height: 20px;
+    
+}
+
