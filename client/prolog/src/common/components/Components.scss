@@ -1,0 +1,79 @@
+
+// 버튼
+.navy {
+    color: rgb(245, 245, 245);
+    background-color: rgb(54, 48, 98);
+}
+
+.gray {
+    color: black;
+    background-color: rgb(245, 245, 245);
+}
+
+
+// 드롭다운
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 150px;
+
+  .dropdownName {
+    border: 0.5px solid rgba(238, 238, 238, 0.3);
+    height: 35px;
+    font-size: 14px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 3%;
+    background-color: #fff;
+  }
+
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul > li {
+  font-size: 14px;
+}
+
+hr {
+  background-color: rgb(255, 253, 253);
+  margin: 10px;
+}
+
+
+.menus {
+  border: 0.5px solid rgba(238, 238, 238, 0.3);
+  background: #fff;
+  border-radius: 3%;
+  right: 0;
+  text-align: center;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  padding: 15px 0px;
+  margin: 5px 0px;
+  font-size: 300;
+  }
+  
+  
+.active {
+  border: 0.5px solid rgba(238, 238, 238, 0.3);
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  background: #fff;
+  border-radius: 3%;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  transform: translateY(5px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  right: 0;
+  padding: 15px 0px;
+  margin: 5px 0px;
+  text-align: center;
+  font-size: 300;
+  
+  }
