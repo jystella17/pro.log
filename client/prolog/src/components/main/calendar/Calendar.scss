@@ -1,0 +1,97 @@
+.calendar {
+}
+
+.calendarBody {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    background-color: rgb(245, 245, 245);
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 5px 5px 5px -5px gray;
+
+    .line {
+        background: rgb(240, 240, 240);
+        width: 100%;
+    }
+}
+
+.week {
+    width: calc(100% / 7);
+}
+
+.weeks {
+    color: rgb(106, 106, 106);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+
+.oneWeek {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.allDays {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    height: 100%;
+}
+
+
+.dayBox {
+    width: 100%;
+    padding: 3px;
+
+    .plusHover { 
+        .plusButton {
+        display: none;
+        }
+    }
+
+    &:hover{
+        .plusHover {
+            .plusButton {
+                display: block;
+                color: rgb(191, 191, 191);
+                margin-left: 5px;
+            }
+        }
+    } 
+}  
+
+
+.dayBox.selected {
+    .text {
+        color: rgb(125, 124, 197);
+    }
+}
+
+.plusHover {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-content: center;
+    height: fit-content;
+}
+
+.plusButton {
+    width: 25px;
+    height: 25px;
+}
+
+.text.not-valid {
+    color: rgb(207, 207, 207)
+}
+
+.text {
+    color: rgb(106, 106, 106);
+//     margin: 3px;
+}
+
