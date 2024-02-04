@@ -1,7 +1,10 @@
 package com.b112.prolog.process.Repository;
 
+import com.b112.prolog.process.Dto.ProcessDto;
 import com.b112.prolog.process.Dto.Template;
 import com.b112.prolog.process.Entity.Process;
+import org.bson.BsonDocument;
+import org.bson.Document;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -15,5 +18,7 @@ public interface CustomRepository {
      * @param c
      * @return
      */
-    List<Template> CustomTemplate(Query q, Update u,Class c);
+    List<Template> updateTemplate(Query q, Update u,Class c);
+    void updateProcess(ProcessDto dto, Document doc);
+    List<Template> upsertProcess(Query q, Update u,Class c);
 }

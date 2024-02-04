@@ -5,6 +5,8 @@ import com.b112.prolog.process.Dto.Template;
 import com.b112.prolog.process.Entity.Process;
 import com.b112.prolog.process.Repository.ProcessRepository;
 import lombok.RequiredArgsConstructor;
+import org.bson.BsonDocument;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -24,15 +26,8 @@ public class ProcessService {
     public List<Process> getProcessList() {
         System.out.println("process t");
         List<Process> processList = processRepository.findAll();
-
-
-
         System.out.println(processList);
-        //return new ProcessDto(processList);
-//        System.out.println(processList.get(0).getId());
         return processList;
-//        return null;
-
     }
 
     public Optional<Process> getProcess(ObjectId oid) {
@@ -40,25 +35,21 @@ public class ProcessService {
         Optional<Process> pc = processRepository.findById(oid);
         System.out.println(pc);
 
-//        System.out.println(processList.get(0).getId());
         return pc;
 
     }
 
-    public void updateTest(ObjectId oid, String step, int templatetype ){
+    public void updateTemplate(ObjectId oid, String step, int templatetype ){
         String typename ="";   //이건 int Switch용
-        switch(templatetype) {
-            case 0:
-                typename="QnA";
+        switch(step) {
+            case "essay":
+                typename="서류전형";
                 break;
-            case 1:
-                typename="코테";
+            case "test":
+                typename="테스트전형";
                 break;
-            case 2:
-                typename="토글";
-                break;
-            case 3:
-                typename="메모";
+            case "interview":
+                typename="면접전형";
                 break;
             default :System.out.println("Error");
         }
@@ -75,7 +66,7 @@ public class ProcessService {
         //서류, 코테 , 면접 Arr (templatename) 중 template 추가
         u.push(step,essayTemplate);
 
-        processRepository.CustomTemplate(q,u,Process.class);
+        processRepository.updateTemplate(q,u,Process.class);
 
 
     }
@@ -102,6 +93,22 @@ public class ProcessService {
         processRepository.save(pcc);
 
     }
+
+    public void updateProcess(ProcessDto dto){
+        Process pcc = Process.builder().company(dto.getCompany()).jd_id(dto.getJd_id()).build();
+        Document bson = new Document();
+        System.out.println(bson+"==========================");
+        processRepository.updateProcess(dto,bson);
+        System.out.println(bson+"==========================");
+        Query q = new Query(Criteria.where("_id").is(dto.getId()));
+        Update u = Update.fromDocument(bson);
+
+        processRepository.upsertProcess(q,u,Process.class);
+
+
+
+    }
+
 
 }
 

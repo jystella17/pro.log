@@ -31,27 +31,36 @@ public class ProcessController {
         return processService.getProcess(processid);
     }
 
-    @PutMapping("/{processid}/essay")
-    public int updateEssay(@PathVariable ObjectId processid){
-        System.out.println("ess"+processid);
-        processService.updateEssay(processid,2);
-        return 1;
-    }
-
-    @PutMapping("/{processid}/{step}/{templatetype}")
-    public int updateTest(@PathVariable ObjectId processid,@PathVariable String step ,@PathVariable int templatetype){
-        System.out.println("ess"+processid);
-        processService.updateTest(processid,step,templatetype);
-
-        return 1;
-    }
-
-
+    /*
+    * JD에서 받은 정보들을 통해 Process 최초 생성
+    * */
     @PostMapping("/process")
     public int insertProcess(@RequestBody ProcessDto dto){
         //ProcessDto pc = processService.insertProcess(dto);
         processService.insertProcess(dto);
         return 1;
     }
+
+
+    /*
+    * ?
+    * Step (essay, test, interview [] ) 에 templatetype값 갖는 template 추가
+    * */
+    @PutMapping("/{processid}/{step}/{templatetype}")
+    public int updateTemplate(@PathVariable ObjectId processid,@PathVariable String step ,@PathVariable int templatetype){
+        System.out.println("ess"+processid);
+        processService.updateTemplate(processid,step,templatetype);
+
+        return 1;
+    }
+
+    @PostMapping("/test")
+    public int updateProcess (@RequestBody ProcessDto dto){
+        processService.updateProcess(dto);
+        return 1;
+    }
+
+
+
 
 }
