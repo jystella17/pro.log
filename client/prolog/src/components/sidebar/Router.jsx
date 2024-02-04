@@ -48,7 +48,7 @@ const SidebarData = [
         icon: <IoChevronForwardOutline style={{ color: "white" }} />,
       },
       {
-        path: "/mymaster",
+        path: "/master",
         name: "자기소개서 쓰기",
         icon: <IoChevronForwardOutline style={{ color: "white" }} />,
       },

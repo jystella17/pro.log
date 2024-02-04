@@ -3,9 +3,7 @@
   padding: 0;
   text-decoration: none;
 }
-.container {
-  display: flex;
-}
+
 main {
   width: 100%;
   padding: 20px;
@@ -13,13 +11,13 @@ main {
 .sidebar {
   border-right: 1px solid lightgray;
   height: 100vh;
-  width: 350px;
+  width: 250px;
 }
 .top_section {
   display: flex;
   align-items: center;
-  /* justify-content: center; */
   padding: 20px;
+  padding-top: 30px;
 }
 .menubar {
   display: flex;
@@ -28,7 +26,6 @@ main {
 }
 .link {
   display: flex;
-  /* align-items: center; */
   justify-content: space-between;
   padding: 10px 15px;
   gap: 10px;
@@ -47,7 +44,6 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* background-color: rgb(245, 242, 242); */
   color: black;
   padding: 10px 15px;
   gap: 10px;
@@ -86,8 +82,6 @@ main {
 
 .dropdown_active {
   display: flex;
-  /* justify-content: center;
-    align-items: center; */
   background-color: rgb(245, 242, 242);
   color: black;
   padding: 10px 40px;
