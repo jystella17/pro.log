@@ -1,0 +1,140 @@
+@mixin arrange($dir:'row') {
+    display: flex;
+    flex-direction: $dir;
+}
+
+@mixin location($ver) {
+    justify-content: $ver;
+    align-items: center;
+
+}
+
+@mixin location2($ver) {
+    justify-content: $ver;
+    align-items: center;
+
+}
+
+.totalBox {
+    @include arrange(row);
+    justify-content: space-between;
+    // background-color: rgb(245, 245, 245);
+    padding: 30px 40px;
+}
+
+.box1 {
+    @include arrange(column);
+    width: auto;
+    
+}
+
+.box2 {
+    @include arrange(column);
+    width: 200px;
+    justify-content: center;
+}
+
+.company {
+    @include arrange(row);
+    @include location(flex-start);
+    height: calc(100% / 2);
+    font-size: x-large;
+}
+
+.tag {
+    @include arrange(row);
+    @include location(flex-start);
+    height: calc(100% / 2);
+}
+
+.deadline {
+    @include arrange(row);
+    justify-content: flex-end;
+}
+
+.datepicker {
+    @include arrange(column);
+    width: fit-content;
+}
+
+.dday {
+    @include arrange(row);
+    @include location2(flex-end);
+}
+
+.save {
+    @include arrange(row);
+    @include location2(flex-end);
+}
+
+
+// date-picker
+
+.inputDate {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(77, 76, 125);
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    width: 100px;
+    color: white;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.react-datepicker__month-container{
+
+    .react-datepicker__header {
+        background-color: rgb(77, 76, 125);
+        color: rgb(245, 245, 245);
+        border: none;
+        border-radius: 0;
+
+        .react-datepicker__current-month {
+            color: rgb(245, 245, 245);
+            font-size: 15px;
+        }
+  
+        .react-datepicker__day-names {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 30px;
+          
+  
+          .react-datepicker__day-name {
+            color: rgb(245, 245, 245);
+            font-size: 13px;
+          }
+        }
+      }
+    }
+    .react-datepicker__triangle {
+      display: none;
+    }
+    .unselectedDay {
+        color: rgb(77, 76, 125);
+
+      }
+    .selectedDay {
+    background-color: #7077A1;
+    border-radius: 50%;
+    
+    &:hover {
+        border-radius: 50%;
+        background-color:rgb(77, 76, 125);
+    }
+      }
+      
+      .unselectedDay {
+        &:hover {
+          border-radius: 50%;
+          color: white;
+          background-color: #9da4c8;
+        }
+      }
