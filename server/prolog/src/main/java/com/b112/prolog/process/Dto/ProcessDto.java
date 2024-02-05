@@ -23,7 +23,7 @@ public class ProcessDto {
     private List<String> tag;
     private String start_date;
     private String end_date;
-    private List<Template> essay;
+    private List<ObjectId> essay;
     private List<Template> test;
     private List<Template> interview;
     private int jd_id;

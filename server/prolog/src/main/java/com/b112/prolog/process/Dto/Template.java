@@ -11,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Template {
+
     private int template_type;
     private String template_name;
     private List<ObjectId> content;

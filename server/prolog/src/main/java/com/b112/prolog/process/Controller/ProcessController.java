@@ -2,7 +2,7 @@ package com.b112.prolog.process.Controller;
 
 import com.b112.prolog.process.Dto.ProcessDto;
 import com.b112.prolog.process.Entity.Process;
-import com.b112.prolog.process.ProcessService;
+import com.b112.prolog.process.Service.ProcessService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
