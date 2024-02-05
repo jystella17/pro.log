@@ -44,7 +44,7 @@ public class ProcessService {
         Process pcc = processRepository.findById(oid).get();
 
         List<Template> essayList;
-        List<Qna> qnaList = new ArrayList<>();
+        List<QnaDto> qnaList = new ArrayList<>();
         essayList = pcc.getTest();
         System.out.println("HERE   essay  "+pcc.getTest().get(0));
         for (Template t: essayList){
@@ -55,11 +55,15 @@ public class ProcessService {
             if(t.getTemplate_type()==2){
                 System.out.println("HERE     "+t.getContent());
                 for(ObjectId cid: t.getContent()){
-                    Qna qna = qnaRepository.findById(cid).get();
+                    Qna qna =  qnaRepository.findById(cid).get();
                     System.out.println("QQQNAA  "+ qna);
+                    if(qna != null){
+                        qnaList.add(qna);
+                    }
+
 //                    t.set
                 }
-//                t.setContent();
+//                t.setPopulatecontent(qnaList);
             }
         }
 

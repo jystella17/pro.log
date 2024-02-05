@@ -15,6 +15,8 @@ public class Template {
     private int template_type;
     private String template_name;
     private List<ObjectId> content;// 이거를 QNA DTO로 바꾸자 !!!!!!!!
+    private List<QnaDto> populatecontent;
+
 
 
 }
