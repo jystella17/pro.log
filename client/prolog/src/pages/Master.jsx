@@ -1,7 +1,11 @@
-import React from "react";
+import Header from "../components/master/Header";
 
 const Master = () => {
-  return <div></div>;
+  return (
+    <div>
+      <Header></Header>
+    </div>
+  );
 };
 
 export default Master;
