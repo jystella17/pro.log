@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 // import Sidebar from "../components/sidebar/Sidebar";
 import Side from "../components/sidebar/Side";
+import CT from "../components/templates/CT"
 
 const TotalPage = styled.div`
     display: flex;
@@ -10,6 +11,7 @@ const TotalPage = styled.div`
 const Content = styled.div`
     display: flex;
     flex-direction: column;
+    flex: 1 0 auto;
 `
 
 
@@ -19,7 +21,7 @@ export default function Result() {
             <Side />
             <Content>
                 <div>header bar</div>
-                <div>여기에 화면을 출력하세요</div>
+                <CT />
             </Content>
         </TotalPage>
     )

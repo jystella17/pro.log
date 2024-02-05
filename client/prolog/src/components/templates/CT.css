@@ -1,0 +1,23 @@
+.ct {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(54, 48, 98);
+  padding: 5%;
+  gap: 20px;
+  width: 100%;
+
+}
+
+.q {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+tr {
+  text-align: center;
+}
+
+.ant-checkbox-inner {
+  background-color: pink;
+}
