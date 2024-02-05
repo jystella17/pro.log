@@ -1,8 +1,7 @@
 import { Component, useEffect, useState } from "react";
 
 import styled from 'styled-components'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePick from "../../../common/components/DatePicker";
 import './ProcessHeader.scss'
 
 const Dday = styled.div`
@@ -43,14 +42,7 @@ function DeadLine() {
                 <span style={{ fontSize: '13.5px' }}>마감일</span>
                 <Dday>D-{daysDiff}</Dday>
             </div>
-			<DatePicker
-                selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
-                dateFormat="yyyy.MM.dd"
-                shouldCloseOnSelect
-                className='inputDate'
-                dayClassName={(d) => (d.getDate() === selectedDate.getDate() ? 'selectedDay' : 'unselectedDay')}
-			/>
+            <DatePick />
         </div>
     )
 }

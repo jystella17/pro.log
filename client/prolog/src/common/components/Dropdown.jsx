@@ -10,7 +10,9 @@ function Dropdown() {
     // 드롭다운에 들어갈 리스트
     return (
         <div className="wrapper">
-            <button className="dropdownName" onClick={() => setIsOpen(!isOpen)}>드롭다운 버튼</button>
+            <button className="dropdownName" onClick={() => setIsOpen(!isOpen)}
+            
+            >드롭다운 버튼</button>
             <ul
                 ref={dropdownRef}
                 className={`${isOpen ? 'active' : 'menus' }`}>
