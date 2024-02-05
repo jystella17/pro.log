@@ -15,16 +15,18 @@ const CommonButton = styled.button`
     justify-content: space-between;
     padding: 7px 10px;
     border: none;
-    border-radius: 7px;
+    border-radius: 8px;
     font-weight: 500;
+    cursor: pointer;
 
 `
 
-function Button({ className, onClick, children }) {
+function Button({ className, onClick, children, type }) {
     return (
         <CommonButton
             className={className}
-            onClick={onClick}>
+            onClick={onClick}
+            type={type}>
             {children}
         </CommonButton>
 

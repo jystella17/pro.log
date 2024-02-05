@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
 import MainPageHeader from './CalendarHeader.jsx';
+import AddProcess from './AddProcess.jsx'
 import './Calendar.scss'
 
-import { format, isAfter } from 'date-fns';
+import { format } from 'date-fns';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
 import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 
@@ -32,7 +33,7 @@ function Weeks() {
 
 
 // 달력 body component
-function CalendarBody({ Month, selectedDate }) {
+function CalendarBody({ Month, selectedDate,openModalHandler }) {
     // 달의 시작일과 마지막일
     const monthStart = startOfMonth(Month)
     const monthEnd = endOfMonth(monthStart)
@@ -68,7 +69,7 @@ function CalendarBody({ Month, selectedDate }) {
                             format(Month, 'M') !== format(day, 'M') ? 'text not-valid' : 'text'}>
                             {formattedDate}    
                         </div>
-                        <CiSquarePlus className="plusButton" />    
+                        <CiSquarePlus className="plusButton" onClick={openModalHandler} />    
                     </div>
                 </div>
             )
@@ -91,16 +92,28 @@ export default function Calendar() {
     const [Month, setMonth] = useState(new Date())
     const [selectedDate, setSelectedDate] = useState(new Date())
 
+    const [isOpen, setIsOpen] = useState(false)
+
+    function openModalHandler() {
+        setIsOpen(!isOpen)
+    }
+
     return (
         <div className="calendar">
-            <MainPageHeader Month={Month} setMonth={setMonth} />
-            <div className="calendarBody">
-                <Weeks />
-                <hr className="line"/>
-                <CalendarBody
-                    Month={Month}
-                    selectedDate={selectedDate}/>
-            </div>
+            {isOpen ?
+                <AddProcess openModalHandler={openModalHandler} /> :
+                <div>
+                    <MainPageHeader Month={Month} setMonth={setMonth} />
+                    <div className="calendarBody">
+                        <Weeks />
+                        <hr className="line" />
+                        <CalendarBody
+                            Month={Month}
+                            selectedDate={selectedDate}
+                            openModalHandler={openModalHandler} />
+                    </div>
+                </div> }    
+
         </div>
     )
 }
