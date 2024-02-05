@@ -25,13 +25,13 @@ public class Process {
     private List<String> tag;
     private String start_date;
     private String end_date;
-    private List<ObjectId> essay;
+    private List<Template> essay;
     private List<Template> test;
     private List<Template> interview;
     private int jd_id;
 
     @Builder
-    public Process(ObjectId id, String company, int end_status, String step, String progress, List<String> tag, String start_date, String end_date, List<ObjectId> essay, List<Template> test, List<Template> interview, int jd_id) {
+    public Process(ObjectId id, String company, int end_status, String step, String progress, List<String> tag, String start_date, String end_date, List<Template> essay, List<Template> test, List<Template> interview, int jd_id) {
         this.id = id;
         this.company = company;
         this.end_status = end_status;

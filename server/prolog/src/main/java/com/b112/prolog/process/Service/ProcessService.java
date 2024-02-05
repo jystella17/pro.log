@@ -3,10 +3,12 @@ package com.b112.prolog.process.Service;
 import com.b112.prolog.process.Dto.ProcessDto;
 import com.b112.prolog.process.Dto.QnaDto;
 
+import com.b112.prolog.process.Dto.Template;
 import com.b112.prolog.process.Entity.Process;
 import com.b112.prolog.process.Entity.Qna;
 import com.b112.prolog.process.Repository.ProcessRepository;
 
+import com.b112.prolog.process.Repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.BsonDocument;
 import org.bson.Document;
@@ -25,6 +27,7 @@ import java.util.Optional;
 @Service
 public class ProcessService {
     private final ProcessRepository processRepository;
+    private final QnaRepository qnaRepository;
 
 
     public List<Process> getProcessList() {
@@ -35,76 +38,48 @@ public class ProcessService {
     }
 
     public Optional<Process> getProcess(ObjectId oid) {
-
-//        List<Process> pcc = processRepository.f`
         Optional<Process> pc = processRepository.findById(oid);
 
-        System.out.println(pc);
+
+        Process pcc = processRepository.findById(oid).get();
+
+        List<Template> essayList;
+        List<Qna> qnaList = new ArrayList<>();
+        essayList = pcc.getTest();
+        System.out.println("HERE   essay  "+pcc.getTest().get(0));
+        for (Template t: essayList){
+            /////////////////////이거 2 나중에 1로 바꿔@@@@@@
+            System.out.println("HERE  TTTT   "+t.getTemplate_type());
+            System.out.println("HERE  T@@#@#@#@#T   "+t.getContent());
+
+            if(t.getTemplate_type()==2){
+                System.out.println("HERE     "+t.getContent());
+                for(ObjectId cid: t.getContent()){
+                    Qna qna = qnaRepository.findById(cid).get();
+                    System.out.println("QQQNAA  "+ qna);
+//                    t.set
+                }
+//                t.setContent();
+            }
+        }
+
+
 
         return pc;
 
     }
-
-//    public void updateTemplate(ObjectId oid, String step, int templatetype ){
-//        String typename ="";   //이건 int Switch용
-//        switch(step) {
-//            case "essay":
-//                typename="서류전형";
-//                break;
-//            case "test":
-//                typename="테스트전형";
-//                break;
-//            case "interview":
-//                typename="면접전형";
-//                break;
-//            default :System.out.println("Error");
-//        }
-//
-//        Template essayTemplate = new Template(templatetype,typename,null);
-//
-//        Query q = new Query(Criteria.where("_id").is(oid));
-//        Update u = new Update();
-//
-////        u.set("company","LINE"); //이건 테스트용입니다.
-////        u.set("essay",lt);
-////        u.addToSet("essay",essayTemplate);
-//
-//        //서류, 코테 , 면접 Arr (templatename) 중 template 추가
-//        u.push(step,essayTemplate);
-//
-//        processRepository.updateTemplate(q,u,Process.class);
-//
-//
-//    }
 
         public void updateTemplate(ObjectId oid, String step, int templatetype ){
 
         Query q = new Query(Criteria.where("_id").is(oid));
         Update u = new Update();
 
-//        u.set("company","LINE"); //이건 테스트용입니다.
-//        u.set("essay",lt);
-//        u.addToSet("essay",essayTemplate);
-
-        //서류, 코테 , 면접 Arr (templatename) 중 template 추가
-//        u.push(step,essayTemplate);
-
         processRepository.updateTemplate(q,u,Process.class);
 
 
     }
 
-//    public void updateEssay(ObjectId oid, int templatetype){
-//        System.out.println(oid+"oid"+templatetype);
-//        Template essayTemplate = new Template(templatetype,"전형추가",null);
-//        List<Template> lt = new ArrayList<>();
-//        lt.add(essayTemplate);
-//        Optional<Process> asis = processRepository.findById(oid);
-//
-//        Process updateEssay = Process.builder().company("SK").essay(lt).build();
-//        updateEssay.setId(oid);
-//        processRepository.save(updateEssay);
-//    }
+
 
     public void insertProcess(ProcessDto dto){
         Process pcc = Process.builder().company(dto.getCompany()).jd_id(dto.getJd_id()).build();
@@ -125,6 +100,51 @@ public class ProcessService {
 
     }
 
+    //////////////////////////////////////////////////////////
+    public void insertTemplate(ObjectId oid, String step, int templatetype ){
+        String typename ="";   //이건 int Switch용
+        switch(step) {
+            case "essay":
+                typename="서류전형";
+                break;
+            case "test":
+                typename="테스트전형";
+                break;
+            case "interview":
+                typename="면접전형";
+                break;
+            default :System.out.println("Error");
+        }
+
+        Template essayTemplate = new Template(templatetype,typename,null);
+
+        Query q = new Query(Criteria.where("_id").is(oid));
+        Update u = new Update();
+
+//        u.set("company","LINE"); //이건 테스트용입니다.
+//        u.set("essay",lt);
+//        u.addToSet("essay",essayTemplate);
+
+        //서류, 코테 , 면접 Arr (templatename) 중 template 추가
+        u.push(step,essayTemplate);
+
+        processRepository.updateTemplate(q,u,Process.class);
+
+
+    }
+
+
+    //    public void updateEssay(ObjectId oid, int templatetype){
+//        System.out.println(oid+"oid"+templatetype);
+//        Template essayTemplate = new Template(templatetype,"전형추가",null);
+//        List<Template> lt = new ArrayList<>();
+//        lt.add(essayTemplate);
+//        Optional<Process> asis = processRepository.findById(oid);
+//
+//        Process updateEssay = Process.builder().company("SK").essay(lt).build();
+//        updateEssay.setId(oid);
+//        processRepository.save(updateEssay);
+//    }
 
 
 }
