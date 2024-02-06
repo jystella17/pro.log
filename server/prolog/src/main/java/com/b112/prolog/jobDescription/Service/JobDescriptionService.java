@@ -5,17 +5,10 @@ import com.b112.prolog.jobDescription.Entity.JobDescription;
 import com.b112.prolog.jobDescription.Repository.CompanyRepository;
 import com.b112.prolog.jobDescription.Repository.JobDescriptionRepository;
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +28,18 @@ public class JobDescriptionService {
      * 캘린더뷰 실행했을 때 받아와야하는 부분
      * @return 리스트 <JD>
      */
-    public List<JobDescription> getAllJDs() {
+    public List<JobDescription> findAllJDs() {
         return jdRepository.findAll();
+    }
+
+
+    /**
+     * 기간으로 JD 조회
+     * @param date : 사용자가 보고 있는 년도-월
+     * @return 월 안에 존재하는 JD 리스트
+     */
+    public Optional<JobDescription> findByPeriod(String date){
+        return jdRepository.findByOpeningDateGreaterThanEqualOrExpirationDateLessThanEqual(date, date);
     }
 
     /**
