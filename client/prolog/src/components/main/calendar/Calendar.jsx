@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import MainPageHeader from './CalendarHeader.jsx';
+import CalendarFilter from './CalendarFilter.jsx'
 import AddProcess from './AddProcess.jsx'
 import './Calendar.scss'
 
@@ -103,10 +104,11 @@ export default function Calendar() {
             {isOpen ?
                 <AddProcess openModalHandler={openModalHandler} /> :
                 <div>
+                    <CalendarFilter />
                     <MainPageHeader Month={Month} setMonth={setMonth} />
                     <div className="calendarBody">
                         <Weeks />
-                        <hr className="line" />
+                        {/* <hr className="line" /> */}
                         <CalendarBody
                             Month={Month}
                             selectedDate={selectedDate}
