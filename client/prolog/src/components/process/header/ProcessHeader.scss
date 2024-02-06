@@ -17,28 +17,32 @@
 
 .totalBox {
     @include arrange(row);
-    justify-content: space-between;
     // background-color: rgb(245, 245, 245);
-    padding: 30px 40px;
+    padding: 40px 50px;
+    gap: 20px;
 }
 
 .box1 {
     @include arrange(column);
-    width: auto;
+    gap: 10px;
+    width: 100%;
     
 }
 
 .box2 {
     @include arrange(column);
-    width: 200px;
+    width: 104px;
+    gap: 5px;
     justify-content: center;
+
 }
 
 .company {
     @include arrange(row);
     @include location(flex-start);
     height: calc(100% / 2);
-    font-size: x-large;
+    font-size: xx-large;
+    font-weight: bold;
 }
 
 .tag {
@@ -68,8 +72,8 @@
 }
 
 .navy {
-    .saveButton {
-        width: 100px;
+    .save {
+        width: auto;
     }
 }
 

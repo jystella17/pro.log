@@ -94,7 +94,5 @@ export default function CT() {
       <Header />
       <Body />
     </div>
-   
-    
   )
 }

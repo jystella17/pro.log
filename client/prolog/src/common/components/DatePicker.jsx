@@ -6,14 +6,19 @@ import './Components.scss'
 
 
 
-export default function DatePick() {
+export default function DatePick({onChange}) {
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date)
+    onChange(date)
+  }
 
 return (
       <div className="datepicker">
         <DatePicker
             selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
+            onChange={handleDateChange}
             dateFormat="yyyy.MM.dd"
             shouldCloseOnSelect
             className='inputDate'

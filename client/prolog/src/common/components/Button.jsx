@@ -12,7 +12,7 @@ import './Components.scss'
 
 const CommonButton = styled.button`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 7px 10px;
     border: none;
     border-radius: 8px;

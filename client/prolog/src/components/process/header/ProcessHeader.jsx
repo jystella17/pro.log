@@ -21,11 +21,6 @@ function CompanyName() {
     )
 }
 
-function Tags() {
-    return (
-        <div className="tag"><InputTag /></div>
-    )
-}
 
 function DeadLine() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -38,13 +33,17 @@ function DeadLine() {
         setDaysDiff(calcDaysDiff);
     }, [selectedDate])
 
+    function handleChange(date) {
+        setSelectedDate(date)
+    }
+
 	return (
         <div className="datepicker">
-            <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', padding: '0px 5px'}}>
                 <span style={{ fontSize: '13.5px' }}>마감일</span>
                 <Dday>D-{daysDiff}</Dday>
             </div>
-            <DatePick />
+            <DatePick onChange={handleChange} />
         </div>
     )
 }
@@ -65,13 +64,13 @@ export default function ProcessHeader() {
         <div className='totalBox'>
             <div className='box1'>
                 <CompanyName />
-                <Tags />
+                <InputTag backgroundcolor={'white'}/>
             </div>
             <div className="box2">
                 <div className="deadline">
                     <DeadLine />
                 </div>
-                <SaveButton />
+                <SaveButton className="save"/>
             </div>
 
         </div>
