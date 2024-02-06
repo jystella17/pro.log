@@ -1,4 +1,5 @@
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 import { format, addMonths, subMonths } from 'date-fns';
 
@@ -7,18 +8,17 @@ import './CalendarHeader.css'
 function CalendarHeader ({ Month, prevMonth, nextMonth }) {
     return (
         <div className="calendarHeader">
+            <SlArrowLeft onClick={prevMonth} />
             <div className="yyyymm">
-                <div className="yy" style={{marginRight: "10px", fontSize: "30px"}}>
-                    {format(Month, 'yyyy')}
-                </div>
                 <div className="mm">
                     {format(Month, 'MMMM')} 
                 </div>
+                <div className="yy">
+                    {format(Month, 'yyyy')}
+                </div>
             </div>
-            <div className="arrow">
-                <FaArrowLeft onClick={prevMonth} />
-                <FaArrowRight onClick={nextMonth} /> 
-            </div>    
+            <SlArrowRight onClick={nextMonth} /> 
+   
         </div>
     )
 }

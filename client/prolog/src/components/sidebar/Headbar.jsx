@@ -6,11 +6,16 @@ import Button from "../../common/components/Button";
 
 const Head = styled.div`
   display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 291px;
   justify-content: space-between;
   align-items: center;
-  height: 7%;
-  padding: 0px 30px;
+  height: 40px;
+  padding: 10px 30px;
   border-bottom: 1px solid rgb(245, 245, 245);
+  background-color: white;
 `
 
 

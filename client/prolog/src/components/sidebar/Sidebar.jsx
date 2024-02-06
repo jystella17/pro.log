@@ -1,21 +1,33 @@
 import React from "react";
 import Router from "./Router";
 import SubMenu from "./SubMenu";
-import { NavLink, Link } from "react-router-dom";
-import styled from "./Sidebar.module.css";
+import { Link } from "react-router-dom";
+import styled from 'styled-components'
+// import styled from "./Sidebar.module.css";
 
-// sidebar 활성화 고민
-// subMenu는 따로
+const Side = styled.div`
+  position: fixed;
+  border-right: 1px solid lightgray;
+  height: 100vh;
+  padding: 20px;
+  width: 250px;
+  background-color: white;
+`
+
+const Top = styled.div`
+  padding: 15px 15px 10px;
+`
+
+const Bottom = styled.div`
+`
 
 function Sidebar() {
   return (
-    <div className={styled.container}>
-      <div className={styled.sidebar}>
-        <div className={styled.top_section}>
+      <Side>
+        <Top>
           <Link to="/">
             <svg
-              width="110"
-              height="40"
+              height="45"
               viewBox="0 0 208 63"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -26,14 +38,15 @@ function Sidebar() {
               />
             </svg>
           </Link>
-        </div>
-
-        {Router.map((item, index) => {
-          return <SubMenu item={item} key={index} />;
-        })}
-      </div>
-      <main></main>
-    </div>
+      </Top>
+      <Bottom>
+          {Router.map((item, index) => {
+            return (
+              <SubMenu item={item} key={index} />
+            )
+          })}
+      </Bottom>
+      </Side>
   );
 }
 
