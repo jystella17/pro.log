@@ -30,9 +30,9 @@ public class CustomRepositoryImpl implements CustomRepository {
     }
 
     @Override
-    public void upsertProcess(Query q, Update u,Class c) {
+    public void upsertProcess(Query q, Update u,String collection) {
         System.out.println("CUSTOM!");
-        mongoTemplate.upsert(q,u,c);
+        mongoTemplate.upsert(q,u,collection);
 //        return null;
     }
 
@@ -41,6 +41,7 @@ public class CustomRepositoryImpl implements CustomRepository {
     public void updateProcess(ProcessDto dto, Document doc){
        // BsonDocument bson = new BsonDocument();
         mongoTemplate.getConverter().write(dto,doc);
+
 
     }
 

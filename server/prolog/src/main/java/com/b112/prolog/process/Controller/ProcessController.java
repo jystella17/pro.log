@@ -30,7 +30,7 @@ public class ProcessController {
      * @param processid 프로세스 ID
      */
     @GetMapping("/{processid}")
-    public Optional<Process> findProcess(@PathVariable ObjectId processid){
+    public Process findProcess(@PathVariable ObjectId processid){
         System.out.println(processid+"oid cont");
 
 
@@ -42,10 +42,10 @@ public class ProcessController {
      * @param dto JD에 있는 정보들
      */
     @PostMapping("/process")
-    public int insertProcess(@RequestBody ProcessDto dto){
+    public String insertProcess(@RequestBody ProcessDto dto){
         //ProcessDto pc = processService.insertProcess(dto);
-        processService.insertProcess(dto);
-        return 1;
+        Process pc = processService.insertProcess(dto);
+        return pc.getId().toString();
     }
 
 
@@ -66,6 +66,7 @@ public class ProcessController {
     @PutMapping("/process")
     public int updateProcess (@RequestBody ProcessDto dto){
         processService.updateProcess(dto);
+
         return 1;
     }
 

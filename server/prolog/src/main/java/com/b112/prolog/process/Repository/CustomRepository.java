@@ -20,5 +20,5 @@ public interface CustomRepository {
      */
     void updateTemplate(Query q, Update u,Class c);
     void updateProcess(ProcessDto dto, Document doc);
-    void upsertProcess(Query q, Update u,Class c);
+    void upsertProcess(Query q, Update u,String collection);
 }

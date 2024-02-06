@@ -10,7 +10,6 @@ import com.b112.prolog.process.Repository.ProcessRepository;
 
 import com.b112.prolog.process.Repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
-import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -37,43 +36,54 @@ public class ProcessService {
         return processList;
     }
 
-    public Optional<Process> getProcess(ObjectId oid) {
+    public Process getProcess(ObjectId oid) {
         Optional<Process> pc = processRepository.findById(oid);
 
+        System.out.println(pc+ "    5555 ");
+        Process pcc = processRepository.findById(oid).orElseThrow();
+        System.out.println(pcc+ "    5555 ");
+        List<Template> essayList=pcc.getTest();
+        QnaDto qnaDto = new QnaDto();
+//        essayList =
 
-        Process pcc = processRepository.findById(oid).get();
 
-        List<Template> essayList;
-        List<QnaDto> qnaList = new ArrayList<>();
-        essayList = pcc.getTest();
         System.out.println("HERE   essay  "+pcc.getTest().get(0));
         for (Template t: essayList){
             /////////////////////이거 2 나중에 1로 바꿔@@@@@@
             System.out.println("HERE  TTTT   "+t.getTemplate_type());
             System.out.println("HERE  T@@#@#@#@#T   "+t.getContent());
 
-            if(t.getTemplate_type()==2){
+            if(t.getTemplate_type()==1){
                 System.out.println("HERE     "+t.getContent());
-                for(ObjectId cid: t.getContent()){
-                    Qna qna =  qnaRepository.findById(cid).get();
-                    System.out.println("QQQNAA  "+ qna);
-                    if(qna != null){
-                        qnaList.add(qna);
-                    }
 
-//                    t.set
+                List<QnaDto> qnaList = t.getContent();
+                if(t.getContent() != null){
+                    int idx=0;
+                    for(QnaDto qDto: qnaList){
+                        System.out.println("QQQNAA  "+ qDto + "    "+qnaList.size() );
+                        Qna qna =  qnaRepository.findById(qDto.getId()).get();
+                        System.out.println("WHAT? "+ qna + " id "+qna.getQuestion());
+                        qnaList.set(idx,qnaDto.toDto(qna));
+                        idx++;
+//                        qnaList.add(qnaDto.toDto(qna));
+                    }
+                    System.out.println(t+"   = = = = =  " + qnaList.get(0));
+                    t.setContent(qnaList);
                 }
-//                t.setPopulatecontent(qnaList);
+
+
             }
         }
+        pcc.setTest(essayList);
+        System.out.println(pcc);
 
 
 
-        return pc;
+        return pcc;
 
     }
 
-        public void updateTemplate(ObjectId oid, String step, int templatetype ){
+    public void updateTemplate(ObjectId oid, String step, int templatetype ){
 
         Query q = new Query(Criteria.where("_id").is(oid));
         Update u = new Update();
@@ -85,22 +95,27 @@ public class ProcessService {
 
 
 
-    public void insertProcess(ProcessDto dto){
+    public Process insertProcess(ProcessDto dto){
         Process pcc = Process.builder().company(dto.getCompany()).jd_id(dto.getJd_id()).build();
         System.out.println(pcc);
-        processRepository.save(pcc);
+        Process pid = processRepository.save(pcc);
+        return pid;
     }
 
     public void updateProcess(ProcessDto dto){
         //Process pcc = Process.builder().company(dto.getCompany()).jd_id(dto.getJd_id()).build();
         Document bson = new Document();
-        System.out.println(bson+"==========================");
+        System.out.println(bson+"==========================   "+dto.getId());
         processRepository.updateProcess(dto,bson);
         System.out.println(bson+"==========================");
+
+
+
         Query q = new Query(Criteria.where("_id").is(dto.getId()));
         Update u = Update.fromDocument(bson);
+//        Update u =new Update().addToSet("company",dto.getCompany());
 
-        processRepository.upsertProcess(q,u,Process.class);
+        processRepository.upsertProcess(q,u,"process");
 
     }
 

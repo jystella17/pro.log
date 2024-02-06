@@ -1,5 +1,6 @@
 package com.b112.prolog.process.Dto;
 
+import com.b112.prolog.process.Entity.Qna;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -14,8 +15,8 @@ public class Template {
 
     private int template_type;
     private String template_name;
-    private List<ObjectId> content;// 이거를 QNA DTO로 바꾸자 !!!!!!!!
-    private List<QnaDto> populatecontent;
+    private List<QnaDto> content;// 이거를 QNA DTO로 바꾸자 !!!!!!!!
+//    private List<Qna> populatecontent;
 
 
 

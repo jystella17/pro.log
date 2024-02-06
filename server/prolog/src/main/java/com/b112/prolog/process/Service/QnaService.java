@@ -32,11 +32,14 @@ public class QnaService {
 
         Qna qid = qnaRepository.save(qna);
 
+        QnaDto qnaDto = new QnaDto();
+        qnaDto.setId(qid.getId());
         Query q = new Query(Criteria.where("_id").is(oid));
         Update u = new Update();
 
         String target = step+"."+index+"."+"content";
-        u.push(target,qid.getId());
+//        u.push(target,qid.getId());
+        u.push(target,qnaDto);
 //        u.set(step,)
         // Process id의 essay[]에 추가한 Qna ObjectId insert
 
