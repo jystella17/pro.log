@@ -9,7 +9,6 @@ import styled from "./Sidebar.module.css";
 
 function Sidebar() {
   return (
-    <div className={styled.container}>
       <div className={styled.sidebar}>
         <div className={styled.top_section}>
           <Link to="/">
@@ -31,9 +30,9 @@ function Sidebar() {
         {Router.map((item, index) => {
           return <SubMenu item={item} key={index} />;
         })}
-      </div>
       <main></main>
-    </div>
+      </div>
+
   );
 }
 

@@ -2,6 +2,8 @@ import { Component, useEffect, useState } from "react";
 
 import styled from 'styled-components'
 import DatePick from "../../../common/components/DatePicker";
+import InputTag from "../../../common/components/InputTag"
+import Button from "../../../common/components/Button";
 import './ProcessHeader.scss'
 
 const Dday = styled.div`
@@ -19,9 +21,9 @@ function CompanyName() {
     )
 }
 
-function InputTag() {
+function Tags() {
     return (
-        <div className="tag">태그를 넣어라</div>
+        <div className="tag"><InputTag /></div>
     )
 }
 
@@ -51,7 +53,9 @@ function DeadLine() {
 
 function SaveButton() {
     return (
-        <div className="save">저장하기</div>
+        <Button
+            className={"navy saveButton"}
+        >{'저장하기'}</Button>
     )
 }
 
@@ -61,7 +65,7 @@ export default function ProcessHeader() {
         <div className='totalBox'>
             <div className='box1'>
                 <CompanyName />
-                <InputTag />
+                <Tags />
             </div>
             <div className="box2">
                 <div className="deadline">

@@ -67,6 +67,12 @@
     @include location2(flex-end);
 }
 
+.navy {
+    .saveButton {
+        width: 100px;
+    }
+}
+
 
 // date-picker
 
