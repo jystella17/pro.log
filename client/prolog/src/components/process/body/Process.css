@@ -1,0 +1,9 @@
+.tabs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tab-content {
+  display: flex;
+  justify-content: space-around;
+}

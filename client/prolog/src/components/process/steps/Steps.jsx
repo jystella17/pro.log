@@ -1,88 +1,42 @@
-import './Steps.css'
+import { useState, useRef } from "react";
+// import useDetectClose from '../../../common/hooks/useDetectClose'
+// import PaperBody from "../body/PaperBody";
+
+import './Steps.scss'
 import { CiCirclePlus } from "react-icons/ci";
-
-import { Dropdown } from 'antd';
-// import TypesTab from "../body/types/Types";
-
-// 드롭다운
-const items = [
-  {
-    key: '1',
-    label: (
-      <a target="_blank" rel="noopener noreferrer">자기소개서 페이지</a>
-    ),
-  },
-  {
-    key: '2',
-    label: (
-      <a target="_blank" rel="noopener noreferrer">코딩테스트 페이지</a>
-    ),
-  },
-  {
-    key: '3',
-    label: (
-      <a target="_blank" rel="noopener noreferrer">면접 문항 페이지</a>
-    ),
-  },
-  {
-    key: '4',
-    label: (
-        <a target="_blank" rel="noopener noreferrer">빈 페이지</a>
-    ),
-  },
-];
-
-
-function TemplateDropdown() {
-    return (
-        <div>
-            <Dropdown
-                menu={{
-                    items,
-                }}
-                placement="topLeft"
-            >
-            <CiCirclePlus />
-            </Dropdown>
-        </div>
-    )
-}
+import Types from "./Types"
 
 
 
-// 단계
 function Steps() {
-    const step = []
-    const threestep = ['Paper', 'Test', 'Interview']
+  const [activeTab, setActiveTab] = useState(0)
+  const [tabs, setTabs] = useState(['Paper', 'Test', 'Interview'])
 
-    for (let i = 0; i < 3; i++) {
-        step.push(
-          <div className={`step ${threestep[i]}`} key={i}>
-            <div className="content">
-                <div className="title">{threestep[i]}</div>
-                <div>탭</div>
-                <TemplateDropdown />
+  function addTab() {
+    const newTabs = [...tabs, 'new tab']
+    setTabs(newTabs)
+    setActiveTab(newTabs.length - 1)
+  }
+
+  return (
+    <div>
+      <ul className="tabs">
+        {tabs.map((tab, index) => (
+          <li
+            key={index}
+            className={`tab ${index === activeTab ? 'active-tab' : ''}`}
+            onClick={() => setActiveTab(index)}
+          >
+            <div>
+              {tab}
             </div>
-            <hr />
-            </div>
-        )
-    }
-
-    return (
-        <div className="steps">{step}</div>
-    )
-
-    
+            <Types key={index} active={index === activeTab} />
+          </li>
+        ))}
+        {/* <li onClick={addTab}>+</li> */}
+      </ul>
+    </div>
+  );
 }
 
-
-
-
-
-
-
-export default function Step() {
-    return (
-        <Steps />
-    )
-}
+export default Steps

@@ -2,6 +2,8 @@ import { Component, useEffect, useState } from "react";
 
 import styled from 'styled-components'
 import DatePick from "../../../common/components/DatePicker";
+import InputTag from "../../../common/components/InputTag"
+import Button from "../../../common/components/Button";
 import './ProcessHeader.scss'
 
 const Dday = styled.div`
@@ -19,11 +21,6 @@ function CompanyName() {
     )
 }
 
-function InputTag() {
-    return (
-        <div className="tag">태그를 넣어라</div>
-    )
-}
 
 function DeadLine() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -36,13 +33,17 @@ function DeadLine() {
         setDaysDiff(calcDaysDiff);
     }, [selectedDate])
 
+    function handleChange(date) {
+        setSelectedDate(date)
+    }
+
 	return (
         <div className="datepicker">
-            <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between', padding: '0px 5px'}}>
                 <span style={{ fontSize: '13.5px' }}>마감일</span>
                 <Dday>D-{daysDiff}</Dday>
             </div>
-            <DatePick />
+            <DatePick onChange={handleChange} />
         </div>
     )
 }
@@ -51,7 +52,9 @@ function DeadLine() {
 
 function SaveButton() {
     return (
-        <div className="save">저장하기</div>
+        <Button
+            className={"navy saveButton"}
+        >{'저장하기'}</Button>
     )
 }
 
@@ -61,13 +64,13 @@ export default function ProcessHeader() {
         <div className='totalBox'>
             <div className='box1'>
                 <CompanyName />
-                <InputTag />
+                <InputTag backgroundcolor={'white'}/>
             </div>
             <div className="box2">
                 <div className="deadline">
                     <DeadLine />
                 </div>
-                <SaveButton />
+                <SaveButton className="save"/>
             </div>
 
         </div>

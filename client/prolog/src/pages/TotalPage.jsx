@@ -24,7 +24,11 @@ const MainContent = styled.div`
   flex: 1;
   padding-left: 291px;
   padding-top: 60px;
+`
+const TotalPage = styled.div`
+  display: inline-block;
 `;
+
 const Content = styled.div`
   flex: 1;
 `

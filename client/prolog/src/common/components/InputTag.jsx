@@ -6,15 +6,15 @@ display: flex;
 align-items: center;
 flex-wrap: wrap;
 min-height: 40px;
-width: 400px;
-padding: 15px 10px;
-background-color: rgb(245, 245, 245);
+width: ${props => `${props.width}`};
+padding: 10px 0px;
+background-color: ${props => `${props.backgroundcolor}`};
 border-radius: 10px;
 
 > ul {
   display: flex;
   flex-wrap: wrap;
-  padding: 0 3px;
+  padding: 0;
   margin: 0px;
 
 
@@ -29,7 +29,7 @@ border-radius: 10px;
     list-style: none;
     margin: 0 8px 8px 0;
     color: rgb(245, 245, 245);
-    background: rgb(54, 48, 98);
+    background: #7077A1;
     border-radius: 13px;
 
     > .tag-close-icon {
@@ -52,7 +52,7 @@ border-radius: 10px;
   flex: 1;
   border: none;
   font-size: 13px;
-  background-color: rgb(245, 245, 245);
+  background-color: ${props => `${props.backgroundcolor}`};
   padding: 5px 5px;
 }
 
@@ -61,7 +61,7 @@ border-radius: 10px;
 }
 `
 
-function Tag({color}) {
+function Tag({width, bgcolor}) {
     const initialTags = ['삼성', '가자']
     const [tags, setTags] = useState(initialTags)
 
@@ -84,7 +84,7 @@ function Tag({color}) {
 
     return (
         <>
-            <TagsInput>
+            <TagsInput witdh={width} backgroundcolor={bgcolor}>
                 <ul id="tags">
                     {tags.map((tag, index) => (
                         <li key={index} className="tag">

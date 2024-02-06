@@ -11,14 +11,15 @@ import styled from "styled-components";
 import "./Components.scss";
 
 const CommonButton = styled.button`
-  display: flex;
-  justify-content: space-between;
-  padding: 7px 10px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-`;
+    display: flex;
+    justify-content: center;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+
+`
 
 function Button({ className, onClick, children, type }) {
   return (
