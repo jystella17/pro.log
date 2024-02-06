@@ -22,7 +22,7 @@ public class QnaService {
     private final QnaRepository qnaRepository;
     private final ProcessRepository processRepository;
 
-    public ObjectId insertQnA(QnaDto dto, ObjectId oid,String step,int index){
+    public String insertQnA(QnaDto dto, ObjectId oid,String step,int index){
         Qna qna = Qna.builder()
                 .question(dto.getQuestion())
                 .answer(dto.getAnswer())
@@ -54,7 +54,7 @@ public class QnaService {
     * */
     public int updateQna(List<QnaDto> qnaDtos){
         for(QnaDto qnaDto : qnaDtos){
-            ObjectId oid = qnaDto.getId();
+            String oid = qnaDto.getId();
             Query q = new Query(Criteria.where("_id").is(oid));
             Update u = new Update();
             u.set("question",qnaDto.getQuestion());

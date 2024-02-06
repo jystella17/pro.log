@@ -14,7 +14,7 @@ import org.springframework.data.annotation.Id;
 public class QnaDto {
 
     @Id
-    private ObjectId id;
+    private String id;
     private String question;
     private String answer;
     private String company;

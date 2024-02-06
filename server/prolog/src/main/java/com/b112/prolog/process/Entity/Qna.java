@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "qna")
 public class Qna {
     @Id
-    private ObjectId id;
+    private String id;
     @Column(unique = true)
     private String question;
     @Column(unique = true)
@@ -22,7 +22,7 @@ public class Qna {
     private String start_date;
 
     @Builder
-    public Qna(ObjectId id, String question, String answer, String company, String start_date) {
+    public Qna(String id, String question, String answer, String company, String start_date) {
         this.id = id;
         this.question = question;
         this.answer = answer;

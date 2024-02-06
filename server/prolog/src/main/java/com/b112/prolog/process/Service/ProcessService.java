@@ -39,9 +39,9 @@ public class ProcessService {
     public Process getProcess(ObjectId oid) {
         Optional<Process> pc = processRepository.findById(oid);
 
-        System.out.println(pc+ "    5555 ");
+
         Process pcc = processRepository.findById(oid).orElseThrow();
-        System.out.println(pcc+ "    5555 ");
+
         List<Template> essayList=pcc.getTest();
         QnaDto qnaDto = new QnaDto();
 //        essayList =
@@ -50,8 +50,6 @@ public class ProcessService {
         System.out.println("HERE   essay  "+pcc.getTest().get(0));
         for (Template t: essayList){
             /////////////////////이거 2 나중에 1로 바꿔@@@@@@
-            System.out.println("HERE  TTTT   "+t.getTemplate_type());
-            System.out.println("HERE  T@@#@#@#@#T   "+t.getContent());
 
             if(t.getTemplate_type()==1){
                 System.out.println("HERE     "+t.getContent());
@@ -60,14 +58,11 @@ public class ProcessService {
                 if(t.getContent() != null){
                     int idx=0;
                     for(QnaDto qDto: qnaList){
-                        System.out.println("QQQNAA  "+ qDto + "    "+qnaList.size() );
                         Qna qna =  qnaRepository.findById(qDto.getId()).get();
-                        System.out.println("WHAT? "+ qna + " id "+qna.getQuestion());
                         qnaList.set(idx,qnaDto.toDto(qna));
                         idx++;
-//                        qnaList.add(qnaDto.toDto(qna));
                     }
-                    System.out.println(t+"   = = = = =  " + qnaList.get(0));
+
                     t.setContent(qnaList);
                 }
 
@@ -122,15 +117,18 @@ public class ProcessService {
     //////////////////////////////////////////////////////////
     public void insertTemplate(ObjectId oid, String step, int templatetype ){
         String typename ="";   //이건 int Switch용
-        switch(step) {
-            case "essay":
-                typename="서류전형";
+        switch(templatetype) {
+            case 1:
+                typename="QnA";
                 break;
-            case "test":
-                typename="테스트전형";
+            case 2:
+                typename="CodeTest";
                 break;
-            case "interview":
-                typename="면접전형";
+            case 3:
+                typename="Toggle";
+                break;
+            case 4:
+                typename="Memo";
                 break;
             default :System.out.println("Error");
         }

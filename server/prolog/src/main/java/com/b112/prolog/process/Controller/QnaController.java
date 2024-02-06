@@ -24,9 +24,9 @@ public class QnaController {
     @PostMapping("/{processid}/{step}/{index}/qna")
     public String insertQnA(@RequestBody QnaDto dto, @PathVariable ObjectId processid, @PathVariable String step,@PathVariable int index){
 //        ObjectId oid = qnaService.insertQnA(dto,processid);
-        ObjectId oid = qnaService.insertQnA(dto,processid,step,index);
+        String oid = qnaService.insertQnA(dto,processid,step,index);
 //        System.out.println(oid+" @@######oidddddd");
-        return oid.toString();
+        return oid;
     }
 
     /**?
