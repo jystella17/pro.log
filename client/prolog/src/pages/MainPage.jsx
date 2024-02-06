@@ -1,7 +1,9 @@
-import React from "react";
+import Calendar from "../components/main/calendar/Calendar";
 
 const MainPage = () => {
-  return <div></div>;
+  return (
+    <Calendar />
+    )
 };
 
 export default MainPage;

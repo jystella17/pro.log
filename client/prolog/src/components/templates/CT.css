@@ -11,7 +11,9 @@
 .q {
   display: flex;
   justify-content: flex-start;
-  gap: 30px;
+  align-items: center;
+  gap: 10px;
+  padding: 0px 20px;
 }
 
 tr {

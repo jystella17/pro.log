@@ -5,6 +5,8 @@ const InputBox = styled.input`
     border-radius: 5px;
     padding: 0px 10px;
 
+    font-size: ${props => `${props.size}`};
+
     width: ${props => props.width};
     height: ${props => props.height};
 
@@ -14,13 +16,14 @@ const InputBox = styled.input`
 
 `
 
-export default function Input({width, height, text, value, onChange}) {
+export default function Input({width, height, text, size, value, onChange}) {
     return (
         <div>
             <InputBox width={width} height={height}
                 placeholder={text}
                 value={value}
                 onChange={onChange}
+                size={size}
             />
         </div>
     )

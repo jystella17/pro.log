@@ -7,6 +7,7 @@ import MyPage from "../../pages/MyPage";
 import AllChatting from "../../pages/AllChatting";
 import MyChatting from "../../pages/MyChatting";
 import MainPage from "../../pages/MainPage";
+import Login from "../../pages/Login"
 
 export default function Side() {
   return (
@@ -20,6 +21,7 @@ export default function Side() {
           <Route path="/myPage" element={<MyPage />} />
           <Route path="/allchatting" element={<AllChatting />} />
           <Route path="/mychatting" element={<MyChatting />} />
+         
         </Routes>
       </Sidebar>
     </BrowserRouter>

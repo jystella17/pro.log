@@ -2,7 +2,7 @@ import './Steps.css'
 import { CiCirclePlus } from "react-icons/ci";
 
 import { Dropdown } from 'antd';
-import TypesTab from "../body/types/Types";
+// import TypesTab from "../body/types/Types";
 
 // 드롭다운
 const items = [

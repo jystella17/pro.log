@@ -2,13 +2,14 @@ import styled from 'styled-components'
 
 const InputBox = styled.input`
     border: none;
-    border-radius: 10px;
-    background-color: rgb(245, 245, 245);
-    font-size: x-large;
+    border-radius: 5px;
+    background-color: #7077A1;
+    color: white;
+    font-size: ${props => `${props.size}`};
     text-align: center;
 
-    width: ${props => `${props.wid}`};
-    height: ${props => `${props.hei}`};
+    width: ${props => `${props.width}`};
+    height: ${props => `${props.height}`};
 
     &:focus {
         outline: none;
@@ -16,10 +17,16 @@ const InputBox = styled.input`
 
 `
 
-export default function Input({wid, hei}) {
+export default function SmallInputBox({width, height, size, value, onChange}) {
     return (
         <div>
-            <InputBox wid={wid} hei={hei} />
+            <InputBox
+                width={width} height={height} size={size}
+                value={value}
+                onChange={onChange}
+
+
+            />
         </div>
     )
 }
