@@ -1,13 +1,11 @@
-// masterPaper와 동일
-
-// 불러오기 기능은 후순위로...
+// Paper와 동일
 
 // db 저장 기능(저장할 때는 qnas를  axios 요청)
 // 삭제는 qna를 axios.delete
 import { useState, useRef } from "react";
 import styled from "styled-components";
-import { IoClose, IoAddCircleOutline } from "react-icons/io5";
-import "./Paper.scss";
+import { IoClose, IoAddCircleOutline, IoChevronForward, IoChevronDown } from "react-icons/io5";
+import "./Interview.scss";
 import { Input, ConfigProvider } from "antd";
 
 // 높이 늘어나는 것 수정
@@ -16,12 +14,9 @@ const ContainerAll = styled.div`
   padding: 70px 100px 30px 100px;
   /* width: 60vw; */
   /* background-color: #7c93c326; */
-  background-color: #f3f8ff;
+  background-color: #c6cfff;
   border-radius: 10px;
 `;
-
-// 실시간 글자수 적용 textarea
-const { TextArea } = Input;
 
 function QnAComponent({
   id,
@@ -33,25 +28,36 @@ function QnAComponent({
   index,
   isRemovable,
 }) {
-  // const textareaRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const textareaRef = useRef(null);
 
-  // const handleResizeHeight = () => {
-  //   if (textareaRef.current) {
-  //     textareaRef.current.style.height = "auto"; // 높이 초기화
-  //     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 스크롤 높이에 맞춰 높이 조정
-  //   }
-  // };
+  function OpenAnswer() {
+    setOpen(!open);
+  }
+
+  // 입력할 때마다 높이 조절
+  const handleResizeHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto"; // 높이 초기화
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 스크롤 높이에 맞춰 높이 조정
+    }
+  };
 
   return (
     <div className="qna">
       {/* 질문 */}
       <div className="qna-header">
         <div className="qna-number">
-          <p>{index + 1}.</p>
+          {/* 토글 버튼 */}
+          {open ? (
+            <IoChevronDown onClick={OpenAnswer} />
+          ) : (
+            <IoChevronForward onClick={OpenAnswer} />
+          )}
           <input
             className="question"
             type="text"
-            placeholder="질문을 입력하세요."
+            placeholder="면접 질문을 입력하세요."
             value={question}
             // 입력 변경 시 onChange
             onChange={(e) => onQChange(id, e.target.value)}
@@ -66,34 +72,18 @@ function QnAComponent({
       </div>
       {/* 답변 */}
       {/* padding.. */}
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimaryHover: "",
-            colorPrimary: "lightgrey",
-          },
-        }}
-      >
-        <TextArea
-          // ref={textareaRef}
-          showCount
-          cols="4"
-          rows="8"
+      {open && (
+        <textarea
+          ref={textareaRef} // ref 연결
           className="answer"
-          type="text"
           placeholder="답변을 입력하세요."
           value={answer}
-          // style={{
-          //   height: 300,
-          //   resize: "none",
-          // }}
-          // 입력 변경 시 onChange
           onChange={(e) => {
             onAChange(id, e.target.value);
-            // handleResizeHeight();
+            handleResizeHeight();
           }}
-        />
-      </ConfigProvider>{" "}
+        ></textarea>
+      )}
     </div>
   );
 }
@@ -110,7 +100,7 @@ function QnAContainer() {
 
   // 특정 QnA 삭제 함수
   function removeQnA(id, index) {
-    if (window.confirm(`문항 ${index + 1}을 삭제하시겠습니까?`)) {
+    if (window.confirm("문항을 삭제하시겠습니까?")) {
       setQnAs(qnas.filter((q) => q.id !== id));
     }
   }

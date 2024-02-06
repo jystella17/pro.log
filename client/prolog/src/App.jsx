@@ -1,13 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import TotalPage from "./pages/TotalPage";
-import Paper from "./components/templates/paper/Paper";
 
 function App() {
-  return (
-    // <TotalPage />
-    <Paper />
-  );
+  return <TotalPage />;
 }
 
 export default App;
