@@ -9,6 +9,8 @@ import MyChatting from "./MyChatting";
 import MainPage from "./MainPage";
 import Sidebar from "../components/sidebar/Sidebar";
 import Headbar from "../components/sidebar/Headbar";
+import Process from "./Process"
+import CT from "../components/templates/CT"
 import Login from "./Login";
 
 
@@ -50,7 +52,10 @@ export default function Result() {
             <Route path="/allchatting" element={<AllChatting />} />
             <Route path="/mychatting" element={<MyChatting />} />
             <Route path="/login" element={<Login />} />
-            </Routes>
+            <Route path="/process" element={<Process />} />
+            <Route path="/process/ct" element={<CT />} />
+
+          </Routes>
           </Content>
         </MainContent>
       </AppContainer>

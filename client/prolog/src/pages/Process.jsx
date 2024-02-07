@@ -1,10 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Router, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 
 import ProcessHeader from "../components/process/header/ProcessHeader";
 import Steps from "../components/process/steps/Steps"
 // import AddTemplates from "../components/process/body/AddTemplate";
 import CT from "../components/templates/CT";
+import Paper from "../components/templates/paper/Paper"
+import Interview from "../components/templates/intereview/Interview"
 import MainPage from "../pages/MainPage"
 
 import { Checkbox } from "antd"
@@ -24,7 +26,6 @@ const Header = styled.div`
 
 function Process() {
   return (
-    <BrowserRouter>
       <div className="process">
         <ProcessHeader />
         <Steps />
@@ -34,15 +35,14 @@ function Process() {
             <RangeDatePicker />
           </Header>
         <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/ct" element={<CT />} />
-          {/* <Route path="/assay" component={Assay} />
-          <Route path="/interview" component={Interview} />
-          <Route path="/memo" component={Memo} /> */}
+          
+          
+          <Route path="/process/paper" component={<Paper />} />
+          <Route path="/process/interview" component={<Interview />} />
+          {/* <Route path="/memo" component={Memo} /> */}
           </Routes>
           </Content>
       </div>
-    </BrowserRouter>
   );
 }
 

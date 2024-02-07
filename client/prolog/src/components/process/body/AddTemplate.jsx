@@ -42,7 +42,7 @@ export default function AddTemplates({addSubTab}) {
   const toggledown = () => { setIsOpen(!isOpen)}
 
   const handleCTClick = () => {
-    navigate('/ct')
+    navigate('/process/ct')
     addSubTab()
     toggledown()
   }
