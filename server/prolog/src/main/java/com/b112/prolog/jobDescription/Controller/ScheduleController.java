@@ -68,20 +68,51 @@ public class ScheduleController {
 
     }
 
-    /**
-     * 칸반 창 API
-     * Process 추가 요망
-     * @param year
-     * @param month
-//     * @param userPrincipal
-     * @return 프로세스Dto list
-     */
+//    /**
+//     * 칸반 창 API
+//     * Process 추가 요망
+//     * @param year
+//     * @param month
+////     * @param userPrincipal
+//     * @return 프로세스Dto list
+//     */
 //    @AuthenticationPrincipal UserPrincipal userPrincipal
 //    @GetMapping("/kanban/{year}/{month}")
 //    public ResponseEntity<?> kanbanView(@PathVariable("year")String year, @PathVariable("month")String month ){
 //
 //        return null;
 //    }
+
+
+    /**
+     * 검색어를 포함한 공고만 찾기
+     * @param title
+     * @return
+     */
+    @GetMapping("/calendar/{title}")
+    public ResponseEntity<?> calenderView(@PathVariable("title") String title) {
+
+
+        try {
+//            List<Process> pcList = processService.getProcessList();
+
+            JdAndProcessListDto jdAndProcessListDto = new JdAndProcessListDto();
+            jdAndProcessListDto.setJd(jobDescriptionService.findByJobTitleContaining(title));
+//            jdAndProcessListDto.setProcess(processService.getProcessList());
+
+            if(jdAndProcessListDto.getJd()!= null){
+                System.out.println("dd");
+                return new ResponseEntity<>(jdAndProcessListDto, HttpStatus.OK);
+            } else{
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+            }
+        }
+        catch (Exception e){
+            return exceptionHandling(e);
+        }
+
+    }
+
 
     /**
      * 칸반 창 API
