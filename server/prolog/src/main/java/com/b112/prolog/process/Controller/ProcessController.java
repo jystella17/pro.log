@@ -37,16 +37,16 @@ public class ProcessController {
         return processService.getProcess(processid);
     }
 
-    /**?
-     *  JD를 통해 받은 정보로 최초 Process 생성
-     * @param dto JD에 있는 정보들
-     */
-    @PostMapping("/process")
-    public String insertProcess(@RequestBody ProcessDto dto){
-        //ProcessDto pc = processService.insertProcess(dto);
-        Process pc = processService.insertProcess(dto);
-        return pc.getId().toString();
-    }
+//    /**?
+//     *  JD를 통해 받은 정보로 최초 Process 생성
+//     * @param dto JD에 있는 정보들
+//     */
+//    @PostMapping("/process")
+//    public String insertProcess(@RequestBody ProcessDto dto){
+//        //ProcessDto pc = processService.insertProcess(dto);
+//        Process pc = processService.insertProcess(dto);
+//        return pc.getId().toString();
+//    }
 
 
 
