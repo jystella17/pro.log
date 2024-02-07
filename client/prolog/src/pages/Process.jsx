@@ -4,11 +4,7 @@ import styled from "styled-components";
 import ProcessHeader from "../components/process/header/ProcessHeader";
 import Steps from "../components/process/steps/Steps"
 // import AddTemplates from "../components/process/body/AddTemplate";
-import CT from "../components/templates/CT";
-import Paper from "../components/templates/paper/Paper"
-import Interview from "../components/templates/intereview/Interview"
-import MainPage from "../pages/MainPage"
-
+import PaperBody from "../components/process/body/PaperBody"
 import { Checkbox } from "antd"
 import RangeDatePicker from "../common/components/RangeDatePicker"
 
@@ -30,19 +26,22 @@ function Process() {
         <ProcessHeader />
         <Steps />
         <Content>
-          <Header>
+          {/* <Header>
             <Checkbox />
             <RangeDatePicker />
-          </Header>
-        <Routes>
-          
-          
-          <Route path="/process/paper" component={<Paper />} />
-          <Route path="/process/interview" component={<Interview />} />
-          {/* <Route path="/memo" component={Memo} /> */}
-          </Routes>
+          </Header> */}
+          {/* <Routes>
+            <Route path="/process/*" element={<Process />}>
+              <Route path="ct" component={<CT />} />
+                <Route path="paper" component={<Paper />} />
+                <Route path="interview" component={<Interview />} />
+                <Route path="/memo" component={Memo} />
+            </Route>
+          </Routes> */}
+          <PaperBody />
           </Content>
       </div>
+
   );
 }
 

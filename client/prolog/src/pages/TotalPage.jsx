@@ -53,7 +53,7 @@ export default function Result() {
             <Route path="/mychatting" element={<MyChatting />} />
             <Route path="/login" element={<Login />} />
             <Route path="/process" element={<Process />} />
-            <Route path="/process/ct" element={<CT />} />
+            
 
           </Routes>
           </Content>

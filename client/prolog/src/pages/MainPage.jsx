@@ -19,7 +19,7 @@ function MainPage() {
 
   return (
     <div>
-      <MainHeader isOn={isOn} setIsOn={setIsOn} />
+      <MainHeader isOn={isOn} setIsOn={setIsOn} toggleHandler={toggleHandler} />
       {isOn ? <Kanban /> :<Calendar />} 
     </div>
     )

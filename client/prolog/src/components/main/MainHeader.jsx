@@ -12,11 +12,11 @@ const Header = styled.div`
   gap: 15px;
 `
 
-export default function MainHeader() {
+export default function MainHeader({isOn, setIsOn, toggleHandler}) {
   return (
     <Header>
       <FaRegCalendar />
-      <Toggle />
+      <Toggle isOn={isOn} setIsOn={setIsOn} toggleHandler={toggleHandler}/>
       <BsKanban />
     </Header>
   )
