@@ -2,6 +2,7 @@ package com.b112.prolog.process.Repository;
 
 import com.b112.prolog.process.Dto.ProcessDto;
 
+import com.b112.prolog.process.Dto.QnaDto;
 import com.b112.prolog.process.Entity.Process;
 import org.bson.BsonDocument;
 import org.bson.Document;
@@ -21,4 +22,7 @@ public interface CustomRepository {
     void updateTemplate(Query q, Update u,Class c);
     void updateProcess(ProcessDto dto, Document doc);
     void upsertProcess(Query q, Update u,String collection);
+    List<QnaDto> find(Query q, String collection);
+
+
 }
