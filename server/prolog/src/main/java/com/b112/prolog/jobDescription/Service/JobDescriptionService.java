@@ -38,7 +38,7 @@ public class JobDescriptionService {
      * @param date : 사용자가 보고 있는 년도-월
      * @return 월 안에 존재하는 JD 리스트
      */
-    public Optional<JobDescription> findByPeriod(String date){
+    public List<JobDescription> findByPeriod(String date){
         return jdRepository.findByOpeningDateGreaterThanEqualOrExpirationDateLessThanEqual(date, date);
     }
 

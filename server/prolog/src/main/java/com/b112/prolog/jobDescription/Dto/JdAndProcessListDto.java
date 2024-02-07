@@ -2,6 +2,7 @@ package com.b112.prolog.jobDescription.Dto;
 
 
 import com.b112.prolog.jobDescription.Entity.JobDescription;
+import com.b112.prolog.process.Entity.Process;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,8 +14,8 @@ import java.util.Optional;
 @ToString
 public class JdAndProcessListDto {
 
-    private Optional<JobDescription> jd;
-    private Optional<Process> process;
+    private List<JobDescription> jd;
+    private List<Process> process;
 
 
 

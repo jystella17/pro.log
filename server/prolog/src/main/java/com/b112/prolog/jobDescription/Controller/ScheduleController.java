@@ -36,7 +36,7 @@ public class ScheduleController {
      * Process 추가 요망
      * @param year
      * @param month
-     * @param userPrincipal
+//     * @param userPrincipal
      * @return
      */
 
@@ -47,15 +47,17 @@ public class ScheduleController {
         String date = year+"-"+month;
 
         try {
+//            List<Process> pcList = processService.getProcessList();
 
             JdAndProcessListDto jdAndProcessListDto = new JdAndProcessListDto();
-
             jdAndProcessListDto.setJd(jobDescriptionService.findByPeriod(date));
+            jdAndProcessListDto.setProcess(processService.getProcessList());
 
 
 
-            if(jdAndProcessListDto.getJd().isPresent()){
-                return new ResponseEntity<JdAndProcessListDto>(jdAndProcessListDto, HttpStatus.OK);
+            if(jdAndProcessListDto.getJd()!= null){
+                System.out.println("dd");
+                return new ResponseEntity<>(jdAndProcessListDto, HttpStatus.OK);
             } else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
@@ -75,10 +77,30 @@ public class ScheduleController {
      * @return 프로세스Dto list
      */
 //    @AuthenticationPrincipal UserPrincipal userPrincipal
-    @GetMapping("/kanban/{year}/{month}")
-    public ResponseEntity<?> kanbanView(@PathVariable("year")String year, @PathVariable("month")String month ){
+//    @GetMapping("/kanban/{year}/{month}")
+//    public ResponseEntity<?> kanbanView(@PathVariable("year")String year, @PathVariable("month")String month ){
+//
+//        return null;
+//    }
 
-        return null;
+    /**
+     * 칸반 창 API
+     * Process리스트 전체 받아옴
+    * */
+    @GetMapping("/kanban")
+    public ResponseEntity<?> kanbanView(){
+
+        try {
+            List<Process> pcList = processService.getProcessList();
+            if(pcList != null){
+                return new ResponseEntity<>(pcList, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+            }
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+
     }
 
     @GetMapping("/calendar/{jdid}")
