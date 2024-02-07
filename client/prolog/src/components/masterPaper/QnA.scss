@@ -1,0 +1,63 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qnas {
+  width: 100%;
+}
+
+.ant-textextarea {
+  outline: 0;
+}
+
+.question {
+  width: 80%;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  padding: 0 23px;
+  font-weight: 550;
+  font-size: 15px;
+}
+
+.answer {
+  height: 170px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  padding: 20px;
+  margin-bottom: 80px;
+  resize: vertical;
+  font-family: "Pretendard-Regular" !important;
+  font-size: 15px;
+}
+
+.x-button {
+  font-size: x-large;
+  color: grey;
+}
+
+.qna-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.qna-number {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+
+  p {
+    font-size: 18px;
+    font-weight: bolder;
+    color: rgb(93, 93, 93);
+  }
+}
+
+input:focus {
+  outline: none;
+}

@@ -1,0 +1,40 @@
+.calendarHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px 15px;
+    /* background-color: rgb(77, 76, 125); */
+    /* color: rgb(245, 245, 245); */
+    border-radius: 3px;
+    gap: 30px;
+    /* box-shadow: 5px 5px 5px -5px gray; */
+}
+
+.yyyymm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 120px;
+    gap: 10px;
+    color: rgb(59, 59, 59);
+
+}
+
+.yy {
+    font-size: large;
+    font-weight: 500;
+}
+
+.mm {
+    font-size: large;
+}
+
+.arrow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 40px;
+
+}
