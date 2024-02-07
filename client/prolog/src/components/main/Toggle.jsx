@@ -9,7 +9,7 @@ const ToggleContainer = styled.div`
     width: 50px;
     height: 24px;
     border-radius: 30px;
-    background-color: rgb(245, 245, 245);}
+    background-color: #7077A1;}
 
   > .toggle--checked {
     background-color: rgb(54, 48, 98);

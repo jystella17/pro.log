@@ -20,7 +20,7 @@ function MainPage() {
   return (
     <div>
       <MainHeader isOn={isOn} setIsOn={setIsOn} />
-      {isOn ? <Calendar /> : <Kanban />} 
+      {isOn ? <Kanban /> :<Calendar />} 
     </div>
     )
 };

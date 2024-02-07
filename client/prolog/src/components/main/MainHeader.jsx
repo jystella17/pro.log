@@ -2,19 +2,20 @@ import styled from "styled-components"
 
 import Toggle from "./Toggle";
 
-import { CiCalendar } from "react-icons/ci";
+import { FaRegCalendar } from "react-icons/fa6";
 import { BsKanban } from "react-icons/bs";
 
 const Header = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 20px 40px;
+  padding: 20px 30px;
+  gap: 15px;
 `
 
 export default function MainHeader() {
   return (
     <Header>
-      <CiCalendar />
+      <FaRegCalendar />
       <Toggle />
       <BsKanban />
     </Header>
