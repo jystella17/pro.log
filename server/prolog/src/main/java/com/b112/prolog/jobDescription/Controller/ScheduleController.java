@@ -41,7 +41,7 @@ public class ScheduleController {
      */
 
 //    , @AuthenticationPrincipal UserPrincipal userPrincipal
-    @GetMapping("/calender/{year}/{month}")
+    @GetMapping("/calendar/{year}/{month}")
     public ResponseEntity<?> calenderView(@PathVariable("year") String year, @PathVariable("month") String month) {
 
         String date = year+"-"+month;
