@@ -4,10 +4,10 @@
 
 // db 저장 기능(저장할 때는 qnas를  axios 요청)
 // 삭제는 qna를 axios.delete
-import { useState, useRef } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { IoClose, IoAddCircleOutline } from "react-icons/io5";
-import "./Paper.scss";
+import "./Assay.scss";
 import { Input, ConfigProvider } from "antd";
 
 // 높이 늘어나는 것 수정
@@ -15,7 +15,6 @@ import { Input, ConfigProvider } from "antd";
 const ContainerAll = styled.div`
   padding: 70px 100px 30px 100px;
   /* width: 60vw; */
-  /* background-color: #7c93c326; */
   background-color: #f3f8ff;
   border-radius: 10px;
 `;
@@ -33,15 +32,6 @@ function QnAComponent({
   index,
   isRemovable,
 }) {
-  // const textareaRef = useRef(null);
-
-  // const handleResizeHeight = () => {
-  //   if (textareaRef.current) {
-  //     textareaRef.current.style.height = "auto"; // 높이 초기화
-  //     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 스크롤 높이에 맞춰 높이 조정
-  //   }
-  // };
-
   return (
     <div className="qna">
       {/* 질문 */}
@@ -83,14 +73,8 @@ function QnAComponent({
           type="text"
           placeholder="답변을 입력하세요."
           value={answer}
-          // style={{
-          //   height: 300,
-          //   resize: "none",
-          // }}
-          // 입력 변경 시 onChange
           onChange={(e) => {
             onAChange(id, e.target.value);
-            // handleResizeHeight();
           }}
         />
       </ConfigProvider>{" "}
