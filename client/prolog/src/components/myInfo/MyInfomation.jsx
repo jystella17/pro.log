@@ -3,6 +3,31 @@ import styled from "styled-components";
 import { PlusOutlined } from "@ant-design/icons";
 import { Modal, Upload } from "antd";
 import { Switch } from "antd";
+// 헤더
+import { useNavigate } from "react-router-dom";
+import Button from "../../common/components/Button";
+
+// const Container = styled.div`
+//   margin: 0 auto;
+//   padding: 40px 50px;
+//   width: 60vw;
+//   min-height: 100vh;
+// `;
+
+const Header = styled.div`
+  padding: 0px 10px;
+  display: flex;
+  margin: 50px 0;
+  justify-content: space-between;
+  & div {
+    color: #686767;
+  }
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  gap: 20px;
+`;
 
 const Body = styled.div`
   /* display: flex; */
@@ -163,25 +188,61 @@ function InfoComponent({ title, explain, inputType }) {
 }
 
 function MyInfoBody() {
+  const navigate = useNavigate();
+  function NavigateToMain() {
+    navigate("/");
+  }
+
+  // const [userInfo, setUserInfo] = useState({
+  //   name: "",
+  //   nickname: "",
+  //   email: "",
+  //   develop: false,
+  // });
+
+  // function handleInputChange(e) {
+  //   const { name, value } = e.target;
+  //   setUserInfo((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // }
+
+  // userInfo db에 저장
+  function handleSaveInfo() {
+    window.alert("저장되었습니다.");
+  }
+
   return (
-    <Body>
-      <InfoComponent title="이름" inputType="text"></InfoComponent>
-      <InfoComponent
-        title="닉네임"
-        explain="채팅에 사용되는 닉네임을 입력해주세요"
-        inputType="text"
-      ></InfoComponent>
-      <InfoComponent title="이메일" inputType="email"></InfoComponent>
-      {/* tel이 입력안되는 브라우저는 text가 입력됨 */}
-      <InfoComponent title="전화번호" inputType="tel"></InfoComponent>
-      <InfoComponent title="프로필 사진" explain="내 정보 사진에 표시됩니다."></InfoComponent>
-      <InfoComponent title="공고를 표시할 직군"></InfoComponent>
-      {/* 희망기업을 어떻게 받아야하지..? input은 안되고.. 태그..? */}
-      <InfoComponent
-        title="희망하는 기업(최대 3개)"
-        explain="공고가 올라오면 알람을 보내드려요."
-      ></InfoComponent>
-    </Body>
+    <div>
+      <Header>
+        <div>닉네임, 프로필 사진 등 개인정보를 업데이트 하세요</div>
+        <Buttons>
+          {/* onClick 저장 -> db에 저장 */}
+          <Button className="grey" children="취소하기" onClick={NavigateToMain} />
+          <Button className="navy" children="저장하기" onClick={handleSaveInfo} />
+        </Buttons>
+      </Header>
+
+      <Body>
+        <InfoComponent title="이름" inputType="text" name="name"></InfoComponent>
+        <InfoComponent
+          title="닉네임"
+          explain="채팅에 사용되는 닉네임을 입력해주세요"
+          inputType="text"
+          name="nickname"
+        ></InfoComponent>
+        <InfoComponent title="이메일" inputType="email" name="email"></InfoComponent>
+        {/* tel이 입력안되는 브라우저는 text가 입력됨 */}
+        <InfoComponent title="전화번호" inputType="tel"></InfoComponent>
+        <InfoComponent title="프로필 사진" explain="내 정보 사진에 표시됩니다."></InfoComponent>
+        <InfoComponent title="공고를 표시할 직군" name="develop"></InfoComponent>
+        {/* <InfoComponent
+            title="희망하는 기업(최대 3개)"
+            explain="공고가 올라오면 알람을 보내드려요."
+          ></InfoComponent> */}
+      </Body>
+    </div>
   );
 }
 
