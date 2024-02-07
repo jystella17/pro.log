@@ -9,7 +9,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {
+        "https://i10b112.p.ssafy.io", //EC2
+
+        "https://localhost:8080", //js
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+
+        "https://localhost:3000", //리액트
+        "http://localhost:3000", //리액트
+        "http://127.0.0.1:3000",
+        "https://localhost:5000", //webRTC api
+        "http://localhost:5000", //webRTC api
+        "http://127.0.0.1:5000",
+
+        "http://localhost:5000/api/sessions"
+
+}, allowedHeaders = {"GET", "POST"})
 @RestController
 public class WebRtcController {
 
