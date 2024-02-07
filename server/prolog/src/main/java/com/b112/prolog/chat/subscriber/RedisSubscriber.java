@@ -1,7 +1,7 @@
 package com.b112.prolog.chat.subscriber;
 
-import com.b112.prolog.chat.dto.ChattingDTO;
 import com.b112.prolog.chat.dto.SubMessageDTO;
+import com.b112.prolog.chat.entity.Chatting;
 import com.b112.prolog.chat.exception.PubNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,7 +14,6 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.Random;
 
@@ -31,7 +30,7 @@ public class RedisSubscriber implements MessageListener {
     public void onMessage(@NonNull Message message, byte[] pattern) {
         try {
             String publish = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-            ChattingDTO pubMsg = objectMapper.readValue(publish, ChattingDTO.class);
+            Chatting pubMsg = objectMapper.readValue(publish, Chatting.class);
 
             // User Repository 연결 후 삭제
             Random random = new Random();
