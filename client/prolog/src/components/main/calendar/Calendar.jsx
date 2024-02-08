@@ -99,6 +99,8 @@ export default function Calendar() {
         setIsOpen(!isOpen)
     }
 
+
+
     return (
         <div className="calendar">
             {isOpen ?
@@ -108,7 +110,6 @@ export default function Calendar() {
                     <MainPageHeader Month={Month} setMonth={setMonth} />
                     <div className="calendarBody">
                         <Weeks />
-                        {/* <hr className="line" /> */}
                         <CalendarBody
                             Month={Month}
                             selectedDate={selectedDate}

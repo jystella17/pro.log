@@ -5,6 +5,10 @@
   border-radius: 10px;
   border-color: rgb(203, 203, 203);
   box-shadow: 5px 5px 5px -5px gray;
+  
+  &:focus {
+    outline: none;
+  }
 }
 
 .selectDate {
@@ -14,10 +18,14 @@
   border-radius: 10px;
   border-color: rgb(203, 203, 203);
   box-shadow: 5px 5px 5px -5px gray;
+
+  &:focus {
+    outline: 0;
+  }
 }
 
 .selectInput {
-  width: 250px;
+  width: 270px;
   height: 16.5px;
   padding: 10px;
   border-radius: 10px;

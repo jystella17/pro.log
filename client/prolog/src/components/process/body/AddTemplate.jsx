@@ -35,17 +35,18 @@ const Plus = styled.button`
 
 
 export default function AddTemplates({addSubTab}) {
-  
-  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
+  const [page, setPage] = useState('')
 
   const toggledown = () => { setIsOpen(!isOpen)}
 
   const handleCTClick = () => {
-    navigate('/ct')
+    // navigate('/process/ct')
     addSubTab()
     toggledown()
+    setPage('ct')
   }
+
   // const handleAssayClick = () => { navigate.push('/assay') }
   // const handleInterviewClick = () => { navigate.push('/interview') }
   // const handleEmptyClick = () => { navigate.push('/memo') }
@@ -56,7 +57,7 @@ export default function AddTemplates({addSubTab}) {
       {isOpen && (
         <DropMenus>
           {/* <li onClick={handleAssayClick}>자기소개서</li> */}
-          <li onClick={handleCTClick}>코딩 테스트</li>
+          <li onClick={handleCTClick} page={page}>코딩 테스트</li>
           {/* <li onClick={handleInterviewClick}>면접 문항</li> */}
           {/* <li onClick={handleEmptyClick}>면접 문항</li> */}
         </DropMenus>

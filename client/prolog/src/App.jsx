@@ -1,8 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TotalPage from "./pages/TotalPage";
+import TotalPage from './pages/TotalPage'
+import './App.css'
+
+import styled from 'styled-components'
+// const Page = styled.div`
+//   display: flex;
+//   width: 1536px;
+//   height: 737px;
+//   background-color: gray;
+// `
+
 
 function App() {
-  return <TotalPage />;
+  return (
+    <TotalPage />
+    // <Page />
+
+  );
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const InputBox = styled.input`
-    border: 0.5px solid black;
+    border: 0.5px solid rgb(203, 203, 203);
     border-radius: 5px;
     padding: 0px 10px;
 
