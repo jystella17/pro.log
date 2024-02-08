@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { RecoilRoot } from 'recoil'
 import TotalPage from './pages/TotalPage'
 import './App.css'
 
@@ -13,8 +14,9 @@ import styled from 'styled-components'
 
 function App() {
   return (
-    <TotalPage />
-    // <Page />
+    <RecoilRoot>
+      <TotalPage />
+    </RecoilRoot>
 
   );
 }
