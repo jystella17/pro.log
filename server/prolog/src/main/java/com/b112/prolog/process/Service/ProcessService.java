@@ -36,7 +36,7 @@ public class ProcessService {
         return processList;
     }
 
-    public Process getProcess(ObjectId oid) {
+    public Process getProcess(String oid) {
         Optional<Process> pc = processRepository.findById(oid);
 
 
@@ -78,7 +78,7 @@ public class ProcessService {
 
     }
 
-    public void updateTemplate(ObjectId oid, String step, int templatetype ){
+    public void updateTemplate(String oid, String step, int templatetype ){
 
         Query q = new Query(Criteria.where("_id").is(oid));
         Update u = new Update();
@@ -91,31 +91,45 @@ public class ProcessService {
 
 
     public Process insertProcess(ProcessDto dto){
-        Process pcc = Process.builder().company(dto.getCompany()).jd_id(dto.getJd_id()).build();
+        Process pcc = Process.builder().company(dto.getCompany()).end_status(dto.getEnd_status()).step(dto.getStep())
+                .progress(dto.getProgress())
+                .tag(dto.getTag())
+                .start_date(dto.getStart_date())
+                .end_date(dto.getEnd_date())
+                .essay(dto.getEssay())
+                .test(dto.getTest())
+                .interview(dto.getInterview())
+                .jd_id(dto.getJd_id()).build();
         System.out.println(pcc);
         Process pid = processRepository.save(pcc);
         return pid;
     }
 
-    public void updateProcess(ProcessDto dto){
+    public int updateProcess(ProcessDto dto){
         //Process pcc = Process.builder().company(dto.getCompany()).jd_id(dto.getJd_id()).build();
         Document bson = new Document();
-        System.out.println(bson+"==========================   "+dto.getId());
+//        System.out.println(bson+"==========================   "+dto.getId());
         processRepository.updateProcess(dto,bson);
         System.out.println(bson+"==========================");
-
-
-
         Query q = new Query(Criteria.where("_id").is(dto.getId()));
         Update u = Update.fromDocument(bson);
-//        Update u =new Update().addToSet("company",dto.getCompany());
+
 
         processRepository.upsertProcess(q,u,"process");
+        return 1;
 
     }
 
+    public void updateKanban(List<ProcessDto> processDtos){
+        for(ProcessDto pdto: processDtos){
+            Query q = new Query(Criteria.where("_id").is(pdto.getId()));
+            Update u = new Update();
+            u.addToSet("step",pdto.getStep());
+        }
+    }
+
     //////////////////////////////////////////////////////////
-    public void insertTemplate(ObjectId oid, String step, int templatetype ){
+    public void insertTemplate(String oid, String step, int templatetype ){
         String typename ="";   //이건 int Switch용
         switch(templatetype) {
             case 1:
@@ -151,7 +165,7 @@ public class ProcessService {
     }
 
 
-    //    public void updateEssay(ObjectId oid, int templatetype){
+    //    public void updateEssay(String oid, int templatetype){
 //        System.out.println(oid+"oid"+templatetype);
 //        Template essayTemplate = new Template(templatetype,"전형추가",null);
 //        List<Template> lt = new ArrayList<>();
