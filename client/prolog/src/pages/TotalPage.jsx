@@ -8,6 +8,7 @@ import MainPage from "./MainPage";
 import Sidebar from "../components/sidebar/Sidebar";
 import Headbar from "../components/sidebar/Headbar";
 import Login from "./Login";
+import WebRtc from "./WebRtc";
 
 const AppContainer = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ export default function Result() {
               <Route path="/chatting" element={<Chatting />} />
               <Route path="/myinfo" element={<MyInfo />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/webrtc" element={<WebRtc />} />
             </Routes>
           </Content>
         </MainContent>
