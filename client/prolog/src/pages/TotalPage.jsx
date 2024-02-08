@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import MasterPaper from "./MasterPaper";
-import MyInfo from "./MyInfo";
+import MyPage from "./MyPage";
 import Chatting from "./Chatting";
 import MainPage from "./MainPage";
 import Sidebar from "../components/sidebar/Sidebar";
@@ -42,7 +42,7 @@ export default function Result() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/masterpaper" element={<MasterPaper />} />
               <Route path="/chatting" element={<Chatting />} />
-              <Route path="/myinfo" element={<MyInfo />} />
+              <Route path="/mypage" element={<MyPage />} />
               <Route path="/login" element={<Login />} />
             </Routes>
           </Content>
