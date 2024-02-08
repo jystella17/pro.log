@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import MasterPaper from "./MasterPaper";
+import MyMaster from "./MyMaster"
 import MyInfo from "./MyInfo";
 import Chatting from "./Chatting";
 import MainPage from "./MainPage";
@@ -42,11 +43,9 @@ export default function Result() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/mymaster" element={<MyMaster />} />
             <Route path="/masterpaper" element={<MasterPaper />} />
-            <Route path="/myPage" element={<MyPage />} />
-            <Route path="/allchatting" element={<AllChatting />} />
-            <Route path="/mychatting" element={<MyChatting />} />
+            <Route path="/myinfo" element={<MyInfo />} />
+            <Route path="/chatting" element={<Chatting />} />
             <Route path="/login" element={<Login />} />
             <Route path="/process" element={<Process />} />
             

@@ -1,6 +1,6 @@
 import CT from "../../templates/CT"
 import Interview from "../../templates/intereview/Interview"
-import Paper from "../../templates/paper/Paper"
+import Assay from "../../templates/assay/Assay"
 import Types from "../../process/steps/Types"
 // import  from "../../templates/"
 
@@ -9,7 +9,7 @@ import './Process.css'
 function Body({ page }) {
     switch (page) {
         case 'assay':
-            return <Paper />;
+            return <Assay />;
         case 'ct':
             return <CT />;
         case 'interview':

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import MainPageHeader from './CalendarHeader.jsx';
 import CalendarFilter from './CalendarFilter.jsx'
+import JD from '../../jobdescription/JD.jsx'
 import AddProcess from './AddProcess.jsx'
 import './Calendar.scss'
 
@@ -93,8 +94,12 @@ export default function Calendar() {
     const [Month, setMonth] = useState(new Date())
     const [selectedDate, setSelectedDate] = useState(new Date())
 
+    const [modalOpen, setModalOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
 
+    function openJDModalHandler() {
+        setModalOpen(!modalOpen)
+    }
     function openModalHandler() {
         setIsOpen(!isOpen)
     }
@@ -115,7 +120,9 @@ export default function Calendar() {
                             selectedDate={selectedDate}
                             openModalHandler={openModalHandler} />
                     </div>
-                </div> }    
+                </div>} 
+            <button onClick={openJDModalHandler}>JD열기</button>
+            <JD modalOpen={modalOpen} setModalOpen={setModalOpen} />
 
         </div>
     )
