@@ -46,6 +46,7 @@ export default function Result() {
               <Route path="/chatting" element={<Chatting />} />
               <Route path="/myinfo" element={<MyInfo />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/process" element={<Process />} />
             </Routes>
           </Content>
         </MainContent>
