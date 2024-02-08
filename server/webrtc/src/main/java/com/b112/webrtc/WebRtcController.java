@@ -23,8 +23,6 @@ import java.util.Map;
         "http://localhost:5000", //webRTC api
         "http://127.0.0.1:5000",
 
-        "http://localhost:5000/api/sessions"
-
 }, allowedHeaders = {"GET", "POST"})
 @RestController
 public class WebRtcController {
@@ -47,7 +45,7 @@ public class WebRtcController {
      * @return The Session ID+ Session ID를 발급해줍니다.
      *
      */
-    @PostMapping("/api/sessions")
+    @PostMapping("/webrtc/sessions")
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
         SessionProperties properties = SessionProperties.fromJson(params).build();
@@ -60,7 +58,7 @@ public class WebRtcController {
      * @param params    The Connection properties
      * @return The Token associated to the Connection
      */
-    @PostMapping("/api/sessions/{sessionId}/connections")
+    @PostMapping("/webrtc/sessions/{sessionId}/connections")
     public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
                                                    @RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
