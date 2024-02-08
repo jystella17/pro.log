@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class ProcessDto {
     @Id
-    private ObjectId id;
+    private String id;
     private String company;
     private int end_status;
     private String step;
