@@ -1,23 +1,21 @@
-import Checkbox from '../components/Checkbox'
-import Deadline from "../components/Deadline"
-import RangeDatePicker from "../../../common/components/RangeDatePicker"
 import CT from "../../templates/CT"
-// import  from "../../templates/"
-// import  from "../../templates/"
+import Interview from "../../templates/intereview/Interview"
+import Paper from "../../templates/paper/Paper"
+import Types from "../../process/steps/Types"
 // import  from "../../templates/"
 
-import './ProcessBody.css'
+import './Process.css'
 
-function PaperBody({ page }) {
+function Body({ page }) {
     switch (page) {
         case 'assay':
-            return <SelfIntroduction />;
+            return <Paper />;
         case 'ct':
             return <CT />;
         case 'interview':
-            return <InterviewQuestions />;
-        case 'emptyPage':
-            return <EmptyPage />;
+            return <Interview />;
+        // case 'memo':
+        //     return <Memo />;
         default:
             return null;
     }
@@ -25,14 +23,16 @@ function PaperBody({ page }) {
 }
 
 export default function ProcessBody() {
+   
     return (
         <div className="paperBody">
-            <div className="paperHeader">
+            {/* <div className="paperHeader">
                 <Checkbox />
                 <RangeDatePicker />
-            </div>
+            </div> */}
             <div className="paperContent">
-                <PaperBody />
+                <Types />
+                <Body />
             </div>
         </div>
     )

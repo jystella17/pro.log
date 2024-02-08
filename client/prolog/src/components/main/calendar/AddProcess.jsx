@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import styled from 'styled-components'
 import InputBox from '../../../common/components/InputBox'
@@ -34,6 +35,7 @@ const ModalView = styled.div.attrs((props) => ({
   }))`
     display: flex;
     flex-direction: column;
+
     border-radius: 10px;
     width: 700px;
     min-width: 700px;
@@ -51,81 +53,71 @@ const Row = styled.div`
   display: flex;
 `
 
-// 전형 선택 드롭다운
-function TypesDropdown({ value, setType, setIsOpen, isOpen }) {
-  function ValueClick() {
-    setType(value)
-    setIsOpen(!isOpen)
+// 프로세스로 이동하는 이벤트
+
+
+function SelectType() {
+  const DateTypes = ['서류 전형', '테스트 전형', '면접 전형']
+
+  const [selectedType, setSelectedType] = useState(null)
+
+  function filterTypes(type) {
+    setSelectedType(type)
   }
+
   return (
     <div>
-      <li onClick={ValueClick}>{value}</li>
+      <select onChange={(e) => filterTypes(e.target.value)} className="selectType">
+        <option value="">전형을 선택해주세요.</option>
+        {DateTypes.map((type, index) => (
+          <option key={index} value={type}>{type}</option>
+        ))}
+      </select>
     </div>
   )
 }
-
-// 드롭다운 content
-function SelectType() {
-  const dropdownRef = useRef(null)
-  const [isOpen, setIsOpen] = useDetectClose(dropdownRef, false)
-  const [type, setType] = useState('')
-  const dropdownList = ['서류 전형', '테스트 전형', '면접 전형']
-  
-  // 드롭다운에 들어갈 리스트
-  return (
-      <div className="wrapper">
-          <input className="dropdownName" onClick={() => setIsOpen(!isOpen)} type='button' value={type} placeholder="전형을 선택하세요."/>
-          <ul
-              ref={dropdownRef}
-              className={`dropdownList ${isOpen ? 'down' : 'up'}`}>
-              {dropdownList.map((value, index) => (
-                <TypesDropdown key={index} value={value} setIsOpen={setIsOpen} setType={setType} isOpen={isOpen} /> 
-              ))}
-          </ul>
-      </div>
-  )
-}
-
-// 프로세스로 이동하는 이벤트
-  function goProcess() {
-    return (
-      <div>프로세스 창으로 이동하는 이벤트</div>
-    )
-  }
   
 // 프로세스 생성 창
 function AddProcess({ openModalHandler }) {
+  const navigate = useNavigate()
+  function navigateToProcess() {
+    navigate('/process')
+  }
+
+
   const [company, setCompany] = useState('')
   const [task, setTask] = useState('')
 
   const saveCompany = (e) => setCompany(e.target.value)
   const saveTask = (e) => setTask(e.target.value)
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  // function handleSubmit(e) {
+  //   e.preventDefault()
 
-    axios
-      .post("post 주소", {
-        company: company,
-        task: task,
-        // step,
-        // start_date,
-        // end_date
-      })
-      .then((res) => {
-        console.log(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+  //   axios
+  //     .post("post 주소", {
+  //       company: company,
+  //       task: task,
+  //       // step,
+  //       // start_date,
+  //       // end_date
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }
+
+
 
   return (
     <ModalView onClick={(e) => e.stopPropagation()}>
 
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}> */}
+        <div>
         <InputBox width={'300px'} height={'45px'} text="기업명을 입력하세요." value={company} onChange={saveCompany} />
-        <hr />
   
         <div style={{display:"flex", flexDirection:"column", gap: "20px"}}>
           <Row>
@@ -139,19 +131,19 @@ function AddProcess({ openModalHandler }) {
             </div>
           </Row>
           <Row>
-            <Head>1차 전형 유형</Head>
-            <SelectType />
+              <Head>1차 전형 유형</Head>
+              <SelectType />
           </Row>
-  
+        </div>
           <Row style={{ justifyContent: 'flex-end', gap: '20px'}}>
             <Button className={'navy'}
-              onClick={onprogress}
+              onClick={navigateToProcess}
               type={'submit'}>{'프로세스 시작하기'}</Button>
             <Button className={'gray'}
               onClick={openModalHandler}>{'취소'}</Button>
           </Row>
         </div>
-      </form>
+      {/* </form> */}
 
     </ModalView>
   )

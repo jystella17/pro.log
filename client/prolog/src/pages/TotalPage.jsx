@@ -7,6 +7,8 @@ import Chatting from "./Chatting";
 import MainPage from "./MainPage";
 import Sidebar from "../components/sidebar/Sidebar";
 import Headbar from "../components/sidebar/Headbar";
+import Process from "./Process"
+import CT from "../components/templates/CT"
 import Login from "./Login";
 
 const AppContainer = styled.div`
@@ -37,14 +39,19 @@ export default function Result() {
         <MainContent>
           <Headbar />
           <Content>
-            <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/masterpaper" element={<MasterPaper />} />
-              <Route path="/chatting" element={<Chatting />} />
-              <Route path="/myinfo" element={<MyInfo />} />
-              <Route path="/login" element={<Login />} />
-            </Routes>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/mymaster" element={<MyMaster />} />
+            <Route path="/masterpaper" element={<MasterPaper />} />
+            <Route path="/myPage" element={<MyPage />} />
+            <Route path="/allchatting" element={<AllChatting />} />
+            <Route path="/mychatting" element={<MyChatting />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/process" element={<Process />} />
+            
+
+          </Routes>
           </Content>
         </MainContent>
       </AppContainer>
