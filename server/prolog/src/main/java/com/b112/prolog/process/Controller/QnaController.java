@@ -2,9 +2,12 @@ package com.b112.prolog.process.Controller;
 
 
 import com.b112.prolog.process.Dto.QnaDto;
+import com.b112.prolog.process.Entity.Process;
 import com.b112.prolog.process.Service.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,11 +25,12 @@ public class QnaController {
      * @param index 해당 유형의 몇번째 template인지
      */
     @PostMapping("/{processid}/{step}/{index}/qna")
-    public String insertQnA(@RequestBody QnaDto dto, @PathVariable ObjectId processid, @PathVariable String step,@PathVariable int index){
-//        ObjectId oid = qnaService.insertQnA(dto,processid);
-        String oid = qnaService.insertQnA(dto,processid,step,index);
-//        System.out.println(oid+" @@######oidddddd");
-        return oid;
+    public ResponseEntity<?> insertQnA(@RequestBody QnaDto dto, @PathVariable String processid, @PathVariable String step,@PathVariable int index){
+        try{
+            return new ResponseEntity<>(qnaService.insertQnA(dto,processid,step,index),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        }
     }
 
     /**?
@@ -34,8 +38,22 @@ public class QnaController {
      * @param dtos 바뀐 QnaDto들의 리스트
      */
     @PutMapping("/qna")
-    public void updateQnA(@RequestBody List<QnaDto> dtos){
-        qnaService.updateQna(dtos);
+    public ResponseEntity<?> updateQnA(@RequestBody List<QnaDto> dtos){
+        try{
+            return new ResponseEntity<>(qnaService.updateQna(dtos),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+
+    @GetMapping("/qna/search/{keyword}")
+    public ResponseEntity<?> searchByKeyword(@PathVariable String keyword){
+        try {
+            return new ResponseEntity<>(qnaService.searchQnaByKeyword(keyword),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        }
     }
 
 }

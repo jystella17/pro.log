@@ -26,6 +26,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 application.properties
+!**/src/main/resources/application-prod.properties
 application.yml
 
 ### NetBeans ###

@@ -2,6 +2,7 @@ package com.b112.prolog.process.Repository;
 
 import com.b112.prolog.process.Dto.ProcessDto;
 
+import com.b112.prolog.process.Dto.QnaDto;
 import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -36,6 +37,11 @@ public class CustomRepositoryImpl implements CustomRepository {
 //        return null;
     }
 
+    @Override
+    public List<QnaDto> find(Query q, String collection) {
+        return mongoTemplate.find(q, QnaDto.class, collection);
+    }
+
 
     @Override
     public void updateProcess(ProcessDto dto, Document doc){
@@ -44,5 +50,7 @@ public class CustomRepositoryImpl implements CustomRepository {
 
 
     }
+
+
 
 }
