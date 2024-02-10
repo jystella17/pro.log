@@ -1,0 +1,27 @@
+.selectJob {
+  width: 270px;
+  height: 38px;
+  padding: 10px;
+  border-radius: 10px;
+  border-color: rgb(203, 203, 203);
+  box-shadow: 5px 5px 5px -5px gray;
+}
+
+.selectDate {
+  width: 270px;
+  height: 38px;
+  padding: 10px;
+  border-radius: 10px;
+  border-color: rgb(203, 203, 203);
+  box-shadow: 5px 5px 5px -5px gray;
+}
+
+.selectInput {
+  width: 250px;
+  height: 16.5px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 0.5px solid black;
+  border-color: rgb(203, 203, 203);
+  box-shadow: 5px 5px 5px -5px gray;
+}

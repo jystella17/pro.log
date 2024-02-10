@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+.link {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 10px;
+  transition: all 0.5s;
+  margin: 8px 3px;
+  color: black;
+}
+.link:hover {
+  background-color: rgb(245, 242, 242);
+  color: black;
+  transition: all 0.5s;
+  border-radius: 10px;
+}
+.active {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: black;
+  padding: 10px;
+  gap: 10px;
+  transition: all 0.5s;
+  border-radius: 10px;
+  margin: 8px 3px;
+  background-color: rgb(245, 242, 242);
+}
+
+.icon_name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* .dropdown_link {
+  display: flex;
+  justify-content: start;
+  padding: 10px 40px;
+  transition: all 0.5s;
+  margin: 3px;
+  color: black;
+  font-size: 13px;
+}
+
+.dropdown_active {
+  display: flex;
+  background-color: rgb(245, 242, 242);
+  color: black;
+  padding: 10px 40px;
+  transition: all 0.5s;
+  border-radius: 10px;
+  margin: 3px;
+  font-size: 13px;
+} */

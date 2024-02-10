@@ -1,0 +1,15 @@
+textarea {
+  min-height: 500px;
+  width: 1060px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  padding: 20px;
+  resize: vertical;
+  font-family: "Pretendard-Regular" !important;
+  font-size: 15px;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+}
