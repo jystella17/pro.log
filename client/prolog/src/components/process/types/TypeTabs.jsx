@@ -5,7 +5,7 @@ import CT from '../../templates/ct/CT'
 import Interview from '../../templates/interview/Interview'
 import Memo from '../../templates/memo/Memo'
 
-import './Process.scss'
+import './TypeTabs.css'
 
 export default function TypeTabs() {
   const [types, setTypes] = useState([])
@@ -84,27 +84,22 @@ export default function TypeTabs() {
 
   
   return (
-    <div className="paper-body">
-      <div className="paper-tabs">
-        <div className="tab-menu">
-          {types.map(tab => (
-            <div key={tab.id} onClick={() => handleTabClick(tab.id)} className={activeTab === tab.id ? 'active-tab' : ''}>
-              {tab.title}
-            </div>
-          ))}
-        </div>
-
-        <select value='' onChange={handleDropdownChange} className="select-template">
-          <option value="">템플릿 추가</option>
-          <option value="assay">자기소개서</option>
-          <option value="ct">코딩테스트</option>
-          <option value="toggle">면접 문항</option>
-          <option value="memo">빈 페이지</option>
-        </select>
-      </div>
+    <div>
+      <select value='' onChange={handleDropdownChange} className="select-template">
+        <option value="">템플릿 추가</option>
+        <option value="assay">자기소개서</option>
+        <option value="ct">코딩테스트</option>
+        <option value="toggle">면접 문항</option>
+        <option value="memo">빈 페이지</option>
+      </select>
       <div className="tab-menu">
-        {content}
+        {types.map(tab => (
+          <div key={tab.id} onClick={() => handleTabClick(tab.id)} className={activeTab === tab.id ? 'active-tab' : ''}>
+            {tab.title}
+          </div>
+        ))}
       </div>
+        {content}
     </div>
   );
 };

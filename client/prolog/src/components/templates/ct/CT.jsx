@@ -2,9 +2,9 @@ import { useState, useRef } from "react"
 
 import { Checkbox, Rate } from 'antd';
 
-import Tag from "../../common/components/InputTag"
-import SmallInputBox from "../../common/components/SmallInputBox"
-import InputBox from "../../common/components/InputBox"
+import Tag from "../../../common/components/InputTag"
+import SmallInputBox from "../../../common/components/SmallInputBox"
+import InputBox from "../../../common/components/InputBox"
 import styled from 'styled-components'
 import './CT.css'
 

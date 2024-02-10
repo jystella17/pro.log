@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from 'react-router-dom'
+import { useRecoilState, useRecoilValue } from 'recoil'
+// import { JDState } from '../../../state/atoms.jsx'
+// import { getJD } from '../../../state/selectors.jsx'
 
 import MainPageHeader from './CalendarHeader.jsx';
 import CalendarFilter from './CalendarFilter.jsx'
@@ -11,6 +15,7 @@ import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
 import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 
 import { CiSquarePlus } from "react-icons/ci";
+
 
 // 전체 요일 component
 function Weeks() {
@@ -35,7 +40,15 @@ function Weeks() {
 
 
 // 달력 body component
-function CalendarBody({ Month, selectedDate,openModalHandler }) {
+function CalendarBody({ Month, selectedDate, openModalHandler, JD }) {
+    // function renderRecruit() {
+    //     const recruit = JD.filter(data => isSameDay(data.openingDate, date))
+    //     return recruit.map(data => (
+    //         <div key={JD.jdId}>{JD.company.companyName}</div>
+    //     ))
+    // }
+
+
     // 달의 시작일과 마지막일
     const monthStart = startOfMonth(Month)
     const monthEnd = endOfMonth(monthStart)
@@ -54,7 +67,6 @@ function CalendarBody({ Month, selectedDate,openModalHandler }) {
         for (let i = 0; i < 7; i++) {
 
             formattedDate = format(day, 'd')
-            
             oneWeek.push(
                 <div
                     // 이번달 날짜가 아니면 disabled
@@ -73,6 +85,7 @@ function CalendarBody({ Month, selectedDate,openModalHandler }) {
                         </div>
                         <CiSquarePlus className="plusButton" onClick={openModalHandler} />    
                     </div>
+                    {/* {renderRecruit()} */}
                 </div>
             )
             day = addDays(day, 1) 
@@ -90,12 +103,18 @@ function CalendarBody({ Month, selectedDate,openModalHandler }) {
     )
 }
 
+
 export default function Calendar() {
+    // const [jdData, setjdData] = useRecoilState(JDState)
+    // const JD = useRecoilValue(getJD)
+    
+    
     const [Month, setMonth] = useState(new Date())
     const [selectedDate, setSelectedDate] = useState(new Date())
-
+    
     const [modalOpen, setModalOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
+
 
     function openJDModalHandler() {
         setModalOpen(!modalOpen)
@@ -116,6 +135,7 @@ export default function Calendar() {
                     <div className="calendarBody">
                         <Weeks />
                         <CalendarBody
+                            // JD = {JD}
                             Month={Month}
                             selectedDate={selectedDate}
                             openModalHandler={openModalHandler} />

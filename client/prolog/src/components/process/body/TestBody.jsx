@@ -84,8 +84,8 @@ export default function TypeTabs() {
 
   
   return (
-    <div className="paper-body">
-      <div className="paper-tabs">
+    <div className="test-body">
+      <div className="test-tabs">
         <div className="tab-menu">
           {types.map(tab => (
             <div key={tab.id} onClick={() => handleTabClick(tab.id)} className={activeTab === tab.id ? 'active-tab' : ''}>

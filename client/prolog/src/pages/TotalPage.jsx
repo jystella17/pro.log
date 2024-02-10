@@ -9,7 +9,7 @@ import MainPage from "./MainPage";
 import Sidebar from "../components/sidebar/Sidebar";
 import Headbar from "../components/sidebar/Headbar";
 import Process from "./Process"
-import CT from "../components/templates/CT"
+import CT from "../components/templates/ct/CT"
 import Login from "./Login";
 
 const AppContainer = styled.div`
