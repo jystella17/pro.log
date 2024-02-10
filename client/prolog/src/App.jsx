@@ -1,14 +1,8 @@
-
-import './App.css'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TotalPage from "./pages/TotalPage";
 
 function App() {
-
-
-  return (
-    <>
-
-    </>
-  )
+  return <TotalPage />;
 }
 
-export default App
+export default App;
