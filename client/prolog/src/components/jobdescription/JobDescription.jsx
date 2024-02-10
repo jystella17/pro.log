@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 // import { getJD } from "../../state/selectors"
 
 import { CiCalendar } from "react-icons/ci";
-import './JD.css'
+import './JobDescription.css'
 
 import Button from "../../common/components/Button";
 
@@ -30,23 +30,65 @@ const customJDModal = Modal.Styles = {
     boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
     backgroundColor: "white",
     justifyContent: "center",
-    
     overflow: "auto",
   }
 }
 
 
-function JDContent() {
-  const navigate = useNavigate()
+function JDContent({ selectedJdId }) {
+  // const [jdData, setjdData] = useRecoilState(JDState)
+  // const JD = useRecoilValue(getJD)
 
+
+  const JD = {
+    "jd": [{
+        "jdId": 1,
+        "link": "http://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=47487289&utm_source=job-search-api&utm_medium=api&utm_campaign=saramin-job-search-api",
+        "keyword": "게임",
+        "openingDate": "2024-01-31 00:00:00",
+        "expirationDate": "2024-02-15 23:59:59",
+        "company": {
+            "companyId": 1,
+            "companyName": "넷마블몬스터(주)"
+        },
+        "jobTitle": "넷마블몬스터(주) 마블 퓨처파이트 배경 원화 모집",
+        "industry": "게임",
+        "workingArea": "서울 &gt; 구로구",
+        "jobType": "정규직",
+        "jobMidCode": "IT개발·데이터,디자인",
+        "experience": "경력무관",
+        "education": "학력무관"
+    },{
+        "jdId": 2,
+        "link": "http://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=47487202&utm_source=job-search-api&utm_medium=api&utm_campaign=saramin-job-search-api",
+        "keyword": null,
+        "openingDate": "2024-01-31 00:00:00",
+        "expirationDate": "2024-02-15 23:59:59",
+        "company": {
+            "companyId": 2,
+            "companyName": "넷마블엔투(주)"
+        },
+        "jobTitle": "넷마블엔투(주) 신의탑 애니메이션(영상연출) 모집_신입가능",
+        "industry": "게임",
+        "workingArea": "서울 &gt; 구로구",
+        "jobType": "정규직",
+        "jobMidCode": "IT개발·데이터,미디어·문화·스포츠,디자인",
+        "experience": "경력무관",
+        "education": "학력무관"
+    },]
+  }
+
+  
+  const navigate = useNavigate()
   function navigateToProcess() {
     navigate('/process')
   }
+
+
   return (
     <div className="jd-data">
       <div className="jd-title">
-        <div className="company-name">삼성전자</div>
-        {/* <div>{JDList.jobTitle}</div> */}
+        <div className="company-name">{JD.jd.company.companyName}</div>
         <div className="job-title">상반기 공채</div>
         {/* <div className="deadline">
           <CiCalendar />
@@ -75,7 +117,7 @@ function JDContent() {
 }
 
 
-export default function JD({modalOpen, setModalOpen}) {
+export default function JD({modalOpen, setModalOpen, selectedJdId}) {
   // const params = useParams.id;
   // const [JDData, setJDData] = useRecoilState(JDState)
   // const JDList = useRecoilValue(getJD);
@@ -103,8 +145,7 @@ export default function JD({modalOpen, setModalOpen}) {
       style={customJDModal}
       contentLabel="JDPage"
     >
-      <JDContent />
-      {/* <JDContent JDList={JDList} /> */}
+      <JDContent selectedJdId={selectedJdId} />
     </Modal>
   )
 }

@@ -6,10 +6,8 @@
     display: flex;
     flex-direction: column;
     height: 600px;
-    // background-color: rgb(245, 245, 245);
     padding: 10px;
     border-radius: 3px;
-    // box-shadow: 5px 5px 5px -5px gray;
 
     .line {
         background: rgb(240, 240, 240);
@@ -99,3 +97,7 @@
 //     margin: 3px;
 }
 
+.recruit-tag {
+    display: flex;
+    font-size: small;
+}

@@ -32,7 +32,6 @@ function Steps() {
             onClick={() => setActiveStep(index)}
           >
               {tab}
-            {/* <Types key={index} active={index === activeTab} /> */}
           </li>
         ))}
       </ul>

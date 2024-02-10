@@ -6,8 +6,12 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import MainPageHeader from './CalendarHeader.jsx';
 import CalendarFilter from './CalendarFilter.jsx'
-import JD from '../../jobdescription/JD.jsx'
+import Week from './Week.jsx'
+import Recruit from './Recruit.jsx'
+import JD from '../../jobdescription/JobDescription.jsx'
 import AddProcess from './AddProcess.jsx'
+
+import Tag from '../../../common/components/Tag.jsx'
 import './Calendar.scss'
 
 import { format } from 'date-fns';
@@ -17,37 +21,14 @@ import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 import { CiSquarePlus } from "react-icons/ci";
 
 
-// 전체 요일 component
-function Weeks() {
-    const weeks = []
-    const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
-    // 각 요일 component
-    for (let i = 0; i < 7; i++) {
-        weeks.push(
-            <div className="week" key={i}>
-                {week[i]}
-            </div>
-        )
-    }
-
-    return (
-        <div className="weeks">
-            {weeks}
-        </div>
-    )
-}
-
-
 // 달력 body component
-function CalendarBody({ Month, selectedDate, openModalHandler, JD }) {
-    // function renderRecruit() {
-    //     const recruit = JD.filter(data => isSameDay(data.openingDate, date))
-    //     return recruit.map(data => (
-    //         <div key={JD.jdId}>{JD.company.companyName}</div>
-    //     ))
-    // }
-
+function CalendarBody({
+    Month,
+    selectedDate,
+    openModalHandler,
+    openJDModalHandler,
+    searchTerm,
+    dateType }) {
 
     // 달의 시작일과 마지막일
     const monthStart = startOfMonth(Month)
@@ -62,7 +43,6 @@ function CalendarBody({ Month, selectedDate, openModalHandler, JD }) {
     let day = startDate         // 페이지의 시작일
     let formattedDate = ''      // 각 날짜
 
-    
     while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
 
@@ -85,7 +65,7 @@ function CalendarBody({ Month, selectedDate, openModalHandler, JD }) {
                         </div>
                         <CiSquarePlus className="plusButton" onClick={openModalHandler} />    
                     </div>
-                    {/* {renderRecruit()} */}
+                    <Recruit day={day} searchTerm={searchTerm} dateType={dateType} onClick={openJDModalHandler} />
                 </div>
             )
             day = addDays(day, 1) 
@@ -107,42 +87,48 @@ function CalendarBody({ Month, selectedDate, openModalHandler, JD }) {
 export default function Calendar() {
     // const [jdData, setjdData] = useRecoilState(JDState)
     // const JD = useRecoilValue(getJD)
-    
-    
+
+    // 달력 상태 관리
     const [Month, setMonth] = useState(new Date())
     const [selectedDate, setSelectedDate] = useState(new Date())
     
+    // 모달 상태 관리
     const [modalOpen, setModalOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
 
+    // 공고 검색 상태 관리
+    const [searchTerm, setSearchTerm] = useState('')
+    const [dateType, setDateType] = useState('')
 
-    function openJDModalHandler() {
+
+    function openJDModalHandler(jdId) {
         setModalOpen(!modalOpen)
     }
     function openModalHandler() {
         setIsOpen(!isOpen)
     }
 
-
-
     return (
         <div className="calendar">
             {isOpen ?
                 <AddProcess openModalHandler={openModalHandler} /> :
                 <div>
-                    <CalendarFilter />
+                    <CalendarFilter setSearchTerm={setSearchTerm} setDateType={setDateType} />
                     <MainPageHeader Month={Month} setMonth={setMonth} />
                     <div className="calendarBody">
-                        <Weeks />
+                        <Week />
                         <CalendarBody
-                            // JD = {JD}
                             Month={Month}
                             selectedDate={selectedDate}
-                            openModalHandler={openModalHandler} />
+                            openModalHandler={openModalHandler}
+                            openJDModalHandler={openJDModalHandler}
+                            searchTerm={searchTerm}
+                            dateType={dateType}
+                        />
                     </div>
                 </div>} 
             <button onClick={openJDModalHandler}>JD열기</button>
-            <JD modalOpen={modalOpen} setModalOpen={setModalOpen} />
+            {/* <JD modalOpen={modalOpen} setModalOpen={setModalOpen} /> */}
 
         </div>
     )

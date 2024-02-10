@@ -1,22 +1,29 @@
 import styled from 'styled-components'
+import { StyleSheetManager } from "styled-components"
 
 const TagBox = styled.div`
-width: auto;
-height: 28px;
 display: flex;
+width: auto;
+height: 20px;
 align-items: center;
 justify-content: center;
-padding: 0 10px;
-font-size: 13px;
-list-style: none;
-margin: 0 8px 8px 0;
+padding: 0 5px;
+font-size: ${props => `${props.fontsize}`};
+margin: 0 5px 0px 0;
 color: rgb(245, 245, 245);
-background: #7077A1;
+background-color: ${props => `${props.backgroundcolor}`};
 border-radius: 13px;
 `
 
-function Tag(content) {
+export default function Tag({ backgroundcolor, fontsize, children }) {
   return (
-    <TagBox>{content}</TagBox>
+    <StyleSheetManager shouldForwardProp={(prop) => !['fontsize', 'backgroundcolor'].includes(prop)}>
+      <TagBox
+        backgroundcolor={backgroundcolor}
+        fontsize={fontsize}
+      >
+        {children}
+      </TagBox>
+    </StyleSheetManager>
   )
 }

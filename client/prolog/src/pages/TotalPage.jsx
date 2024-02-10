@@ -13,23 +13,17 @@ import CT from "../components/templates/ct/CT"
 import Login from "./Login";
 
 const AppContainer = styled.div`
-  display: flex;
-  width: 100vw;
+  width: 1519px;
+  height: 737px;
+  
 `;
 
-const MainContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding-left: 261px;
+
+const TotalPageContent = styled.div`
+  // width: 1536px;
+  // height: 737px;
   padding-top: 60px;
-`;
-const TotalPage = styled.div`
-  display: inline-block;
-`;
-
-const Content = styled.div`
-  flex: 1;
+  padding-left: 246px;
 `;
 
 export default function Result() {
@@ -37,23 +31,20 @@ export default function Result() {
     <BrowserRouter>
       <AppContainer>
         <Sidebar />
-        <MainContent>
-          <Headbar />
-          <Content>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/masterpaper" element={<MasterPaper />} />
-            <Route path="/myinfo" element={<MyInfo />} />
-            <Route path="/chatting" element={<Chatting />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/process" element={<Process />} />
-            
-
-          </Routes>
-          </Content>
-        </MainContent>
+        <Headbar />
+        <TotalPageContent>
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/masterpaper" element={<MasterPaper />} />
+              <Route path="/myinfo" element={<MyInfo />} />
+              <Route path="/chatting" element={<Chatting />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/process" element={<Process />} />
+            </Routes>
+          </TotalPageContent>
       </AppContainer>
     </BrowserRouter>
   );
 }
+

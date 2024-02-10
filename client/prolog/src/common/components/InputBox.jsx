@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { StyleSheetManager } from "styled-components"
 
 const InputBox = styled.input`
     border: 0.5px solid rgb(203, 203, 203);
@@ -19,12 +20,16 @@ const InputBox = styled.input`
 export default function Input({width, height, text, size, value, onChange}) {
     return (
         <div>
-            <InputBox width={width} height={height}
-                placeholder={text}
-                value={value}
-                onChange={onChange}
-                size={size}
-            />
+            <StyleSheetManager shouldForwardProp={(prop) => prop === 'fontSize'}>
+                <InputBox
+                    width={width}
+                    height={height}
+                    placeholder={text}
+                    value={value}
+                    onChange={onChange}
+                    size={size}
+                />
+            </StyleSheetManager>
         </div>
     )
 }

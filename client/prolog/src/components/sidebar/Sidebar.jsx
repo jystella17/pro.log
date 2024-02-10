@@ -5,26 +5,25 @@ import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 import style from "./Sidebar.module.css";
 
-const Side = styled.div`
+const SidebarTotal = styled.div`
   position: fixed;
-  border-right: 1px solid lightgray;
-  height: 100vh;
   padding: 20px;
-  width: 220px;
+  height: 100%;
+  width: 246px;
   background-color: #4d4c7d;
-  border-radius: 3px;
+  border-radius: 0px 25px 25px 0px;
 `;
 
-const Top = styled.div`
+const SidebarTop = styled.div`
   padding: 15px 15px 20px;
 `;
 
-const Bottom = styled.div``;
+const SidebarBottom = styled.div``;
 
 function Sidebar() {
   return (
-    <Side>
-      <Top>
+    <SidebarTotal>
+      <SidebarTop>
         <Link to="/">
           <svg height="45" viewBox="0 0 208 63" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -33,8 +32,8 @@ function Sidebar() {
             />
           </svg>
         </Link>
-      </Top>
-      <Bottom>
+      </SidebarTop>
+      <SidebarBottom>
         {Router.map((item, index) => {
           return (
             <NavLink
@@ -49,8 +48,8 @@ function Sidebar() {
             </NavLink>
           );
         })}
-      </Bottom>
-    </Side>
+      </SidebarBottom>
+    </SidebarTotal>
   );
 }
 
