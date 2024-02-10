@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum OAuth2Provider {
+    DEFAULT("default"),
     KAKAO("kakao"),
     NAVER("naver");
 
