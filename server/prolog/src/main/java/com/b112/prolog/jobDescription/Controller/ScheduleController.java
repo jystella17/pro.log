@@ -21,7 +21,7 @@ import java.util.Optional;
 @CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/schedule")
+@RequestMapping("/api/schedule")
 @Slf4j
 public class ScheduleController {
 
