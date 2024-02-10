@@ -42,7 +42,7 @@ public class ScheduleController {
 
 //    , @AuthenticationPrincipal UserPrincipal userPrincipal
     @GetMapping("/calendar/{year}/{month}")
-    public ResponseEntity<?> calenderView(@PathVariable("year") String year, @PathVariable("month") String month) {
+    public ResponseEntity<?> calendarView(@PathVariable("year") String year, @PathVariable("month") String month) {
 
         String date = year+"-"+month;
 
@@ -52,11 +52,7 @@ public class ScheduleController {
             JdAndProcessListDto jdAndProcessListDto = new JdAndProcessListDto();
             jdAndProcessListDto.setJd(jobDescriptionService.findByPeriod(date));
             jdAndProcessListDto.setProcess(processService.getProcessList());
-
-
-
             if(jdAndProcessListDto.getJd()!= null){
-                System.out.println("dd");
                 return new ResponseEntity<>(jdAndProcessListDto, HttpStatus.OK);
             } else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -90,18 +86,15 @@ public class ScheduleController {
      * @return
      */
     @GetMapping("/calendar/{title}")
-    public ResponseEntity<?> calenderView(@PathVariable("title") String title) {
+    public ResponseEntity<?> calendarView(@PathVariable("title") String title) {
 
 
         try {
-//            List<Process> pcList = processService.getProcessList();
 
             JdAndProcessListDto jdAndProcessListDto = new JdAndProcessListDto();
             jdAndProcessListDto.setJd(jobDescriptionService.findByJobTitleContaining(title));
-//            jdAndProcessListDto.setProcess(processService.getProcessList());
 
             if(jdAndProcessListDto.getJd()!= null){
-                System.out.println("dd");
                 return new ResponseEntity<>(jdAndProcessListDto, HttpStatus.OK);
             } else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -131,8 +124,23 @@ public class ScheduleController {
         }catch (Exception e){
             return exceptionHandling(e);
         }
+    }
+    /**
+     * Kanban의 변동사항 업데이트
+     * List <{processid , step ( essay, test, interview  . .)} > 로 요청
+     *
+     * */
+    @PutMapping("/kanban")
+    public ResponseEntity<?> updateKanban(@RequestBody List<ProcessDto> processDto){
+        try {
+            processService.updateKanban(processDto);
+        }catch (Exception e){
+            return new ResponseEntity<Void>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
+
 
     @GetMapping("/calendar/{jdid}")
     public ResponseEntity<?> viewJD(@PathVariable Long jdid){
@@ -159,7 +167,7 @@ public class ScheduleController {
         try {
             Process pc = processService.insertProcess(dto);
             if(pc != null){
-                return new ResponseEntity<>(pc.getId().toString(), HttpStatus.OK);
+                return new ResponseEntity<>(pc.getId(), HttpStatus.OK);
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }

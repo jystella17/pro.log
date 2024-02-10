@@ -22,7 +22,7 @@ public class QnaService {
     private final QnaRepository qnaRepository;
     private final ProcessRepository processRepository;
 
-    public String insertQnA(QnaDto dto, ObjectId oid,String step,int index){
+    public String insertQnA(QnaDto dto, String oid,String step,int index){
         Qna qna = Qna.builder()
                 .question(dto.getQuestion())
                 .answer(dto.getAnswer())
@@ -64,5 +64,11 @@ public class QnaService {
         }
 
         return 1;
+    }
+
+    public List<QnaDto> searchQnaByKeyword(String keyword){
+        Query query = new Query(Criteria.where("question").regex(keyword));
+        List<QnaDto> qnaDtos = qnaRepository.find(query,"qna");
+        return qnaDtos;
     }
 }
