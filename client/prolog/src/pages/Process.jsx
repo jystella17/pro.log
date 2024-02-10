@@ -26,19 +26,6 @@ function Process() {
         <ProcessHeader />
         <Steps />
         <Content>
-          {/* <Header>
-            <Checkbox />
-            <RangeDatePicker />
-          </Header> */}
-          {/* <Routes>
-            <Route path="/process/*" element={<Process />}>
-              <Route path="ct" component={<CT />} />
-                <Route path="paper" component={<Paper />} />
-                <Route path="interview" component={<Interview />} />
-                <Route path="/memo" component={Memo} />
-            </Route>
-          </Routes> */}
-          <PaperBody />
           </Content>
       </div>
 

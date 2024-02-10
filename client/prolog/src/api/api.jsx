@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const BASEAPI = "https://prolog.com"
+const BASEAPI = "http://localhost:8080/"
 
 const api = {
   user: `${BASEAPI}/user/`,
-  jd: `${BASEAPI}/jd/`,
+  jd: `${BASEAPI}/schedule/calendar/`,
   process: `${BASEAPI}/process/`,
   qna: `${BASEAPI}/vo/`,
 };
@@ -14,16 +14,17 @@ const api = {
 //   return axios.get(api.jobs);
 // }
 
+// (예시) 참고하려고 남겨둠
 // function fetchUser(id) {
 //   const url = `${api.user}${id}.json`;
 //   return axios.get(url);
 // }
 
-// const fetchJD = async (id) => {
-//   const url = `${api.jd}${id}`
-//   return axios.get(url);
+// function fetchJD(year, month) {
+//   const url = `${api.jd}${year}/${month}`
+//   return axios.get(url)
+// }
 
-// };
 
 // function fetchProcess() {
 //   return axios.get(api.process);
