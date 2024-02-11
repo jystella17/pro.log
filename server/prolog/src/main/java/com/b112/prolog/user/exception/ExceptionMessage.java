@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ExceptionMessage {
     USER_NOT_FOUND("User Not Found"),
     NOT_AUTHENTICATED("Not Authenticated"),
+    LOGOUT_FAILED("Logout Failed"),
     ACCESS_TOKEN_EXPIRED("Access Token Expired"),
     REFRESH_TOKEN_EXPIRED("Refresh Token Expired");
 
