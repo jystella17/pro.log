@@ -33,7 +33,6 @@ public class RedisSubscriber implements MessageListener {
             int idx = publish.indexOf("{");
             publish = publish.substring(idx);
 
-            System.out.println(publish);
             PubMessageDTO pubMsg = objectMapper.readValue(publish, PubMessageDTO.class);
             SubMessageDTO subMsg = objectMapper.readValue(publish, SubMessageDTO.class);
 

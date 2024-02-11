@@ -32,7 +32,6 @@ public class ChattingServiceTest {
         String company = chatService.enterChatRoom(roomReq);
 
         Assertions.assertThat(company).isEqualTo("라인");
-        System.out.println("TEST: " + company);
     }
 
     @Test
