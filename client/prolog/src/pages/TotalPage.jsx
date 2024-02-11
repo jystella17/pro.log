@@ -11,6 +11,7 @@ import Headbar from "../components/sidebar/Headbar";
 import Process from "./Process"
 import CT from "../components/templates/ct/CT"
 import Login from "./Login";
+import WebRtc from "./WebRtc";
 
 const AppContainer = styled.div`
   width: 1519px;
@@ -41,6 +42,7 @@ export default function Result() {
               <Route path="/chatting" element={<Chatting />} />
               <Route path="/login" element={<Login />} />
               <Route path="/process" element={<Process />} />
+              <Route path="/webrtc" element={<WebRtc />} />
             </Routes>
           </TotalPageContent>
       </AppContainer>
