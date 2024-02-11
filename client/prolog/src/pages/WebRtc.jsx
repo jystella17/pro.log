@@ -4,10 +4,10 @@ import axios from 'axios';
 import UserVideoComponent from '../components/webrtc/UserVideoComponent'
 import './WebRtc.css'
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? 'http://localhost:5000/' : 'https://demos.openvidu.io/';
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? 'http://localhost:5000/' : 'http://localhost:5000/';
 
 const WebRtc = () => {
-    const [mySessionId, setMySessionId] = useState('SessionProlog');
+    const [mySessionId, setMySessionId] = useState('Prolog');
     const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
     const [session, setSession] = useState(undefined);
     const [mainStreamManager, setMainStreamManager] = useState(undefined);
@@ -92,7 +92,7 @@ const WebRtc = () => {
 
         setSession(undefined);
         setSubscribers([]);
-        setMySessionId('SessionProlog');
+        setMySessionId('Prolog');
         setMyUserName('Participant' + Math.floor(Math.random() * 100));
         setMainStreamManager(undefined);
         setPublisher(undefined);
