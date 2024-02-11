@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ import static com.b112.prolog.user.jwt.TokenProvider.*;
 
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @RestController
 public class UserController {
 
@@ -25,11 +26,14 @@ public class UserController {
     private final RefreshTokenService refreshTokenService; // 리프레시 토큰 저장, 삭제 등을 처리
     private final TokenProvider tokenProvider; // 토큰 생성, 유효성 검사 등을 처리
 
-    // TODO: 로그아웃 구현
-
-    @GetMapping("/info")
-    public ResponseEntity<?> info() {
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile() {
         return ResponseEntity.ok().body(userService.findCurrentUser());
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<?> editProfile() {
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/token/refresh")
@@ -41,9 +45,8 @@ public class UserController {
         String accessToken = tokenProvider.createAccessToken();
         String refreshToken = tokenProvider.createRefreshToken();
 
-        // TODO: log 지우기
-        log.info(ACCESS_TOKEN_NAME + ": " + accessToken);
-        log.info(REFRESH_TOKEN_NAME + ": " + refreshToken);
+        log.info("New Access Token: " + accessToken);
+        log.info("New Refresh Token: " + refreshToken);
 
         // Transaction 처리를 위해서 하나의 메서드로 처리
         refreshTokenService.reissueCurrentUserRefreshToken(refreshToken);
@@ -51,10 +54,11 @@ public class UserController {
         CookieUtils.setCookie(response, ACCESS_TOKEN_NAME, accessToken, ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS);
         CookieUtils.setCookie(response, REFRESH_TOKEN_NAME, refreshToken, REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS);
 
-        // TODO: Cookie가 응답에 포함되는데 브라우저에서 못읽는 이유 해결 
         return ResponseEntity.ok().build();
-//                .header(HttpHeaders.SET_COOKIE, ACCESS_TOKEN_NAME + "=" + accessToken)
-//                .header(HttpHeaders.SET_COOKIE, REFRESH_TOKEN_NAME + "=" + refreshToken)
-//                .build();
+    }
+
+    @GetMapping("/cover-letter")
+    public ResponseEntity<?> getEssays() {
+        return ResponseEntity.ok().build();
     }
 }
