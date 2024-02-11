@@ -1,7 +1,7 @@
 package com.b112.prolog.chat.subscriber;
 
+import com.b112.prolog.chat.dto.PubMessageDTO;
 import com.b112.prolog.chat.dto.SubMessageDTO;
-import com.b112.prolog.chat.entity.Chatting;
 import com.b112.prolog.chat.exception.PubNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -9,13 +9,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.stereotype.Service;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.stereotype.Service;
-
-import java.util.Random;
 
 @Slf4j
 @Service
@@ -29,15 +27,17 @@ public class RedisSubscriber implements MessageListener {
     @Override
     public void onMessage(@NonNull Message message, byte[] pattern) {
         try {
-            String publish = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-            Chatting pubMsg = objectMapper.readValue(publish, Chatting.class);
+            String publish = redisTemplate.getStringSerializer().deserialize(message.getBody());
 
-            // User Repository 연결 후 삭제
-            Random random = new Random();
-            String randInt = random.toString();
+            assert publish != null;
+            int idx = publish.indexOf("{");
+            publish = publish.substring(idx);
 
-            SubMessageDTO subMsg = new SubMessageDTO("사용자" + randInt , pubMsg.getMessage(), pubMsg.getCreatedAt());
-            sendingOperations.convertAndSend("/chat/sub/" + pubMsg.getRoomId(), subMsg);
+            System.out.println(publish);
+            PubMessageDTO pubMsg = objectMapper.readValue(publish, PubMessageDTO.class);
+            SubMessageDTO subMsg = objectMapper.readValue(publish, SubMessageDTO.class);
+
+            sendingOperations.convertAndSend("/sub/chat/room/" + pubMsg.getRoomId(), subMsg);
         } catch (Exception e) {
             throw new PubNotFoundException(e.getMessage());
         }
