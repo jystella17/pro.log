@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 import styled from 'styled-components'
-import InputBox from "../../../common/components/InputBox"
 import './CalendarFilter.scss'
 
 const FilterBox = styled.div`

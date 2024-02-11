@@ -1,7 +1,7 @@
 import { Router, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 
-import ProcessHeader from "../components/process/header/ProcessHeader";
+import NoProcessHeader from "../components/process/header/NoProcessHeader";
 import Steps from "../components/process/steps/Steps"
 // import AddTemplates from "../components/process/body/AddTemplate";
 import PaperBody from "../components/process/body/PaperBody"
@@ -20,10 +20,10 @@ const Header = styled.div`
   gap: 10px;
 `
 
-function Process() {
+function NoProcess() {
   return (
       <div className="process">
-        <ProcessHeader />
+        <NoProcessHeader />
         <Steps />
         <Content>
           </Content>
@@ -32,4 +32,4 @@ function Process() {
   );
 }
 
-export default Process
+export default NoProcess
