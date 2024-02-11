@@ -124,7 +124,8 @@ public class ProcessService {
         for(ProcessDto pdto: processDtos){
             Query q = new Query(Criteria.where("_id").is(pdto.getId()));
             Update u = new Update();
-            u.addToSet("step",pdto.getStep());
+            u.set("step",pdto.getStep());
+            processRepository.upsertProcess(q,u,"process");
         }
     }
 
