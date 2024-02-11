@@ -28,6 +28,7 @@ out/
 application.properties
 application-prod.properties
 application.yml
+!**/src/main/**/config/WebConfig.java
 
 ### NetBeans ###
 /nbproject/private/
