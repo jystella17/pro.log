@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const BASEAPI = "http://localhost:8080/"
+const BASEAPI = "http://localhost:8080"
 
 const api = {
   user: `${BASEAPI}/user/`,
   jd: `${BASEAPI}/schedule/calendar/`,
   process: `${BASEAPI}/process/`,
-  qna: `${BASEAPI}/vo/`,
+  qna: `${BASEAPI}/qna/search/${keyword}`,
 };
 
 

@@ -78,37 +78,29 @@ function JDContent({ selectedJdId }) {
     },]
   }
 
-  
   const navigate = useNavigate()
   function navigateToProcess() {
-    navigate('/process')
+    navigate(`/process/${selectedJdId}`)
   }
 
+  const selectedJD = JD.jd.find(jd => jd.jdId === selectedJdId)
 
   return (
     <div className="jd-data">
       <div className="jd-title">
-        <div className="company-name">{JD.jd.company.companyName}</div>
-        <div className="job-title">상반기 공채</div>
-        {/* <div className="deadline">
-          <CiCalendar />
-          <div>{JDList.openingDate} ~ {JDList.expirationDate}</div>
-        </div> */}
+        <div className="jd-company-name">{selectedJD.company.companyName}</div>
+        <div className="jd-job-title">{selectedJD.jobTitle}</div>
         <div className="jd-deadline">
           <CiCalendar />
-          <div>2024.01.16 ~ 2024.01.29</div>
+          <div>{selectedJD.openingDate} ~ {selectedJD.expirationDate}</div>
         </div>
-        <div className="jd-deadline">
-          <div>IT-개발</div>
+        <div className="job-mid-code">
+          <div>{selectedJD.jobMidCode}</div>
         </div>
-        {/* <div className="job-mid-code">
-          <div>{JDData.jobmidcode}</div>
-        </div> */}
       </div>
 
       <div className="buttons">
-        <Button className={'navy'}>{'홈페이지 바로가기'}</Button>
-        {/* <a href={JDList.Link}><Button className={'navy'}>{'홈페이지 바로가기'}</Button></a> */}
+        <a href={selectedJD.link}><Button className={'navy'}>{'홈페이지 바로가기'}</Button></a>
         <Button className={'navy'} onClick={navigateToProcess}>{'프로세스 시작하기'}</Button>
       </div>
 
@@ -117,7 +109,7 @@ function JDContent({ selectedJdId }) {
 }
 
 
-export default function JD({modalOpen, setModalOpen, selectedJdId}) {
+export default function JD({ openJDModalHandler, selectedJdId, JDOpen, setJDOpen }) {
   // const params = useParams.id;
   // const [JDData, setJDData] = useRecoilState(JDState)
   // const JDList = useRecoilValue(getJD);
@@ -137,11 +129,13 @@ export default function JD({modalOpen, setModalOpen, selectedJdId}) {
   //     console.error(err.message)
   //   }})()
   // }, [])
+
+  
   
   return (
     <Modal
-      isOpen={modalOpen}
-      onRequestClose={() => setModalOpen(false)}
+      isOpen={JDOpen}
+      onRequestClose={() => setJDOpen(false)}
       style={customJDModal}
       contentLabel="JDPage"
     >
