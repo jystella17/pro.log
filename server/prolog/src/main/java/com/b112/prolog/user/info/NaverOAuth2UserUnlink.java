@@ -1,7 +1,9 @@
 package com.b112.prolog.user.info;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -41,10 +43,11 @@ public class NaverOAuth2UserUnlink implements OAuth2UserUnlink {
     }
 
     @Getter
-    @RequiredArgsConstructor
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class UnlinkResponse {
         @JsonProperty("access_token")
-        private final String accessToken;
-        private final String result;
+        private String accessToken;
+        private String result;
     }
 }

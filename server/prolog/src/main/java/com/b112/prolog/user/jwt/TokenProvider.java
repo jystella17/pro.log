@@ -140,6 +140,14 @@ public class TokenProvider {
         return null;
     }
 
+    public String getTokenType(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getOrDefault("type", ACCESS_TOKEN_NAME).toString();
+    }
 
     public Authentication getAuthentication(String token) {
         // TODO: 참고) JWT parser 코드
