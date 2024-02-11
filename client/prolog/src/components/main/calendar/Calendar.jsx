@@ -25,8 +25,7 @@ import { CiSquarePlus } from "react-icons/ci";
 function CalendarBody({
     Month,
     selectedDate,
-    openModalHandler,
-    openJDModalHandler,
+    openAddProcessHandler,
     searchTerm,
     dateType }) {
 
@@ -63,9 +62,9 @@ function CalendarBody({
                             format(Month, 'M') !== format(day, 'M') ? 'text not-valid' : 'text'}>
                             {formattedDate}    
                         </div>
-                        <CiSquarePlus className="plusButton" onClick={openModalHandler} />    
+                        <CiSquarePlus className="plusButton" onClick={openAddProcessHandler} />    
                     </div>
-                    <Recruit day={day} searchTerm={searchTerm} dateType={dateType} onClick={openJDModalHandler} />
+                    <Recruit day={day} searchTerm={searchTerm} dateType={dateType} />
                 </div>
             )
             day = addDays(day, 1) 
@@ -93,43 +92,36 @@ export default function Calendar() {
     const [selectedDate, setSelectedDate] = useState(new Date())
     
     // 모달 상태 관리
-    const [modalOpen, setModalOpen] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
+    const [isAddProcessOpen, setIsAddProcessOpen] = useState(false)
 
     // 공고 검색 상태 관리
     const [searchTerm, setSearchTerm] = useState('')
     const [dateType, setDateType] = useState('')
 
-
-    function openJDModalHandler(jdId) {
-        setModalOpen(!modalOpen)
-    }
-    function openModalHandler() {
-        setIsOpen(!isOpen)
+    function openAddProcessHandler() {
+        setIsAddProcessOpen(!isAddProcessOpen)
     }
 
     return (
         <div className="calendar">
-            {isOpen ?
-                <AddProcess openModalHandler={openModalHandler} /> :
-                <div>
-                    <CalendarFilter setSearchTerm={setSearchTerm} setDateType={setDateType} />
-                    <MainPageHeader Month={Month} setMonth={setMonth} />
-                    <div className="calendarBody">
-                        <Week />
-                        <CalendarBody
-                            Month={Month}
-                            selectedDate={selectedDate}
-                            openModalHandler={openModalHandler}
-                            openJDModalHandler={openJDModalHandler}
-                            searchTerm={searchTerm}
-                            dateType={dateType}
-                        />
-                    </div>
-                </div>} 
-            <button onClick={openJDModalHandler}>JD열기</button>
-            {/* <JD modalOpen={modalOpen} setModalOpen={setModalOpen} /> */}
-
+            <div>
+                <CalendarFilter setSearchTerm={setSearchTerm} setDateType={setDateType} />
+                <MainPageHeader Month={Month} setMonth={setMonth} />
+                <div className="calendarBody">
+                    <Week />
+                    <CalendarBody
+                        Month={Month}
+                        selectedDate={selectedDate}
+                        openAddProcessHandler={openAddProcessHandler}
+                        searchTerm={searchTerm}
+                        dateType={dateType}
+                    />
+                </div>
+            </div>
+            <AddProcess
+                openAddProcessHandler={openAddProcessHandler}
+                isAddProcessOpen={isAddProcessOpen}
+                setIsAddProcessOpen={setIsAddProcessOpen} />
         </div>
     )
 }

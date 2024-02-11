@@ -8,7 +8,8 @@ import Chatting from "./Chatting";
 import MainPage from "./MainPage";
 import Sidebar from "../components/sidebar/Sidebar";
 import Headbar from "../components/sidebar/Headbar";
-import Process from "./Process"
+import NoProcess from "./NoProcess"
+import YesProcess from "./YesProcess";
 import CT from "../components/templates/ct/CT"
 import Login from "./Login";
 import WebRtc from "./WebRtc";
@@ -41,7 +42,9 @@ export default function Result() {
               <Route path="/myinfo" element={<MyInfo />} />
               <Route path="/chatting" element={<Chatting />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/process" element={<Process />} />
+              <Route path="/process" element={<NoProcess />} />
+              <Route path="/process/:selectedJdId" element={<YesProcess />} />
+              <Route path="/process/:company" element={<NoProcess />} />
               <Route path="/webrtc" element={<WebRtc />} />
             </Routes>
           </TotalPageContent>

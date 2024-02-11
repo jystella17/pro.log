@@ -12,41 +12,110 @@ const Col = styled.div`
   display: flex;
   flex-direction: column;
   padding: 4%;
-  background-color: rgb(245, 245, 245);
-  border-radius: 5px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 5px 5px 5px -5px gray;
   gap: 15px;
 `
 
+function Header() {
+  return (
+    <Col>
+      <h2>'기업이름' 코딩테스트에 대비할 문제 유형을 기록해보세요.</h2>
+      <Tag />
+    </Col>
+  )
+}
+
 // 코테 문항 수 
-function Question({question, qnum, saveQNum}) {
+function Question({ question, qnum, setQNum }) {
+  
+  const handleQNumChange = (e) => {
+    const newValue = e.target.value;
+    // 입력값이 숫자인지 확인합니다.
+    if (!isNaN(newValue)) {
+      // 숫자이고 10보다 작거나 같은 경우에만 설정합니다.
+      if (newValue <= 10) {
+        setQNum(newValue);
+      } else {
+        // 10보다 큰 경우 10으로 설정합니다.
+        setQNum(10);
+      }
+    }
+  };
+
   return (
     <div className="q">
       <div>{question}</div>
-      <SmallInputBox width={'35px'} height={'35px'} size={'X-large'} value={qnum} onChange={saveQNum}/>
+      <SmallInputBox width={'35px'} height={'35px'} size={'X-large'} value={qnum} onChange={handleQNumChange}/>
     </div>
   )
 }
 
+function Body({ qnum, setQNum }) {
+
+  return (
+    <Col>
+      <h4>테스트가 끝났다면, 문제를 복기해 보세요.</h4>
+      <Question question={'몇 문제였나요?'} qnum={qnum} setQNum={setQNum} />
+      <div className="q">
+        <div>몇 문제 푸셨나요?</div>
+        <SmallInputBox width={'35px'} height={'35px'} size={'X-large'} />
+      </div>
+      <CTTable qnum={qnum} />
+    </Col>
+  )
+}
+
+
+function CTTableRow({ index, onDataChange }) {
+  const [cts, setCts] = useState([{id: 0, isSolve: false, algorithm:'', level:0, memo:''}])
+
+  const handleIsSolveChange = (e) => {
+    const newValue = e.target.checked;
+    setCts(prevData => ({ ...prevData, isSolve: newValue }));
+    onDataChange(index, { ...cts, isSolve: newValue });
+  };
+
+  const handleAlgorithmChange = (e) => {
+    const newValue = e.target.value;
+    setCts(prevData => ({ ...prevData, algorithm: newValue }));
+    onDataChange(index, { ...cts, algorithm: newValue });
+  };
+
+  const handleLevelChange = (value) => {
+    setCts(prevData => ({ ...prevData, level: value }));
+    onDataChange(index, { ...cts, level: value });
+  };
+
+  const handleMemoChange = (e) => {
+    const newValue = e.target.value;
+    setCts(prevData => ({ ...prevData, memo: newValue }));
+    onDataChange(index, { ...cts, memo: newValue });
+  };
+
+  return (
+    <tr>
+      <td><Checkbox checked={cts.isSolve} onChange={handleIsSolveChange} /></td>
+      <td><SmallInputBox width={'40px'} height={'23px'} size={'small'}  value={cts.algorithm} onChange={handleAlgorithmChange} /></td>
+      <td><Rate defaultValue={cts.level} onChange={handleLevelChange} /></td>
+      <td><InputBox width={'60px'} height={'30px'} size={'small'} value={cts.memo} onChange={handleMemoChange} /></td>
+    </tr>
+  )
+}
+
+
 
 // 코테 문항 정보 표
-function CTTable({qnum}) {
-  const [check, setCheck] = useState(0)
-  const onChange = () => {setCheck(1)}
+function CTTable({ qnum }) {
+  const [data, setData] = useState([])
+  
+  function handleDataChange(index, newData) {
+    const updatedData = [...data];
+    updatedData[index] = newData;
+    setData(updatedData);
+  };
 
-  function AddLines() {
-    const lines = []
-    for (let i = 0; i < qnum; i++) {
-      lines.push(
-        <tr key={i}>
-          <td><Checkbox onChange={onChange} /></td>
-          <td><SmallInputBox width={'40px'} height={'23px'} size={'small'} /></td>
-          <td><Rate allowHalf defaultValue={0} /></td>
-          <td><InputBox width={'60px'} height={'30px'} size={'small'} /></td>
-        </tr>
-      )
-    }
-    return lines
-  }
   return (
     <table>
       <thead>
@@ -58,41 +127,22 @@ function CTTable({qnum}) {
         </tr>
       </thead>
       <tbody>
-        {AddLines()}
+      {Array.from({ length: qnum }).map((_, index) => (
+          <CTTableRow key={index} index={index} onDataChange={handleDataChange} />
+        ))}
       </tbody>
     </table>
     )
-  }
-
-function Header() {
-  return (
-    <Col>
-      <h2>'기업이름' 코딩테스트에 대비할 문제 유형을 기록해보세요.</h2>
-      <Tag />
-    </Col>
-  )
-}
-
-function Body() {
-  const [qnum, setQNum] = useState(0)
-  const saveQNum = (e) => setQNum(e.target.value)
-
-  return (
-    <Col>
-      <h4>테스트가 끝났다면, 문제를 복기해 보세요.</h4>
-      <Question question={'몇 문제였나요?'} qnum={qnum} saveQNum={saveQNum} />
-      <Question question={'몇 문제 제출 하셨나요?'} />
-      <CTTable qnum={qnum} />
-    </Col>
-  )
 }
 
 
 export default function CT() {
+  const [qnum, setQNum] = useState('')
+
   return (
     <div className="ct">
       <Header />
-      <Body />
+      <Body qnum={qnum} setQNum={setQNum} />
     </div>
   )
 }

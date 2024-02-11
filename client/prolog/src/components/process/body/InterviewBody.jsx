@@ -10,8 +10,45 @@ import './Process.scss'
 export default function TypeTabs() {
   const [types, setTypes] = useState([])
   const [nextTabId, setNextTabId] = useState(1)
-  const [content, setContent] = useState(null)
+  const [templateType, setTemplateType] = useState(null)
   const [activeTab, setActiveTab] = useState(null)
+
+  const [qnas, setQnas] = useState()
+  const [cts, setCts] = useState()
+  const [interviews, setInterviews] = useState()
+  const [memos, setMemos] = useState()
+
+  function ContentRenderer({ templateType }) {
+    function handleQnasChange(data) {
+      setQnas(data)
+    }
+
+    function handleCtsChange(data) {
+      setCts(data)
+    }
+
+    function handleInterviewsChange(data) {
+      setInterviews(data)
+    }
+
+    function handleMemosChange(data) {
+      setMemos(data)
+    }
+
+    switch (templateType) {
+      case 0:
+        return <Assay handleQnasChange={handleQnasChange} />;
+      case 1:
+        return <CT handleCtsChange={handleCtsChange} />;
+      case 2:
+        return <Interview handleInterviewsChange={handleInterviewsChange} />;
+      case 3:
+        return <Memo handleMemosChange={handleMemosChange} />;
+      default:
+        return null;
+    }
+  }
+
 
   // 드롭다운 누를 때 각 다른 페이지 렌더링
   function handleDropdownChange(event) {
@@ -19,16 +56,12 @@ export default function TypeTabs() {
 
     if (selectedValue == 'assay') {
       addType('assay')
-      setContent(<Assay />)
     } else if (selectedValue == 'ct') {
       addType('ct')
-      setContent(<CT />)
     } else if (selectedValue == 'toggle') {
       addType('toggle')
-      setContent(<Interview />)
     } else if (selectedValue == 'memo') {
       addType('memo')
-      setContent(<Memo />)
     } else {
       setContent(null)
     }
@@ -36,50 +69,54 @@ export default function TypeTabs() {
 
   // 전형 추가
   function addType(template) {
-    if (template == 'assay') {
-      const newType = {
-        id: nextTabId,
-        title: '자기소개서',
-        content: <Assay />,
-        data: { id: 0, question: '', answer: '' }
-      }
-      setTypes([...types, newType])
-    } else if (template == 'ct') {
-      const newType = {
-        id: nextTabId,
-        title: '코딩테스트',
-        content: <CT />,
-        data: {
-          id: 0, questionNum: 0, solveNum: 0,
-          reCheck: { isSolve: 0, algorithm: '', level: 0, memo: '' }
-        }
-      }
-      setTypes([...types, newType])
-    } else if (template == 'toggle') {
-      const newType = {
-        id: nextTabId,
-        title: '면접 문항',
-        content: <Interview />,
-        data: { id: 0, toggle: true, question: '', answer: '', previous: true }
-      }
-      setTypes([...types, newType])
-    } else if (template == 'memo') {
-      const newType = {
-        id: nextTabId,
-        title: '빈 페이지',
-        content: <Memo />,
-        data: { id: 0, memo: '' }
-      }
-      setTypes([...types, newType])
+    let newType
+    switch (template) {
+      case 'assay':
+        newType = {
+          id: nextTabId,
+          templateType: 0,
+          title: '자기소개서',
+          data: qnas
+        };
+        break;
+      case 'ct':
+        newType = {
+          id: nextTabId,
+          templateType: 1,
+          title: '코딩테스트',
+          data: cts
+        };
+        break;
+      case 'toggle':
+        newType = {
+          id: nextTabId,
+          templateType: 2,
+          title: '면접 문항',
+          data: interviews
+        };
+        break;
+      case 'memo':
+        newType = {
+          id: nextTabId,
+          templateType: 3,
+          title: '빈 페이지',
+          data: memos
+        };
+        break;
+      default:
+        newType = null;
     }
-    setNextTabId(nextTabId + 1)
-    setActiveTab(nextTabId)
+    if (newType) {
+      setTypes([...types, newType])
+      setNextTabId(nextTabId + 1)
+      setActiveTab(nextTabId)
+      setTemplateType(newType.templateType)
+    }
   }
-
 
   function handleTabClick(tabId) {
     setActiveTab(tabId);
-    setContent(types.find(tab => tab.id === tabId).content);
+    setTemplateType(types.find(tab => tab.id === tabId).templateType);
   }
 
   
@@ -103,7 +140,7 @@ export default function TypeTabs() {
         </select>
       </div>
       <div className="tab-menu">
-        {content}
+        <ContentRenderer templateType={templateType}/>
       </div>
     </div>
   );
