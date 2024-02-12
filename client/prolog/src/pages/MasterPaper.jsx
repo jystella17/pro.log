@@ -3,7 +3,6 @@ import Header from "../components/masterPaper/Header";
 import QnA from "../components/masterPaper/QnA";
 
 const Container = styled.div`
-  width: 80vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +14,7 @@ const Container = styled.div`
 function MasterPaper() {
   return (
     <Container>
-      <Header></Header>
+      {/* <Header></Header> */}
       <QnA></QnA>
     </Container>
   );

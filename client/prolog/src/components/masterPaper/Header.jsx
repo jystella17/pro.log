@@ -28,7 +28,7 @@ function Header() {
       <div>
         <MasterTitle>마스터 자기소개서</MasterTitle>
         <Explain>마스터 자기소개서를 만들어서 여러 자기소개서에 사용해보세요!</Explain>
-      </div>{" "}
+      </div>
       <div>
         <Button className="navy" children="저장하기"></Button>
       </div>
