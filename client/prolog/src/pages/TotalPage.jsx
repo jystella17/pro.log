@@ -13,6 +13,7 @@ import YesProcess from "./YesProcess";
 import CT from "../components/templates/ct/CT"
 import Login from "./Login";
 import WebRtc from "./WebRtc";
+import Process from "../components/process/body/Process";
 
 const AppContainer = styled.div`
   width: 1519px;
@@ -46,6 +47,7 @@ export default function Result() {
               <Route path="/process/:selectedJdId" element={<YesProcess />} />
               <Route path="/process/:company" element={<NoProcess />} />
               <Route path="/webrtc" element={<WebRtc />} />
+              <Route path="/p" element={<Process />} />
             </Routes>
           </TotalPageContent>
       </AppContainer>
