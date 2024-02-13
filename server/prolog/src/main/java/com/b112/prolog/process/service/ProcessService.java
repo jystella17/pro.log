@@ -44,9 +44,6 @@ public class ProcessService {
         List<Template> interviewList = getQnaContents(process.getInterview());
 
         process.updateTemplates(essayList, testList, interviewList);
-        System.out.println("last line");
-        log.info(process.getEssay().toString() + " " + process.getTest().toString() + " " + process.getInterview().toString());
-
         return process;
     }
 
@@ -62,7 +59,8 @@ public class ProcessService {
                 .progress(dto.getProgress()).tag(dto.getTag()).start_date(dto.getStart_date())
                 .end_date(dto.getEnd_date()).essay(dto.getEssay()).test(dto.getTest())
                 .interview(dto.getInterview()).jd_id(dto.getJd_id()).build();
-        System.out.println(pcc);
+
+        log.info(pcc.getId() + " saved");
         return processRepository.save(pcc);
     }
 
@@ -83,6 +81,7 @@ public class ProcessService {
             Query q = new Query(Criteria.where("_id").is(pdto.getId()));
             Update u = new Update();
             u.set("step", pdto.getStep());
+
             processRepository.upsertProcess(q,u,"process");
         }
     }
@@ -103,8 +102,6 @@ public class ProcessService {
             return new ArrayList<>();
         }
 
-        System.out.println(templates.get(0) + " 받아옴??");
-
         for(Template t: templates) {
             if(t.getTemplate_type() == TemplateType.QNA.getCode()) {
                 List<QnaDto> qnaList = t.getContent();
@@ -120,7 +117,6 @@ public class ProcessService {
                 }
             }
         }
-        System.out.println(templates.get(0));
         return templates;
     }
 
