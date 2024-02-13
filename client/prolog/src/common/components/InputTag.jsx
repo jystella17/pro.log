@@ -67,6 +67,7 @@ border-radius: 10px;
 function Tag({ width, bgcolor }) {
     const processData = useRecoilValue(processDataState);
     // const initialTags = ['삼성', '가자']
+    // 이거 초기값 안받을거면 조건부 렌더링 해야함 
     const [tags, setTags] = useState(processData.tag)
 
     // 태그 삭제

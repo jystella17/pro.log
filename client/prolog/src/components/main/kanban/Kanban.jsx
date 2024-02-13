@@ -34,7 +34,8 @@ function Kanban() {
         
         // 데이터를 변환하여 state에 저장
         const cards = {};
-        const columns = {...initialColumns};
+        const columns = { ...initialColumns };
+        console.log(receivedData)
         
 
         receivedData.forEach((item, index) => {
