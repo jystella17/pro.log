@@ -4,7 +4,7 @@ import axios from 'axios';
 import UserVideoComponent from '../components/webrtc/UserVideoComponent'
 import './WebRtc.css'
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? 'http://localhost:5000/' : 'http://localhost:5000/';
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? 'https://i10b112.p.ssafy.io/webrtc/' : 'https://i10b112.p.ssafy.io/webrtc/';
 
 const WebRtc = () => {
     const [mySessionId, setMySessionId] = useState('Prolog'+Math.floor(Math.random() * 1000));
