@@ -4,9 +4,10 @@ import com.b112.prolog.user.exception.OAuth2AuthenticationPrepareException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class OAuth2UserUnlinkManager {
+
     private final KakaoOAuth2UserUnlink kakaoOAuth2UserUnlink;
     private final NaverOAuth2UserUnlink naverOAuth2UserUnlink;
 
@@ -19,6 +20,5 @@ public class OAuth2UserUnlinkManager {
             throw new OAuth2AuthenticationPrepareException(
                     "Unlink with " + provider.getRegistrationId() + " is not supported");
         }
-
     }
 }

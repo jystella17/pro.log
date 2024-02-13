@@ -41,13 +41,11 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true))
                 .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
-                        .authorizationEndpoint(authorization ->
-                                authorization
-                                        .baseUri("/api/oauth2/authorization")
-                                        .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
+                        .authorizationEndpoint(authorization -> authorization
+                                .baseUri("/api/oauth2/authorization")
+                                .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
                         .userInfoEndpoint(config -> config.userService(customOAuth2UserService))
-                        .redirectionEndpoint(redirectionEndpointConfig ->
-                                redirectionEndpointConfig.baseUri("/api/login/oauth2/code/*"))
+                        .redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig.baseUri("/api/login/oauth2/code/*"))
                         .successHandler(oAuth2AuthenticationSuccessHandler)
                         .failureHandler(oAuth2AuthenticationFailureHandler)
 
@@ -61,5 +59,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 }
