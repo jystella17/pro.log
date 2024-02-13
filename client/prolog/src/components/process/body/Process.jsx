@@ -19,13 +19,14 @@ gap: 10px;
 function Process() {
     const setProcessData = useSetRecoilState(processDataState);
     const params = useParams()
+    console.log(params,"pp")
 
     // JSON 데이터를 받아온 후 Recoil 상태 업데이트
     useEffect(() => {
-        axios.get('https://i10b112.p.ssafy.io/api/65c316564f44af490c064d54')
+        axios.get(`https://i10b112.p.ssafy.io/api/${params.pid}`)
             .then(response => {
                 setProcessData(response.data);
-                console.log(response.data)
+                console.log(response.data,"what is this")
             })
             .catch(error => {
                 console.error('Error fetching data:', error);

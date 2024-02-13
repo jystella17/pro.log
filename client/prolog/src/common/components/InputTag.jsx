@@ -1,6 +1,9 @@
 import { useState } from "react";
 import styled from 'styled-components';
 
+import { useRecoilValue } from "recoil";
+import { processDataState } from "../../state/atoms";
+
 const TagsInput = styled.div`
 display: flex;
 align-items: center;
@@ -61,9 +64,10 @@ border-radius: 10px;
 }
 `
 
-function Tag({width, bgcolor}) {
-    const initialTags = ['삼성', '가자']
-    const [tags, setTags] = useState(initialTags)
+function Tag({ width, bgcolor }) {
+    const processData = useRecoilValue(processDataState);
+    // const initialTags = ['삼성', '가자']
+    const [tags, setTags] = useState(processData.tag)
 
     // 태그 삭제
     function removeTags(indexToRemove) {

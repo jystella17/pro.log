@@ -47,7 +47,7 @@ export default function Result() {
               <Route path="/process/:selectedJdId" element={<YesProcess />} />
               <Route path="/process/:company" element={<NoProcess />} />
               <Route path="/webrtc" element={<WebRtc />} />
-              <Route path="/p" element={<Process />} />
+              <Route path="/p/:pid" element={<Process />} />
             </Routes>
           </TotalPageContent>
       </AppContainer>
