@@ -1,22 +1,34 @@
-// 질문 답변 컴포넌트(질문, 답변-실시간 글자수)
-
-// 질문 답변 추가 버튼
-// 기능
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoClose, IoAddCircle, IoAddCircleOutline } from "react-icons/io5";
 import "./QnA.scss";
 import { Flex, Input, ConfigProvider } from "antd";
-
-// qna 컴포넌트에 맞춰서 높이를 변화시키고 싶은데 안됨
-// 사이드바 길이또한..
+import Button from "../../common/components/Button";
+import axios from "axios";
 
 const ContainerAll = styled.div`
   padding: 70px 100px 30px 100px;
-  width: 60vw;
-  /* height: 100vh; */
+  width: 85%;
   background-color: #7c93c326;
   border-radius: 10px;
+`;
+
+const Container = styled.div`
+  padding: 70px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
+`;
+
+const MasterTitle = styled.div`
+  font-size: xx-large;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const Explain = styled.div`
+  color: gray;
 `;
 
 // 실시간 글자수 적용 textarea
@@ -87,6 +99,21 @@ function QnAComponent({
 function QnAContainer() {
   const [qnas, setQnAs] = useState([{ id: 0, question: "", answer: "" }]);
 
+  // QnA get
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get("https://i10b112.p.ssafy.io/api/cover-letter");
+  //       setQnAs(response.data);
+  //       console.log("마스터자소서 불러오기 성공", response.data);
+  //     } catch (error) {
+  //       console.error("마스터자소서 불러오기 실패", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   // QnA 컴포넌트 추가 함수
   function AddQnA() {
     const newId = qnas.length > 0 ? Math.max(...qnas.map((q) => q.id)) + 1 : 1;
@@ -112,8 +139,17 @@ function QnAContainer() {
 
   return (
     <>
+      <Container>
+        <div>
+          <MasterTitle>마스터 자기소개서</MasterTitle>
+          <Explain>마스터 자기소개서를 만들어서 여러 자기소개서에 사용해보세요!</Explain>
+        </div>
+        <div>
+          {/* <Button className="navy" children="저장하기" onClick={saveQnALocal}></Button> */}
+        </div>
+      </Container>
       <ContainerAll>
-        <div className="content">
+        <div className="qnas-button">
           <div className="qnas">
             {/* react에서 list의 각 항목을 렌더링 할 때는, 각 항목에 고유한 key prop이 있어야함 */}
             {qnas.map((q, index) => (

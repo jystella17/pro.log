@@ -4,18 +4,20 @@
   text-decoration: none;
 }
 
+.logo {
+  fill: white;
+}
+
 .link {
   display: flex;
   justify-content: space-between;
   padding: 10px;
   gap: 10px;
   transition: all 0.5s;
-  margin: 8px 3px;
-  color: black;
+  margin: 8px 0;
 }
 .link:hover {
-  background-color: rgb(245, 242, 242);
-  color: black;
+  background-color: #8988db61;
   transition: all 0.5s;
   border-radius: 10px;
 }
@@ -23,19 +25,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: black;
   padding: 10px;
   gap: 10px;
   transition: all 0.5s;
   border-radius: 10px;
-  margin: 8px 3px;
-  background-color: rgb(245, 242, 242);
+  margin: 8px 0;
+  background-color: #8988db61;
 }
 
 .icon_name {
   display: flex;
   align-items: center;
   gap: 10px;
+  color: white;
 }
 
 /* .dropdown_link {

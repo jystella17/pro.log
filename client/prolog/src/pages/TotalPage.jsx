@@ -2,31 +2,28 @@ import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import MasterPaper from "./MasterPaper";
+import MyMaster from "./MyMaster";
 import MyInfo from "./MyInfo";
 import Chatting from "./Chatting";
 import MainPage from "./MainPage";
 import Sidebar from "../components/sidebar/Sidebar";
 import Headbar from "../components/sidebar/Headbar";
+import NoProcess from "./NoProcess";
+import YesProcess from "./YesProcess";
+import CT from "../components/templates/ct/CT";
 import Login from "./Login";
+import WebRtc from "./WebRtc";
 
 const AppContainer = styled.div`
-  display: flex;
-  width: 100vw;
+  width: 1519px;
+  height: 737px;
 `;
 
-const MainContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding-left: 261px;
+const TotalPageContent = styled.div`
+  // width: 1536px;
+  // height: 737px;
   padding-top: 60px;
-`;
-const TotalPage = styled.div`
-  display: inline-block;
-`;
-
-const Content = styled.div`
-  flex: 1;
+  padding-left: 246px;
 `;
 
 export default function Result() {
@@ -34,19 +31,21 @@ export default function Result() {
     <BrowserRouter>
       <AppContainer>
         <Sidebar />
-        <MainContent>
-          <Headbar />
-          <Content>
-            <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/masterpaper" element={<MasterPaper />} />
-              <Route path="/chatting" element={<Chatting />} />
-              <Route path="/myinfo" element={<MyInfo />} />
-              <Route path="/login" element={<Login />} />
-            </Routes>
-          </Content>
-        </MainContent>
+        <Headbar />
+        <TotalPageContent>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/masterpaper" element={<MasterPaper />} />
+            <Route path="/myinfo" element={<MyInfo />} />
+            <Route path="/chatting" element={<WebRtc />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/process" element={<NoProcess />} />
+            <Route path="/process/:selectedJdId" element={<YesProcess />} />
+            <Route path="/process/:company" element={<NoProcess />} />
+            <Route path="/webrtc" element={<WebRtc />} />
+          </Routes>
+        </TotalPageContent>
       </AppContainer>
     </BrowserRouter>
   );
