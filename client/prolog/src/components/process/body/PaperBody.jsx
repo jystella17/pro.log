@@ -5,7 +5,12 @@ import CT from '../../templates/ct/CT'
 import Interview from '../../templates/interview/Interview'
 import Memo from '../../templates/memo/Memo'
 
+import SearchMaster from "../../masterPaper/SearchMaster";
+import Button from '../../../common/components/Button'
+
+
 import './Process.scss'
+
 
 export default function TypeTabs() {
   const [types, setTypes] = useState([])
@@ -119,6 +124,12 @@ export default function TypeTabs() {
     setTemplateType(types.find(tab => tab.id === tabId).templateType);
   }
 
+  // 마스터 자소서 불러오기 모달창 상태 관리
+  const [isMasterOpen, setIsMasterOpen] = useState(false)
+  const openMasterModal = () => {
+    setIsMasterOpen(!isMasterOpen)
+  }
+
   
   return (
     <div className="paper-body">
@@ -138,10 +149,12 @@ export default function TypeTabs() {
           <option value="toggle">면접 문항</option>
           <option value="memo">빈 페이지</option>
         </select>
+        <Button className={'navy'} width={'100px'} height={'40px'} onClick={openMasterModal}>{'불러오기'}</Button>
       </div>
       <div className="tab-menu">
         <ContentRenderer templateType={templateType}/>
       </div>
+      <SearchMaster isMasterOpen={isMasterOpen} setIsMasterOpen={setIsMasterOpen} openMasterModal={openMasterModal} />
     </div>
   );
 };

@@ -43,7 +43,7 @@ export default function Result() {
               <Route path="/chatting" element={<Chatting />} />
               <Route path="/login" element={<Login />} />
               <Route path="/process" element={<NoProcess />} />
-              <Route path="/process/:selectedJdId" element={<YesProcess />} />
+              <Route path="/process/:selectedJdId(\d+)" element={<YesProcess />} />
               <Route path="/process/:company" element={<NoProcess />} />
               <Route path="/webrtc" element={<WebRtc />} />
             </Routes>

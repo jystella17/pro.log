@@ -62,12 +62,12 @@ function SaveButton() {
 
 export default function ProcessHeader() {
     const params = useParams()
-    const addCompany = params.company
+    const addProcessData = params.data
     
     return (
         <div className='totalBox'>
             <div className='box1'>
-            <CompanyName company={addCompany} />
+            <CompanyName company={addProcessData} />
                 <InputTag backgroundcolor={'white'}/>
             </div>
             <div className="box2">
