@@ -6,9 +6,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
-
-@RequiredArgsConstructor
 @Getter
+@RequiredArgsConstructor
 public class DefaultOAuth2UserInfo implements OAuth2UserInfo {
 
     private final OAuth2Provider provider = OAuth2Provider.DEFAULT;

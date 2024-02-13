@@ -1,8 +1,6 @@
 package com.b112.prolog.user.info;
 
-
 import com.b112.prolog.user.exception.OAuth2AuthenticationPrepareException;
-
 import java.util.Map;
 
 public class OAuth2UserInfoFactory {

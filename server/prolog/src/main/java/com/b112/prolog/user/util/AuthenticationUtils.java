@@ -6,7 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
-
 public class AuthenticationUtils {
     public static String getCurrentUserId() {
         return Optional.ofNullable(
@@ -18,5 +17,4 @@ public class AuthenticationUtils {
                 .orElseThrow(NotAuthenticatedException::new);
 
     }
-
 }

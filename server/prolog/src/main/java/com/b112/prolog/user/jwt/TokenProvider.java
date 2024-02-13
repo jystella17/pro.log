@@ -5,14 +5,17 @@ import com.b112.prolog.user.info.DefaultOAuth2UserInfo;
 import com.b112.prolog.user.info.OAuth2Provider;
 import com.b112.prolog.user.info.OAuth2UserPrincipal;
 import com.b112.prolog.user.util.AuthenticationUtils;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -25,10 +28,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
-
 @Slf4j
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class TokenProvider {
 
     public static final String ACCESS_TOKEN_NAME = "access_token";
@@ -77,7 +79,6 @@ public class TokenProvider {
 
         return false;
     }
-
 
     public String createAccessToken() {
         return this.createAccessToken(AuthenticationUtils.getCurrentUserId());
@@ -160,5 +161,4 @@ public class TokenProvider {
         OAuth2User user = new OAuth2UserPrincipal(new DefaultOAuth2UserInfo(claims.getSubject()));
         return new OAuth2AuthenticationToken(user, Collections.emptyList(), OAuth2Provider.DEFAULT.getRegistrationId());
     }
-
 }

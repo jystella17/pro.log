@@ -1,18 +1,18 @@
 package com.b112.prolog.user.jwt;
 
-import com.b112.prolog.user.service.RefreshTokenService;
 import com.b112.prolog.user.util.CookieUtils;
+import com.b112.prolog.user.service.RefreshTokenService;
+import static com.b112.prolog.user.jwt.TokenProvider.*;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
-
-import static com.b112.prolog.user.jwt.TokenProvider.*;
 
 @Slf4j
 @RequiredArgsConstructor
