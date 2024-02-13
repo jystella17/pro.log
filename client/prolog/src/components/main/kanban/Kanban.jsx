@@ -1,18 +1,75 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import initialData from "./initial-data";
 import Column from "./Column";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
 `;
 
 function Kanban() {
-  const [state, setState] = useState(initialData);
+  // const [state, setState] = useState(initialData);
+  const [state, setState] = useState();
+  const [data, setData] = useState();
+  useEffect(() => {
 
+    const initialColumns = {
+      fail: { id: 'fail', title: 'Fail', cardIds: [] },
+      interview: { id: 'interview', title: 'Interview', cardIds: [] },
+      paper: { id: 'paper', title: 'Paper', cardIds: [] },
+      pass: { id: 'pass', title: 'Pass', cardIds: [] },
+      result: { id: 'result', title: 'Result', cardIds: [] },
+      test: { id: 'test', title: 'Test', cardIds: [] }
+    };
+
+    // 컴포넌트가 마운트될 때 API 호출
+    axios.get("https://i10b112.p.ssafy.io/api/process")
+      .then(response => {
+        const receivedData = response.data;
+        
+        // 데이터를 변환하여 state에 저장
+        const cards = {};
+        const columns = {...initialColumns};
+        
+
+        receivedData.forEach((item, index) => {
+          const cardKey = item.id;
+          const columnKey = item.step;
+          cards[cardKey] = {
+            id: cardKey,
+            company: item.company,
+            step: item.step
+          };
+
+          columns[columnKey].cardIds.push(cardKey);
+          
+        });
+      
+        
+        setState({
+          cards: cards,
+          columns: columns,
+          columnOrder: ["paper","test","interview","result"]
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+    
+      
+  }, []);
+
+  
+  useEffect(() => {
+    if (state) {
+      console.log(state, "State");
+    }
+  }, [state]);
+  
   function onDragEnd(result) {
-    console.log(result);
+    // console.log(result);
     // 시작위치 source, 끝 위치 destination, 드래그카드의 고유 식별자draggableId
     const { destination, source, draggableId } = result;
 
@@ -86,37 +143,65 @@ function Kanban() {
       },
     };
 
+    const updatedCard = {
+      ...state.cards[draggableId],
+      step: newFinish.id, // Assuming the id of the column represents the step
+    };
+  
+    // Update the card in the state
+    const updatedState = {
+      ...newState,
+      cards: {
+        ...newState.cards,
+        [draggableId]: updatedCard,
+      },
+    };
+
+
     // 새로운 상태로 업데이트 (리액트에게 컴포넌트를 리렌더링하라고 알림)
-    setState(newState);
+    setState(updatedState);
+
+    axios.put(`https://i10b112.p.ssafy.io/api/schedule/kanban`, [{id:draggableId, step: newFinish.id }])
+    .then(response => {
+      console.log("Card step updated successfully:", response.data);
+    })
+    .catch(error => {
+      console.error("Error updating card step:", error);
+    });
+
   }
+
   return (
     <div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Container>
-          {state.columnOrder.map((columnId) => {
-            const column = state.columns[columnId];
+      {state &&
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Container>
+            {state.columnOrder.map((columnId) => {
+              const column = state.columns[columnId];
+            
 
-            // result 컬럼의 카드를 인식하기 위해 분기(pass, fail)
-            if (column.id === "result") {
-              const passcards = state.columns.pass.cardIds.map((cardId) => state.cards[cardId]);
-              const failcards = state.columns.fail.cardIds.map((cardId) => state.cards[cardId]);
-              return (
-                <Column
-                  state={state}
-                  key={column.id}
-                  column={column}
-                  cards={[passcards, failcards]}
-                />
-              );
-            } else {
-              // 단계 컬럼의 카드
-              const cards = column.cardIds.map((cardId) => state.cards[cardId]);
-              return <Column key={column.id} state={state} column={column} cards={cards} />;
-            }
-          })}
-        </Container>
-      </DragDropContext>
-    </div>
+              // result 컬럼의 카드를 인식하기 위해 분기(pass, fail)
+              if (column.id !== undefined && column.id === "result") {
+                const passcards = state.columns.pass.cardIds.map((cardId) => state.cards[cardId]);
+                const failcards = state.columns.fail.cardIds.map((cardId) => state.cards[cardId]);
+                return (
+                  <Column
+                    state={state}
+                    key={column.id}
+                    column={column}
+                    cards={[passcards, failcards]}
+                  />
+                );
+              } else {
+                // 단계 컬럼의 카드
+                const cards = column.cardIds.map((cardId) => state.cards[cardId]);
+                return <Column key={column.id} state={state} column={column} cards={cards} />;
+              }
+            })}
+          </Container>
+        </DragDropContext>
+      }
+  </div>
   );
 }
 

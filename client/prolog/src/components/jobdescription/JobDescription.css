@@ -1,0 +1,33 @@
+.jd-data {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  justify-content: space-between;
+}
+
+.jd-title {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.company-name {
+  font-size: xx-large;
+  font-weight: 600;
+}
+
+.job-title {
+  font-size: large;
+}
+
+.jd-deadline {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

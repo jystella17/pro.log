@@ -1,16 +1,18 @@
 package com.b112.prolog.process.entity;
 
 import jakarta.persistence.Column;
-import lombok.Builder;
-import lombok.Data;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
 @Getter
 @Document(collection = "qna")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Qna {
+
     @Id
     private String id;
     @Column(unique = true)
@@ -21,8 +23,7 @@ public class Qna {
     private String start_date;
 
     @Builder
-    public Qna(String id, String question, String answer, String company, String start_date) {
-        this.id = id;
+    public Qna(String question, String answer, String company, String start_date) {
         this.question = question;
         this.answer = answer;
         this.company = company;

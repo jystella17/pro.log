@@ -4,7 +4,7 @@ import './Steps.scss'
 
 function Types({ active }) {
 
-  const [subTabs, setSubTabs] = useState(['자기소개서', '서브 탭 2']);
+  const [subTabs, setSubTabs] = useState(['자기소개서']);
 
   const addSubTab = () => {
     const newSubTabs = [...subTabs, `New Tab ${subTabs.length + 1}`];

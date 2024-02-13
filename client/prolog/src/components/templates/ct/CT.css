@@ -1,7 +1,6 @@
 .ct {
   display: flex;
   flex-direction: column;
-  background-color: rgb(54, 48, 98);
   padding: 5%;
   gap: 20px;
   width: 100%;
@@ -18,8 +17,4 @@
 
 tr {
   text-align: center;
-}
-
-.ant-checkbox-inner {
-  background-color: pink;
 }
