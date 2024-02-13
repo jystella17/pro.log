@@ -60,7 +60,6 @@ public class ProcessService {
                 .end_date(dto.getEnd_date()).essay(dto.getEssay()).test(dto.getTest())
                 .interview(dto.getInterview()).jd_id(dto.getJd_id()).build();
 
-        log.info(pcc.getId() + " saved");
         return processRepository.save(pcc);
     }
 
