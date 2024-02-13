@@ -20,7 +20,7 @@ public class QnaService {
     private final QnaRepository qnaRepository;
     private final ProcessRepository processRepository;
 
-    public String insertQnA(QnaDto dto, String oid,String step,int index){
+    public String insertQnA(QnaDto dto, String oid, String step, int index){
         Qna qna = qnaRepository.save(Qna.builder().question(dto.getQuestion()).answer(dto.getAnswer())
                     .company(dto.getCompany()).start_date(dto.getStart_date()).build());
 
