@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
+import org.bson.assertions.Assertions;
 import org.springframework.stereotype.Service;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -38,18 +39,11 @@ public class ProcessService {
     public Process getProcess(String oid) {
         Process process = processRepository.findById(oid).orElseThrow();
 
-        List<Template> essayList = process.getEssay();
-        essayList = getQnaContents(essayList);
-
-        List<Template> testList = process.getTest();
-        testList = getQnaContents(testList);
-
-        List<Template> interviewList = process.getInterview();
-        interviewList = getQnaContents(interviewList);
+        List<Template> essayList = getQnaContents(process.getEssay());
+        List<Template> testList = getQnaContents(process.getTest());
+        List<Template> interviewList = getQnaContents(process.getInterview());
 
         process.updateTemplates(essayList, testList, interviewList);
-        System.out.println(process);
-
         return process;
     }
 
@@ -65,16 +59,16 @@ public class ProcessService {
                 .progress(dto.getProgress()).tag(dto.getTag()).start_date(dto.getStart_date())
                 .end_date(dto.getEnd_date()).essay(dto.getEssay()).test(dto.getTest())
                 .interview(dto.getInterview()).jd_id(dto.getJd_id()).build();
-        System.out.println(pcc);
+
         return processRepository.save(pcc);
     }
 
     @Transactional
     public void updateProcess(ProcessDto dto) {
-        //Process pcc = Process.builder().company(dto.getCompany()).jd_id(dto.getJd_id()).build();
         Document bson = new Document();
         processRepository.updateProcess(dto,bson);
-        System.out.println(bson+"==========================");
+        log.info("Process Updated: " + bson.toString());
+
         Query q = new Query(Criteria.where("_id").is(dto.getId()));
         Update u = Update.fromDocument(bson);
 
@@ -86,6 +80,7 @@ public class ProcessService {
             Query q = new Query(Criteria.where("_id").is(pdto.getId()));
             Update u = new Update();
             u.set("step", pdto.getStep());
+
             processRepository.upsertProcess(q,u,"process");
         }
     }
@@ -96,17 +91,16 @@ public class ProcessService {
         Query q = new Query(Criteria.where("_id").is(oid));
         Update u = new Update();
 
-//        u.set("company","LINE"); //이건 테스트용입니다.
-//        u.set("essay",lt);
-//        u.addToSet("essay",essayTemplate);
-
         //서류, 코테 , 면접 Arr (templatename) 중 template 추가
         u.push(step,essayTemplate);
-
         processRepository.updateTemplate(q,u,Process.class);
     }
 
-    private List<Template> getQnaContents(List<Template> templates) {
+    public List<Template> getQnaContents(List<Template> templates) {
+        if(templates.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         for(Template t: templates) {
             if(t.getTemplate_type() == TemplateType.QNA.getCode()) {
                 List<QnaDto> qnaList = t.getContent();

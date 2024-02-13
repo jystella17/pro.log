@@ -23,7 +23,6 @@ public class ProcessController {
         }catch (Exception e){
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }
-//        return processService.getProcessList();
     }
 
     /**?
@@ -32,10 +31,9 @@ public class ProcessController {
      */
     @GetMapping("/{processid}")
     public ResponseEntity<?> findProcess(@PathVariable String processid){
-
         try{
-            return new ResponseEntity<>(processService.getProcess(processid),HttpStatus.OK);
-        }catch (Exception e){
+            return ResponseEntity.ok(processService.getProcess(processid));
+        } catch (Exception e){
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }
     }
@@ -51,9 +49,6 @@ public class ProcessController {
 //        return pc.getId();
 //    }
 
-
-
-
     /**?
      *  template추가 시 호출
      * @param step 어떤 유형 essay , test, interview 에 추가할건지
@@ -65,7 +60,7 @@ public class ProcessController {
 
         try{
             processService.insertTemplate(processid,step,templatetype);
-        }catch (Exception e){
+        } catch (Exception e){
             return new ResponseEntity<Void>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -75,7 +70,7 @@ public class ProcessController {
     public ResponseEntity<?> updateProcess (@RequestBody ProcessDto dto){
         try{
             processService.updateProcess(dto);
-        }catch (Exception e){
+        } catch (Exception e){
             return new ResponseEntity<Void>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.OK);
