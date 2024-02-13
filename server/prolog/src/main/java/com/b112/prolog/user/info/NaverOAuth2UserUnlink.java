@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class NaverOAuth2UserUnlink implements OAuth2UserUnlink {
 
     private static final String URL = "https://nid.naver.com/oauth2.0/token";
@@ -20,7 +21,6 @@ public class NaverOAuth2UserUnlink implements OAuth2UserUnlink {
     private String clientId;
     @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
     private String clientSecret;
-
 
     @Override
     public void unlink(String accessToken) {
@@ -43,11 +43,14 @@ public class NaverOAuth2UserUnlink implements OAuth2UserUnlink {
     }
 
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class UnlinkResponse {
         @JsonProperty("access_token")
-        private String accessToken;
-        private String result;
+        private final String accessToken;
+        private final String result;
+
+        public UnlinkResponse(String accessToken, String result) {
+            this.accessToken = accessToken;
+            this.result = result;
+        }
     }
 }
