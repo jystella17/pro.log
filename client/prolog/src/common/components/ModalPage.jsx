@@ -22,6 +22,7 @@ const customModal = Modal.Styles = {
     backgroundColor: "white",
     justifyContent: "center",
     overflow: "auto",
+    padding: "40px 30px"
   }
 }
 

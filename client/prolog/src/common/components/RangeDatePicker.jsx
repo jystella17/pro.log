@@ -5,9 +5,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './Components.scss'
 
 
-export default function RangeDatePick({name}) {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+export default function RangeDatePick({name, startDate, endDate, setStartDate, setEndDate}) {
+  // const [startDate, setStartDate] = useState(new Date());
+  // const [endDate, setEndDate] = useState(new Date());
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function RangeDatePick({name}) {
         endDate={endDate}
         className={name}
         dayClassName={(d) => (d.getDate() === startDate.getDate() ? 'selectedDay' : 'unselectedDay')}
-      /> -
+      />
       <DatePicker
         selected={endDate}
         onChange={(date) => setEndDate(date)}
