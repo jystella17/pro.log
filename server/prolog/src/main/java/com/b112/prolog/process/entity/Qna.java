@@ -23,8 +23,7 @@ public class Qna {
     private String start_date;
 
     @Builder
-    public Qna(String id, String question, String answer, String company, String start_date) {
-        this.id = id;
+    public Qna(String question, String answer, String company, String start_date) {
         this.question = question;
         this.answer = answer;
         this.company = company;
