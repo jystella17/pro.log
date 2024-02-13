@@ -7,8 +7,8 @@ import './WebRtc.css'
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? 'http://localhost:5000/' : 'http://localhost:5000/';
 
 const WebRtc = () => {
-    const [mySessionId, setMySessionId] = useState('Prolog');
-    const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
+    const [mySessionId, setMySessionId] = useState('Prolog'+Math.floor(Math.random() * 1000));
+    const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 1000));
     const [session, setSession] = useState(undefined);
     const [mainStreamManager, setMainStreamManager] = useState(undefined);
     const [publisher, setPublisher] = useState(undefined);
@@ -92,8 +92,8 @@ const WebRtc = () => {
 
         setSession(undefined);
         setSubscribers([]);
-        setMySessionId('Prolog');
-        setMyUserName('Participant' + Math.floor(Math.random() * 100));
+        setMySessionId('Prolog'+Math.floor(Math.random() * 1000));
+        setMyUserName('Participant' + Math.floor(Math.random() * 1000));
         setMainStreamManager(undefined);
         setPublisher(undefined);
     };
@@ -142,7 +142,7 @@ const WebRtc = () => {
             {session === undefined ? (
                 <div id="join">
                     <div id="join-dialog" className="jumbotron vertical-center">
-                        <h3> 화상채팅을 만들어보세요 </h3>
+                        <h1 className="makeChat"> 화상채팅을 만들어보세요 </h1>
                         <form className="form-group" onSubmit={joinSession}>
                             <p>
                                 <label>참여자 이름: </label>
@@ -167,7 +167,7 @@ const WebRtc = () => {
                                 />
                             </p>
                             <p className="text-center">
-                                <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
+                                <input className="btn join-btn" name="commit" type="submit" value="JOIN" />
                             </p>
                         </form>
                     </div>

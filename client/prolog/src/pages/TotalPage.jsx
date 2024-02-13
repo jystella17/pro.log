@@ -38,7 +38,7 @@ export default function Result() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/masterpaper" element={<MasterPaper />} />
             <Route path="/myinfo" element={<MyInfo />} />
-            <Route path="/chatting" element={<Chatting />} />
+            <Route path="/chatting" element={<WebRtc />} />
             <Route path="/login" element={<Login />} />
             <Route path="/process" element={<NoProcess />} />
             <Route path="/process/:selectedJdId" element={<YesProcess />} />
