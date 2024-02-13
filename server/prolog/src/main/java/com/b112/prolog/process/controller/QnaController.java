@@ -1,20 +1,21 @@
 package com.b112.prolog.process.controller;
 
-
 import com.b112.prolog.process.dto.QnaDto;
 import com.b112.prolog.process.service.QnaService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QnaController {
+
     private final QnaService qnaService;
 
     /**?
@@ -24,7 +25,8 @@ public class QnaController {
      * @param index 해당 유형의 몇번째 template인지
      */
     @PostMapping("/{processid}/{step}/{index}/qna")
-    public ResponseEntity<?> insertQnA(@RequestBody QnaDto dto, @PathVariable String processid, @PathVariable String step,@PathVariable int index){
+    public ResponseEntity<?> insertQnA(@RequestBody QnaDto dto, @PathVariable String processid,
+                                       @PathVariable String step,@PathVariable int index){
         try{
             return new ResponseEntity<>(qnaService.insertQnA(dto,processid,step,index),HttpStatus.OK);
         }catch (Exception e){
@@ -45,7 +47,6 @@ public class QnaController {
         }
     }
 
-
     @GetMapping("/qna/search/{keyword}")
     public ResponseEntity<?> searchByKeyword(@PathVariable String keyword){
         try {
@@ -54,5 +55,4 @@ public class QnaController {
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }
     }
-
 }

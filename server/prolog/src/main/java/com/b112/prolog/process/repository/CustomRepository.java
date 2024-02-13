@@ -1,8 +1,8 @@
 package com.b112.prolog.process.repository;
 
 import com.b112.prolog.process.dto.ProcessDto;
-
 import com.b112.prolog.process.dto.QnaDto;
+
 import org.bson.Document;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -21,6 +21,5 @@ public interface CustomRepository {
     void updateProcess(ProcessDto dto, Document doc);
     void upsertProcess(Query q, Update u,String collection);
     List<QnaDto> find(Query q, String collection);
-
 
 }
