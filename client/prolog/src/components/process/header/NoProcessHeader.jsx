@@ -1,4 +1,5 @@
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import styled from 'styled-components'
 import DatePick from "../../../common/components/DatePicker";
@@ -15,9 +16,9 @@ const Dday = styled.div`
     font-size: 12px;
 ` 
 
-function CompanyName() {
+function CompanyName({ company }) {
     return (
-        <div className="company">삼성전자</div>
+      <div className="company">{company}</div>
     )
 }
 
@@ -60,10 +61,13 @@ function SaveButton() {
 
 
 export default function ProcessHeader() {
+    const params = useParams()
+    const addCompany = params.company
+    
     return (
         <div className='totalBox'>
             <div className='box1'>
-                <CompanyName />
+            <CompanyName company={addCompany} />
                 <InputTag backgroundcolor={'white'}/>
             </div>
             <div className="box2">

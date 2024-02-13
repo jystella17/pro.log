@@ -12,120 +12,60 @@
   .tab {
     flex: 1;
     display: flex;
-    gap: 10px;
-
-    .active-tab {
-
-    }
+    height: 30px;
+    padding: 5px 15px;
   }
-
-
 }
 
+@mixin steps-box {
+  font-weight: 550;
+  border-radius: 5px 5px 5px 0px;
+  color: rgb(54, 48, 98);
+  background-color: rgb(243, 248, 255);
+}
 
+.tab.Paper {
+  @include steps-box;
+  background-color: rgb(243, 248, 255);
+}
 
+.tab.Test {
+  @include steps-box;
+  background-color: rgb(222, 236, 255);
+}
 
-
-
-
-
+.tab.Interview {
+  @include steps-box;
+  background-color: rgb(198, 207, 255);
+}
 
 .steps {
-    display: flex;
-    flex-direction: row;
-    height: 70px;
+  display: flex;
+  flex-direction: row;
+  height: 70px;
 }
 
-.step { 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 20px;
-    width: calc(100% / 3);
+.step {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 40px;
+  width: calc(100% / 3);
 }
 
 .content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 7%;
-}
-
-.step.Paper {
-    background-color: rgb(243, 248, 255);
-}
-
-.step.Test {
-    background-color: rgb(222, 236, 255);
-}
-
-
-.step.Interview {
-    background-color: rgb(198, 207, 255);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 7%;
 }
 
 .title {
-    font-weight: bold;
-}
-
-hr {
-    width: 85%;
- 
-}
-svg {
-    height: 20px;
-    
+  font-weight: bold;
 }
 
 
 
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 150px;
-    position: relative;
-    
-    .dropdownName {
-      border: 0.5px solid rgb(198, 198, 198);
-      height: 35px;
-    //   font-size: 14px;
-      border-radius: 10px;
-      background-color: #fff;
-    }
-    
-    .dropdownList {
-      position:absolute;
-      text-align: center;
-      padding: 15px 0px;
-      margin: 5px 0px;
-    //   font-size: 300;
-      right: 0;
-      left: 0;
-      top: 30px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-5px);
-      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-      z-index: 2;
-      border: 0.5px solid black;
-      background: #fff;
-      border-radius: 3%;
-    
-    }
-    .dropdownList.down {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-      z-index: 1000;
-  
-      li {
-        // font-size: 14px;
-        margin: 5px 0px;
-        cursor: pointer;
-      }
-    }
-  }
   
   ul {
     list-style-type: none;
@@ -133,11 +73,5 @@ svg {
   
   ul > li {
     // font-size: 14px;
-    margin: 5px 0px;
     cursor: pointer;
-  }
-  
-  hr {
-    background-color: rgb(255, 253, 253);
-    margin: 10px;
   }
