@@ -100,19 +100,19 @@ function QnAContainer() {
   const [qnas, setQnAs] = useState([{ id: 0, question: "", answer: "" }]);
 
   // QnA get
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://i10b112.p.ssafy.io/api/cover-letter");
-        setQnAs(response.data);
-        console.log("마스터자소서 불러오기 성공", response.data);
-      } catch (error) {
-        console.error("마스터자소서 불러오기 실패", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get("https://i10b112.p.ssafy.io/api/cover-letter");
+  //       setQnAs(response.data);
+  //       console.log("마스터자소서 불러오기 성공", response.data);
+  //     } catch (error) {
+  //       console.error("마스터자소서 불러오기 실패", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   // QnA 컴포넌트 추가 함수
   function AddQnA() {
