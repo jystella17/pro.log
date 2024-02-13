@@ -1,32 +1,30 @@
 package com.b112.prolog.jobdescription.controller;
 
-import com.b112.prolog.jobdescription.dto.JdAndProcessListDto;
-import com.b112.prolog.jobdescription.entity.JobDescription;
-import com.b112.prolog.jobdescription.service.JobDescriptionService;
 import com.b112.prolog.process.dto.ProcessDto;
+import com.b112.prolog.jobdescription.dto.JdAndProcessListDto;
 import com.b112.prolog.process.entity.Process;
+import com.b112.prolog.jobdescription.entity.JobDescription;
 import com.b112.prolog.process.service.ProcessService;
-import lombok.RequiredArgsConstructor;
+import com.b112.prolog.jobdescription.service.JobDescriptionService;
+
 import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/schedule")
-@Slf4j
 public class ScheduleController {
-
 
     private final JobDescriptionService jobDescriptionService;
     private final ProcessService processService;
-
 
     /**
      * 캘린더 창 API
@@ -38,28 +36,24 @@ public class ScheduleController {
      * @return
      */
 
-//    , @AuthenticationPrincipal UserPrincipal userPrincipal
     @GetMapping("/calendar/{year}/{month}")
     public ResponseEntity<?> calendarView(@PathVariable("year") String year, @PathVariable("month") String month) {
-
         String date = year+"-"+month;
 
         try {
-//            List<Process> pcList = processService.getProcessList();
-
             JdAndProcessListDto jdAndProcessListDto = new JdAndProcessListDto();
             jdAndProcessListDto.setJd(jobDescriptionService.findByPeriod(date));
             jdAndProcessListDto.setProcess(processService.getProcessList());
-            if(jdAndProcessListDto.getJd()!= null){
+
+            if(jdAndProcessListDto.getJd()!= null) {
                 return new ResponseEntity<>(jdAndProcessListDto, HttpStatus.OK);
-            } else{
+            } else {
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
         }
-        catch (Exception e){
+        catch (Exception e) {
             return exceptionHandling(e);
         }
-
     }
 
 //    /**
@@ -85,25 +79,20 @@ public class ScheduleController {
      */
     @GetMapping("/calendar/{title}")
     public ResponseEntity<?> calendarView(@PathVariable("title") String title) {
-
-
         try {
-
             JdAndProcessListDto jdAndProcessListDto = new JdAndProcessListDto();
             jdAndProcessListDto.setJd(jobDescriptionService.findByJobTitleContaining(title));
 
-            if(jdAndProcessListDto.getJd()!= null){
+            if(jdAndProcessListDto.getJd()!= null) {
                 return new ResponseEntity<>(jdAndProcessListDto, HttpStatus.OK);
-            } else{
+            } else {
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
         }
-        catch (Exception e){
+        catch (Exception e) {
             return exceptionHandling(e);
         }
-
     }
-
 
     /**
      * 칸반 창 API
@@ -111,15 +100,14 @@ public class ScheduleController {
     * */
     @GetMapping("/kanban")
     public ResponseEntity<?> kanbanView(){
-
         try {
             List<Process> pcList = processService.getProcessList();
-            if(pcList != null){
+            if(pcList != null) {
                 return new ResponseEntity<>(pcList, HttpStatus.OK);
-            }else{
+            } else {
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return exceptionHandling(e);
         }
     }
@@ -132,25 +120,23 @@ public class ScheduleController {
     public ResponseEntity<?> updateKanban(@RequestBody List<ProcessDto> processDto){
         try {
             processService.updateKanban(processDto);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<Void>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
-
 
     @GetMapping("/calendar/{jdid}")
     public ResponseEntity<?> viewJD(@PathVariable Long jdid){
         try {
             Optional<JobDescription> jobDescription = jobDescriptionService.findOne(jdid);
-            if(jobDescription.isPresent()){
+            if(jobDescription.isPresent()) {
                 return new ResponseEntity<>(jobDescription, HttpStatus.OK);
-            } else{
+            } else {
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
         }
-        catch (Exception e){
+        catch (Exception e) {
             return exceptionHandling(e);
         }
     }
@@ -161,21 +147,17 @@ public class ScheduleController {
      */
     @PostMapping("/process")
     public ResponseEntity<?> insertProcess(@RequestBody ProcessDto dto){
-        //ProcessDto pc = processService.insertProcess(dto);
         try {
             Process pc = processService.insertProcess(dto);
             if(pc != null){
                 return new ResponseEntity<>(pc.getId(), HttpStatus.OK);
-            }else{
+            } else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
-        }catch (Exception e){
+        } catch (Exception e){
             return exceptionHandling(e);
         }
-//        Process pc = processService.insertProcess(dto);
-        //return pc.getId().toString();
     }
-
 
 //    @PostMapping("/calendar/{year}/{month}")
 //    public ResponseEntity<?> createProcess(UserPrincipal user, JobDescriptionDto jdDto){
@@ -187,10 +169,8 @@ public class ScheduleController {
 //        return null;
 //    }
 
-
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }
