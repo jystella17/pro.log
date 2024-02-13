@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "../components/masterPaper/Header";
+// import Header from "../components/masterPaper/Header";
 import QnA from "../components/masterPaper/QnA";
 
 const Container = styled.div`

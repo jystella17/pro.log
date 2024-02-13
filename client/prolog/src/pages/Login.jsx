@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Login.css";
 import { useState, useEffect } from "react";
 
@@ -9,23 +10,31 @@ function KakaoLogin() {
     setLoginRedirectUrl(window.location.href);
   }, []);
 
-  const KAKAO_AUTH_URL = `http://localhost:8080/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`;
+  // const KAKAO_AUTH_URL = `http://localhost:8080/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`;
 
   const handleKakaoLogin = () => {
     // 현재 페이지 sessionStorage에 저장
     sessionStorage.setItem("prevPage", loginRedirectUrl);
     // 카카오 로그인 이동
-    window.location.href = KAKAO_AUTH_URL;
+    // window.location.href = KAKAO_AUTH_URL;
+    // axios.get(
+    // `${BASE_URL}/api/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`
+    // );
   };
+  const BASE_URL = "http://localhost:8080";
 
   return (
-    <img
-      src="src/assets/kakao_login.png"
-      alt="카카오 로그인"
-      width="350"
-      height="52"
-      onClick={handleKakaoLogin}
-    />
+    <a
+      href={`${BASE_URL}/api/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`}
+    >
+      <img
+        src="src/assets/kakao_login.png"
+        alt="카카오 로그인"
+        width="350"
+        height="52"
+        onClick={handleKakaoLogin}
+      />
+    </a>
   );
 }
 

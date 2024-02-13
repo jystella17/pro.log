@@ -4,6 +4,7 @@ import { IoClose, IoAddCircle, IoAddCircleOutline } from "react-icons/io5";
 import "./QnA.scss";
 import { Flex, Input, ConfigProvider } from "antd";
 import Button from "../../common/components/Button";
+import axios from "axios";
 
 const ContainerAll = styled.div`
   padding: 70px 100px 30px 100px;
@@ -98,19 +99,20 @@ function QnAComponent({
 function QnAContainer() {
   const [qnas, setQnAs] = useState([{ id: 0, question: "", answer: "" }]);
 
-  // 비로그인시 localStorage에서 QnA 데이터 로드
+  // QnA get
   useEffect(() => {
-    const loadedQnAs = JSON.parse(localStorage.getItem("qnas")) || [
-      { id: 0, question: "", answer: "" },
-    ];
-    setQnAs(loadedQnAs);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://i10b112.p.ssafy.io/api/cover-letter");
+        setQnAs(response.data);
+        console.log("마스터자소서 불러오기 성공", response.data);
+      } catch (error) {
+        console.error("마스터자소서 불러오기 실패", error);
+      }
+    };
 
-  // 비로그인시 localStorage에 저장
-  const saveQnALocal = () => {
-    localStorage.setItem("qnas", JSON.stringify(qnas));
-    alert("저장되었습니다.");
-  };
+    fetchData();
+  }, []);
 
   // QnA 컴포넌트 추가 함수
   function AddQnA() {
@@ -143,7 +145,7 @@ function QnAContainer() {
           <Explain>마스터 자기소개서를 만들어서 여러 자기소개서에 사용해보세요!</Explain>
         </div>
         <div>
-          <Button className="navy" children="저장하기" onClick={saveQnALocal}></Button>
+          {/* <Button className="navy" children="저장하기" onClick={saveQnALocal}></Button> */}
         </div>
       </Container>
       <ContainerAll>
