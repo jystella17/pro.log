@@ -9,7 +9,7 @@ const Container = styled.div`
   padding: 0px 30px;
   border-right: 1px solid lightgray;
   border-radius: 2px;
-  width: 80vw;
+  width: 100%;
   min-height: 100vh;
 
   display: flex;

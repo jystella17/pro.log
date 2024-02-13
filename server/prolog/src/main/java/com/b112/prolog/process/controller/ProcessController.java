@@ -2,14 +2,15 @@ package com.b112.prolog.process.controller;
 
 import com.b112.prolog.process.dto.ProcessDto;
 import com.b112.prolog.process.service.ProcessService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProcessController {
 
@@ -59,16 +60,15 @@ public class ProcessController {
      * @param templatetype 어떤 타입의 템플릿 열었는지 ?  1: QnA템플릿 2:코테템플릿 3:토글 4:메모
      */
     @PutMapping("/{processid}/{step}/{templatetype}")
-    public ResponseEntity<?> updateTemplate(@PathVariable String processid,@PathVariable String step ,@PathVariable int templatetype){
+    public ResponseEntity<?> updateTemplate(@PathVariable String processid, @PathVariable String step,
+                                            @PathVariable int templatetype){
 
         try{
             processService.insertTemplate(processid,step,templatetype);
         }catch (Exception e){
             return new ResponseEntity<Void>(HttpStatus.NOT_MODIFIED);
         }
-
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
     @PutMapping("/process")
@@ -78,11 +78,6 @@ public class ProcessController {
         }catch (Exception e){
             return new ResponseEntity<Void>(HttpStatus.NOT_MODIFIED);
         }
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
-
 }
