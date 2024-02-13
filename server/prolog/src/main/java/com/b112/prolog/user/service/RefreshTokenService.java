@@ -1,7 +1,9 @@
 package com.b112.prolog.user.service;
 
-import com.b112.prolog.user.exception.RefreshTokenExpiredException;
 import com.b112.prolog.user.util.AuthenticationUtils;
+import com.b112.prolog.user.exception.RefreshTokenExpiredException;
+import static com.b112.prolog.user.jwt.TokenProvider.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +13,11 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.Optional;
 
-import static com.b112.prolog.user.jwt.TokenProvider.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
-
 
     private final RedisTemplate<String, String> redisTemplate;
 

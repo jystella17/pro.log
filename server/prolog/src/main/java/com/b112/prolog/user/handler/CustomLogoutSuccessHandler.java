@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-
 @Slf4j
 @Component
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
+
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         if (response.isCommitted()) {
@@ -24,5 +24,4 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setStatus(200);
         response.getWriter().flush();
     }
-
 }

@@ -7,8 +7,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class KakaoOAuth2UserUnlink implements OAuth2UserUnlink {
 
     private static final String URL = "https://kapi.kakao.com/v1/user/unlink";

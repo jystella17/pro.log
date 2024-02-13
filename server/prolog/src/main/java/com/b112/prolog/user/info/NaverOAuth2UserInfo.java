@@ -1,7 +1,6 @@
 package com.b112.prolog.user.info;
 
 import lombok.Getter;
-
 import java.util.Map;
 
 @Getter

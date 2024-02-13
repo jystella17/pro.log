@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.b112.prolog.user.jwt.TokenProvider.*;
@@ -30,8 +31,8 @@ import static com.b112.prolog.user.repository.HttpCookieOAuth2AuthorizationReque
 import static com.b112.prolog.user.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
@@ -82,17 +83,20 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         if ("login".equalsIgnoreCase(mode)) {
-
             OAuth2UserInfo userInfo = principal.getUserInfo();
-
             User user = User.builder()
                     .id(userInfo.getId())
                     .email(userInfo.getEmail())
                     .nickname(userInfo.getNickName())
+                    .wishCompany(new ArrayList<>())
+                    .processes(new ArrayList<>())
+                    .developer(false)
+                    .newbie(true)
+                    .qnas(new ArrayList<>())
                     .build();
 
             // 사용자 정보 DB 저장 혹은 업데이트
-            userService.saveOrUpdateUser(user);
+            userService.saveUser(user);
 
             log.info("email={}, name={}, nickname={}, accessToken={}", principal.getUserInfo().getEmail(),
                     principal.getUserInfo().getName(),
