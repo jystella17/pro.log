@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 import static com.b112.prolog.user.jwt.TokenProvider.*;
 
 @Slf4j
@@ -32,7 +34,9 @@ public class UserController {
     }
 
     @PutMapping("/profile")
-    public ResponseEntity<?> editProfile() {
+//    public ResponseEntity<?> editProfile(Profile profile) {
+    public ResponseEntity<?> editProfile(HashMap<String, Object> map) {
+        userService.updateUserInfo(map);
         return ResponseEntity.ok().build();
     }
 
