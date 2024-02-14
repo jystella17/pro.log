@@ -1,5 +1,6 @@
 package com.b112.prolog.jobdescription.cache;
 
+import com.b112.prolog.jobdescription.entity.JobDescription;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class CacheJd {
 
+    private String calendar;
     private int year;
     private int month;
 
@@ -25,7 +27,7 @@ public class CacheJd {
     private String jobMidCode;
     private String experience;
     private String education;
-    private int closeTypeCode;
+    private String closeTypeCode;
 
     private LocalDateTime expTime;
 
@@ -35,7 +37,7 @@ public class CacheJd {
     @Builder
     public CacheJd(Long jdId, String link, String keyword, String openingDate, String expirationDate,
                    Long companyId, String companyName, String jobTitle, String industry, String workingArea,
-                   String jobType, String jobMidCode, String experience, String education, int closeTypeCode) {
+                   String jobType, String jobMidCode, String experience, String education, String closeTypeCode) {
 
         this.year = Integer.parseInt(openingDate.substring(0, 3));
         this.month = Integer.parseInt(openingDate.substring(5, 6));
@@ -55,5 +57,26 @@ public class CacheJd {
         this.education = education;
         this.closeTypeCode = closeTypeCode;
         this.expTime = LocalDateTime.parse(openingDate).plusYears(3);
+    }
+
+    public CacheJd(JobDescription jd) {
+        this.year = Integer.parseInt(jd.getOpeningDate().substring(0, 3));
+        this.month = Integer.parseInt(jd.getOpeningDate().substring(5, 6));
+        this.jdId = jd.getJdId();
+        this.link = jd.getLink();
+        this.keyword = jd.getKeyword();
+        this.openingDate = jd.getOpeningDate();
+        this.expirationDate = jd.getExpirationDate();
+        this.companyId = jd.getCompany().getCompanyId();
+        this.companyName = jd.getCompany().getCompanyName();
+        this.jobTitle = jd.getJobTitle();
+        this.industry = jd.getIndustry();
+        this.workingArea = jd.getWorkingArea();
+        this.jobType = jd.getJobType();
+        this.jobMidCode = jd.getJobMidCode();
+        this.experience = jd.getExperience();
+        this.education = jd.getEducation();
+        this.closeTypeCode = jd.getCloseTypeCode();
+        this.expTime = LocalDateTime.parse(jd.getOpeningDate()).plusYears(3);
     }
 }
