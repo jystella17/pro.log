@@ -7,6 +7,7 @@ import com.b112.prolog.user.jwt.TokenProvider;
 import com.b112.prolog.user.repository.TokenRepository;
 import com.b112.prolog.user.repository.UserRepository;
 import com.b112.prolog.user.util.AuthenticationUtils;
+import com.mongodb.client.result.DeleteResult;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +34,6 @@ public class UserService {
     private final MongoTemplate mongoTemplate;
 
     // Read
-    /*
-        TODO: DTO가 아닌 Map으로 응답하는 방법 알아보기
-     */
     public Profile findUserById(String id) {
         User user = Optional.ofNullable(
                         mongoTemplate.findOne(new Query(
@@ -63,6 +61,7 @@ public class UserService {
 
     // Create
     public void saveUser(User user) {
+//        mongoTemplate.save(user);
         userRepository.save(user);
     }
 
@@ -88,50 +87,54 @@ public class UserService {
 
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
-                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId()))
-                );
-
+                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
         Optional.ofNullable(json.get("wishCompany")).ifPresent(o ->
-                updateTarget.apply(new Update().push("wishCompany", o)).first());
-
+                updateTarget.apply(new Update().set("wishCompany", o)).first());
     }
 
-    public void updateUserProcess(String processId) {
+    public void updateUserProcess(String id) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
-                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId()))
-                );
-
-        updateTarget.apply(new Update().push("processes", processId)).first();
-
-//        Query q = new Query(Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId()));
-//        Update u = new Update();
-//        u.push("processes", processId);
-//        userRepository.upsertProcess(q, u, "users");
+                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+        updateTarget.apply(new Update().push("processes", id)).first();
     }
 
     public void updateUserQna(String qnaId) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
-                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId()))
-                );
-
-
+                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
         updateTarget.apply(new Update().push("qnas", qnaId)).first();
-
-//        Query q = new Query(Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId()));
-//        Update u = new Update();
-//        u.push("processes", processId);
-//        userRepository.upsertProcess(q, u, "users");
     }
 
     // Delete
+//    public void deleteUserById(String id) {
+//        userRepository.deleteById(id);
+//    }
     public void deleteUserById(String id) {
-        userRepository.deleteById(id);
+        DeleteResult deleteResult = mongoTemplate.remove(new Query(
+                Criteria.where("_id").is(id)
+        ), "users");
+
+        System.out.println("deleteResult.getDeletedCount() = " + deleteResult.getDeletedCount());
+//        userRepository.deleteById(id);
     }
 
     public void deleteCurrentUser() {
         deleteUserById(AuthenticationUtils.getCurrentUserId());
+    }
+
+    public void deleteUserQna(String id) {
+        ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
+                .matching(new Query(
+                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+        updateTarget.apply(new Update().pull("qnas", id)).all();
+    }
+
+    public void deleteUserProcess(String id) {
+        ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
+                .matching(new Query(
+                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+        updateTarget.apply(new Update().pull("process", id)).all();
     }
 
 }
