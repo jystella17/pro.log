@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { IoClose, IoAddCircle, IoAddCircleOutline } from "react-icons/io5";
+import { IoClose, IoAddCircleOutline } from "react-icons/io5";
 import "./QnA.scss";
-import { Flex, Input, ConfigProvider } from "antd";
+import { Input, ConfigProvider } from "antd";
 import Button from "../../common/components/Button";
-import axios from "axios";
+import api from "../login/Axios";
 
 const ContainerAll = styled.div`
   padding: 70px 100px 30px 100px;
@@ -98,21 +99,36 @@ function QnAComponent({
 // 상태관리
 function QnAContainer() {
   const [qnas, setQnAs] = useState([{ id: 0, question: "", answer: "" }]);
+  const navigate = useNavigate();
 
   // QnA get
-  // useEffect(() => {
-  //   const fetchData = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("https://i10b112.p.ssafy.io/api/cover-letter");
+        setQnAs(response.data);
+        console.log("마스터자소서 불러오기 성공", response.data);
+      } catch (error) {
+        console.error("마스터자소서 불러오기 실패", error);
+        navigate("/login");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // QnA put test
+  // function SaveQnAs() {
+  //   const saveData = async () => {
   //     try {
-  //       const response = await axios.get("https://i10b112.p.ssafy.io/api/cover-letter");
-  //       setQnAs(response.data);
-  //       console.log("마스터자소서 불러오기 성공", response.data);
+  //       await api.put("https://i10b112.p.ssafy.io/api/cover-letter", qnas);
+  //       console.log("마스터자소서 저장 성공!", qnas);
   //     } catch (error) {
-  //       console.error("마스터자소서 불러오기 실패", error);
+  //       console.error("마스터자소서 저장 실패", error);
   //     }
   //   };
-
-  //   fetchData();
-  // }, []);
+  //   saveData();
+  // }
 
   // QnA 컴포넌트 추가 함수
   function AddQnA() {
@@ -145,7 +161,7 @@ function QnAContainer() {
           <Explain>마스터 자기소개서를 만들어서 여러 자기소개서에 사용해보세요!</Explain>
         </div>
         <div>
-          {/* <Button className="navy" children="저장하기" onClick={saveQnALocal}></Button> */}
+          <Button className="navy" children="저장하기"></Button>
         </div>
       </Container>
       <ContainerAll>
