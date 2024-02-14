@@ -30,10 +30,8 @@ public class JobDescriptionService {
     private final JobDescriptionRepository jdRepository;
     private final CompanyRepository companyRepository;
 
-
     @Value("${SARMAIN_URL}")
     private String saraminUrl;
-
 
     /**
      * 전체 JD 조회
@@ -43,7 +41,6 @@ public class JobDescriptionService {
     public List<JobDescription> findAllJDs() {
         return jdRepository.findAll();
     }
-
 
     /**
      * 기간으로 JD 조회
@@ -83,8 +80,6 @@ public class JobDescriptionService {
         return jdRepository.findByJobTitleContaining(title);
     }
 
-
-
     /**
      * 검색어를 갖는 기업 검색 ( 관심 기업 찾을 때 사용 )
      * @param companyName String
@@ -102,7 +97,6 @@ public class JobDescriptionService {
         return companyRepository.findAll();
     }
 
-
     /**
      * 매일 오전 5시에 JD를 업데이트 하는 함수
      * @throws ParseException 파싱 실패 시
@@ -110,14 +104,11 @@ public class JobDescriptionService {
     @Transactional
     @Scheduled(cron = "0 0 5 * * ?")
     public void saveJD() throws ParseException {
-
-
         //사람인 API response data 받아오기
         String startPage = "0";
         String apiURL = saraminUrl+startPage;
         RestTemplate rest = new RestTemplate();
         ResponseEntity<String> res = rest.getForEntity(apiURL, String.class);
-
 
         //JSON 데이터 String Parsing
         JSONParser jsonParser = new JSONParser();
@@ -132,7 +123,6 @@ public class JobDescriptionService {
             String keyword = (String) job.get("keyword");
             String openingTimestamp = (String) job.get("opening-timestamp");
             String expirationTimestamp = (String) job.get("expiration-timestamp");
-
 
             //Unixtime을 DateFormat으로 변경
             long timestamp = Long.parseLong(openingTimestamp);
@@ -180,7 +170,7 @@ public class JobDescriptionService {
                 comp = Company.builder().companyName(companyName).build();
                 companyRepository.save(comp);
                 System.out.println("회사저장완료!!" + i);
-            }else{
+            } else {
                 comp = companyRepository.findByCompanyName(companyName).get(0);
             }
 
@@ -212,5 +202,4 @@ public class JobDescriptionService {
             return true;
         }
     }
-
 }
