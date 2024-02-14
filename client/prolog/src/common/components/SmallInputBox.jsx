@@ -24,8 +24,6 @@ export default function SmallInputBox({width, height, size, value, onChange}) {
                 width={width} height={height} size={size}
                 value={value}
                 onChange={onChange}
-
-
             />
         </div>
     )
