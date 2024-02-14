@@ -59,9 +59,13 @@ public class JobDescription {
     @Column(name="education")
     private String education;
 
+    @Column(name="close_code")
+    private int closeTypeCode;
+
 
     @Builder
-    public JobDescription(String link, String keyword, String openingDate, String expirationDate, Company company, String jobTitle, String industry, String workingArea, String jobType, String jobMidCode, String experience, String education) {
+    public JobDescription(Long jdId, String link, String keyword, String openingDate, String expirationDate, Company company, String jobTitle, String industry, String workingArea, String jobType, String jobMidCode, String experience, String education, int closeTypeCode) {
+        this.jdId = jdId;
         this.link = link;
         this.keyword = keyword;
         this.openingDate = openingDate;
@@ -74,6 +78,6 @@ public class JobDescription {
         this.jobMidCode = jobMidCode;
         this.experience = experience;
         this.education = education;
+        this.closeTypeCode = closeTypeCode;
     }
 }
-
