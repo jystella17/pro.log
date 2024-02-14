@@ -60,11 +60,11 @@ public class JobDescription {
     private String education;
 
     @Column(name="close_code")
-    private int closeTypeCode;
+    private String closeTypeCode;
 
 
     @Builder
-    public JobDescription(Long jdId, String link, String keyword, String openingDate, String expirationDate, Company company, String jobTitle, String industry, String workingArea, String jobType, String jobMidCode, String experience, String education, int closeTypeCode) {
+    public JobDescription(Long jdId, String link, String keyword, String openingDate, String expirationDate, Company company, String jobTitle, String industry, String workingArea, String jobType, String jobMidCode, String experience, String education, String closeTypeCode) {
         this.jdId = jdId;
         this.link = link;
         this.keyword = keyword;
