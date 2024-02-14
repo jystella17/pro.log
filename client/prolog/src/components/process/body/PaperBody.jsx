@@ -18,6 +18,7 @@ export default function TypeTabs() {
   const [interviews, setInterviews] = useState()
   const [memos, setMemos] = useState()
 
+
   function ContentRenderer({ templateType }) {
     function handleQnasChange(data) {
       setQnas(data)
@@ -37,7 +38,7 @@ export default function TypeTabs() {
 
     switch (templateType) {
       case 0:
-        return <Assay handleQnasChange={handleQnasChange} />;
+        return <Assay handleQnasChange={() => handleQnasChange()} />;
       case 1:
         return <CT handleCtsChange={handleCtsChange} />;
       case 2:

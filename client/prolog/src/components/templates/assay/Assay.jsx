@@ -71,9 +71,11 @@ function QnAComponent({
 function QnAContainer() {
   const processData = useRecoilValue(processDataState);
   const [qnas, setQnAs] = useState([]);
+  
 
   useEffect(() => {
     if (processData) {
+      
       const newQnAs = processData.test.flatMap((item, index) => (
         item.content.map((contentItem, contentIndex) => ({
           ...contentItem,
@@ -83,7 +85,7 @@ function QnAContainer() {
       setQnAs(newQnAs);
 
       console.log(processData, "QNS");
-      console.log(qnas, "qnas");
+      
     }
   }, [processData]);
 

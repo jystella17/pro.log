@@ -1,105 +1,91 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import Assay from '../../templates/assay/Assay'
 import CT from '../../templates/ct/CT'
 import Interview from '../../templates/interview/Interview'
 import Memo from '../../templates/memo/Memo'
-
+import { useRecoilValue } from "recoil";
+import { processDataState } from "../../../state/atoms";
+import { Outlet, useNavigate, useParams } from "react-router";
 import './Process.scss'
 
 export default function TypeTabs() {
-  const [types, setTypes] = useState([])
-  const [nextTabId, setNextTabId] = useState(1)
-  const [templateType, setTemplateType] = useState(null)
-  const [activeTab, setActiveTab] = useState(null)
+  const processData = useRecoilValue(processDataState);
+  const savedTemplate = processData;
+  const [types, setTypes] = useState();
+  const [nextTabId, setNextTabId] = useState(0);
+  const [template_type, settemplate_type] = useState(null);
+  const [activeTab, setActiveTab] = useState(null);
+  const [qnas, setQnas] = useState();
+  const [cts, setCts] = useState();
+  const [interviews, setInterviews] = useState();
+  const [memos, setMemos] = useState();
 
-  const [qnas, setQnas] = useState()
-  const [cts, setCts] = useState()
-  const [interviews, setInterviews] = useState()
-  const [memos, setMemos] = useState()
+  const navigate = useNavigate();
 
-  function ContentRenderer({ templateType }) {
-    function handleQnasChange(data) {
-      setQnas(data)
+  const params = useParams();
+  const { pid } = params; // 현재 pid 가져오기
+
+  useEffect(() => {
+    if (savedTemplate !== null) {
+      const updatedTypes = savedTemplate.test.map((item, index) => ({
+        ...item,
+        nextTabId: nextTabId + index
+      }));
+      setTypes(updatedTypes);
+      setNextTabId(savedTemplate.test.length)
+      console.log(updatedTypes, "Updated Types");
     }
+  }, [savedTemplate]);
 
-    function handleCtsChange(data) {
-      setCts(data)
-    }
-
-    function handleInterviewsChange(data) {
-      setInterviews(data)
-    }
-
-    function handleMemosChange(data) {
-      setMemos(data)
-    }
-
-    switch (templateType) {
-      case 0:
-        return <Assay handleQnasChange={handleQnasChange} />;
-      case 1:
-        return <CT handleCtsChange={handleCtsChange} />;
-      case 2:
-        return <Interview handleInterviewsChange={handleInterviewsChange} />;
-      case 3:
-        return <Memo handleMemosChange={handleMemosChange} />;
-      default:
-        return null;
-    }
-  }
-
-
-  // 드롭다운 누를 때 각 다른 페이지 렌더링
   function handleDropdownChange(event) {
-    const selectedValue = event.target.value
+    const selectedValue = event.target.value;
 
-    if (selectedValue == 'assay') {
-      addType('assay')
-    } else if (selectedValue == 'ct') {
-      addType('ct')
-    } else if (selectedValue == 'toggle') {
-      addType('toggle')
-    } else if (selectedValue == 'memo') {
-      addType('memo')
+    if (selectedValue === 'QnA') {
+      addType('QnA');
+    } else if (selectedValue === 'CodeTest') {
+      addType('CodeTest');
+    } else if (selectedValue === 'Toggle') {
+      addType('Toggle');
+    } else if (selectedValue === 'Memo') {
+      addType('Memo');
     } else {
-      setContent(null)
+      // setContent(null);
+      console.log("ERRORROROR")
     }
   }
 
-  // 전형 추가
   function addType(template) {
-    let newType
+    let newType;
     switch (template) {
-      case 'assay':
+      case 'QnA':
         newType = {
-          id: nextTabId,
-          templateType: 0,
-          title: '자기소개서',
+          nextTabId: nextTabId,
+          template_type: 1,
+          template_name: 'QnA',
           data: qnas
         };
         break;
-      case 'ct':
+      case 'CodeTest':
         newType = {
-          id: nextTabId,
-          templateType: 1,
-          title: '코딩테스트',
+          nextTabId: nextTabId,
+          template_type: 2,
+          template_name: 'CodeTest',
           data: cts
         };
         break;
-      case 'toggle':
+      case 'Toggle':
         newType = {
-          id: nextTabId,
-          templateType: 2,
-          title: '면접 문항',
+          nextTabId: nextTabId,
+          template_type: 3,
+          template_name: 'Toggle',
           data: interviews
         };
         break;
-      case 'memo':
+      case 'Memo':
         newType = {
-          id: nextTabId,
-          templateType: 3,
-          title: '빈 페이지',
+          nextTabId: nextTabId,
+          template_type: 4,
+          template_name: 'Memo',
           data: memos
         };
         break;
@@ -107,40 +93,43 @@ export default function TypeTabs() {
         newType = null;
     }
     if (newType) {
-      setTypes([...types, newType])
-      setNextTabId(nextTabId + 1)
-      setActiveTab(nextTabId)
-      setTemplateType(newType.templateType)
+      setTypes([...types, newType]);
+      setNextTabId(nextTabId + 1);
+      setActiveTab(nextTabId);
+      settemplate_type(newType.template_type);
     }
   }
 
-  function handleTabClick(tabId) {
+  function handleTabClick(tabId,template_type) {
     setActiveTab(tabId);
-    setTemplateType(types.find(tab => tab.id === tabId).templateType);
+    settemplate_type(types.find(tab => tab.nextTabId === tabId).template_type);
+    navigate(`/p/${pid}/test/${tabId}/${template_type}`);
   }
 
-  
   return (
     <div className="test-body">
       <div className="test-tabs">
-        <div className="tab-menu">
+        {types && <div className="tab-menu">
           {types.map(tab => (
-            <div key={tab.id} onClick={() => handleTabClick(tab.id)} className={activeTab === tab.id ? 'active-tab' : ''}>
-              {tab.title}
+            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.template_type)} className={activeTab === tab.nextTabId ? 'active-tab' : ''}>
+              {tab.template_name}
             </div>
           ))}
-        </div>
+        </div>}
 
         <select value='' onChange={handleDropdownChange} className="select-template">
           <option value="">템플릿 추가</option>
-          <option value="assay">자기소개서</option>
-          <option value="ct">코딩테스트</option>
-          <option value="toggle">면접 문항</option>
-          <option value="memo">빈 페이지</option>
+          <option value="QnA">자기소개서</option>
+          <option value="CodeTest">코딩테스트</option>
+          <option value="Toggle">면접 문항</option>
+          <option value="Memo">빈 페이지</option>
         </select>
       </div>
       <div className="tab-menu">
-        <ContentRenderer templateType={templateType}/>
+        {/* <ContentRenderer nextTabId={template_type}/>
+         */}
+        <Outlet />
+        
       </div>
     </div>
   );

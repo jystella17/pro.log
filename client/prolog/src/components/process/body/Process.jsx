@@ -7,6 +7,8 @@ import { useSetRecoilState } from 'recoil';
 import { processDataState } from "../../../state/atoms"; 
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import PaperBody from "../body/PaperBody"
+import ProcessRoutes from "./ProcessRoutes";
 
 const Content = styled.div`
 display: flex;
@@ -37,9 +39,9 @@ function Process() {
     return (
         <div className="process">
         <ProcessHeader />
-        <Steps />
-        <Content>
-            </Content>
+            {/* <Steps /> */}
+            <ProcessRoutes/>
+        
         </div>
     );
 

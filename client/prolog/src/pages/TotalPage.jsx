@@ -10,10 +10,18 @@ import Sidebar from "../components/sidebar/Sidebar";
 import Headbar from "../components/sidebar/Headbar";
 import NoProcess from "./NoProcess"
 import YesProcess from "./YesProcess";
-import CT from "../components/templates/ct/CT"
+
 import Login from "./Login";
 import WebRtc from "./WebRtc";
 import Process from "../components/process/body/Process";
+import PaperBody from "../components/process/body/PaperBody";
+import TestBody from "../components/process/body/TestBody";
+import InterviewBody from "../components/process/body/InterviewBody";
+import QnAContainer from "../components/templates/assay/Assay";
+import Interview from "../components/templates/interview/Interview";
+import CT from "../components/templates/ct/CT";
+import Memo from "../components/templates/memo/Memo";
+
 
 const AppContainer = styled.div`
   width: 1519px;
@@ -46,8 +54,21 @@ export default function Result() {
               <Route path="/process" element={<NoProcess />} />
               <Route path="/process/:selectedJdId" element={<YesProcess />} />
               <Route path="/process/:company" element={<NoProcess />} />
-              <Route path="/webrtc" element={<WebRtc />} />
-              <Route path="/p/:pid" element={<Process />} />
+            <Route path="/webrtc" element={<WebRtc />} />
+            
+            <Route path="/p/:pid" element={<Process />}>
+              <Route path="paper" element={<PaperBody />} />
+              <Route path="test" element={<TestBody />}>
+                <Route path=":tabId">
+                  <Route path="1" element={<QnAContainer />} />
+                  <Route path="2" element={<CT />} />
+                  <Route path="3" element={<Interview />} />
+                  <Route path="4" element={<Memo />} />
+                </Route>
+              </Route>
+              <Route path="interview" element={<InterviewBody />} />
+            </Route>
+
             </Routes>
           </TotalPageContent>
       </AppContainer>
