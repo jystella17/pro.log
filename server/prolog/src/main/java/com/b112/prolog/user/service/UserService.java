@@ -3,6 +3,7 @@ package com.b112.prolog.user.service;
 import com.b112.prolog.user.dto.Profile;
 import com.b112.prolog.user.entity.User;
 import com.b112.prolog.user.exception.UserNotFoundException;
+import com.b112.prolog.user.info.OAuth2UserInfo;
 import com.b112.prolog.user.jwt.TokenProvider;
 import com.b112.prolog.user.repository.TokenRepository;
 import com.b112.prolog.user.repository.UserRepository;
@@ -18,6 +19,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,8 +43,6 @@ public class UserService {
                         ), User.class, "users"))
                 .orElseThrow(UserNotFoundException::new);
 
-        log.info("User Found: " + user.toString());
-
         return Profile.builder()
                 .email(user.getEmail())
                 .nickname(user.getNickname())
@@ -52,7 +52,6 @@ public class UserService {
                 .newbie(user.isNewbie())
                 .qnas(user.getQnas())
                 .build();
-//        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     public Profile findCurrentUser() {
@@ -61,8 +60,26 @@ public class UserService {
 
     // Create
     public void saveUser(User user) {
-//        mongoTemplate.save(user);
         userRepository.save(user);
+    }
+
+    public void saveUserIfNotExists(OAuth2UserInfo userInfo) {
+        Optional<Profile> existUser = Optional.ofNullable(findUserById(userInfo.getId()));
+
+        if (existUser.isEmpty()) {
+            User user = User.builder()
+                    .id(userInfo.getId())
+                    .email(userInfo.getEmail())
+                    .nickname(userInfo.getNickName())
+                    .wishCompany(new ArrayList<>())
+                    .processes(new ArrayList<>())
+                    .developer(false)
+                    .newbie(true)
+                    .qnas(new ArrayList<>())
+                    .build();
+
+            saveUser(user);
+        }
     }
 
     // Update
@@ -84,12 +101,11 @@ public class UserService {
         그게 아니면 Map 형태로 받아서 map에 존재하는 key들만 overwrite
      */
     public void updateUserInfo(Map<String, Object> json) {
-
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
                         Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
-        Optional.ofNullable(json.get("wishCompany")).ifPresent(o ->
-                updateTarget.apply(new Update().set("wishCompany", o)).first());
+
+        json.forEach((key, value) -> updateTarget.apply(new Update().set(key, value)).all());
     }
 
     public void updateUserProcess(String id) {
@@ -106,17 +122,12 @@ public class UserService {
         updateTarget.apply(new Update().push("qnas", qnaId)).first();
     }
 
-    // Delete
-//    public void deleteUserById(String id) {
-//        userRepository.deleteById(id);
-//    }
     public void deleteUserById(String id) {
         DeleteResult deleteResult = mongoTemplate.remove(new Query(
                 Criteria.where("_id").is(id)
         ), "users");
 
         System.out.println("deleteResult.getDeletedCount() = " + deleteResult.getDeletedCount());
-//        userRepository.deleteById(id);
     }
 
     public void deleteCurrentUser() {
