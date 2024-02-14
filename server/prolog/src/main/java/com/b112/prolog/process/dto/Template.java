@@ -2,12 +2,15 @@ package com.b112.prolog.process.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+
 public class Template {
 
     private int template_type;
