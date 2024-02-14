@@ -146,7 +146,7 @@ public class JobDescriptionService {
             String expirationDatetime = simpleDateFormat.format(date);
 
             JSONObject closeType = (JSONObject) job.get("close-type");
-            int closeTypeCode = (int) closeType.get("code");
+            String closeTypeCode = (String) closeType.get("code");
 
             JSONObject company = (JSONObject) job.get("company");
             JSONObject detail = (JSONObject) company.get("detail");
