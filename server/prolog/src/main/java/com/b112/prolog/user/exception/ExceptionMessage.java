@@ -10,7 +10,8 @@ public enum ExceptionMessage {
     NOT_AUTHENTICATED("Not Authenticated"),
     LOGOUT_FAILED("Logout Failed"),
     ACCESS_TOKEN_EXPIRED("Access Token Expired"),
-    REFRESH_TOKEN_EXPIRED("Refresh Token Expired");
-
+    REFRESH_TOKEN_EXPIRED("Refresh Token Expired"),
+    ACCESS_DENIED("Access Denied");
+    
     private final String message;
 }
