@@ -13,7 +13,7 @@ export default function TypeTabs() {
   const savedTemplate = processData;
   const [types, setTypes] = useState();
   const [nextTabId, setNextTabId] = useState(0);
-  const [template_type, settemplate_type] = useState(null);
+  const [templateType, settemplateType] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
   const [qnas, setQnas] = useState();
   const [cts, setCts] = useState();
@@ -42,8 +42,8 @@ export default function TypeTabs() {
 
     if (selectedValue === 'QnA') {
       addType('QnA');
-    } else if (selectedValue === 'CodeTest') {
-      addType('CodeTest');
+    } else if (selectedValue === 'CodingTest') {
+      addType('CodingTest');
     } else if (selectedValue === 'Toggle') {
       addType('Toggle');
     } else if (selectedValue === 'Memo') {
@@ -60,32 +60,32 @@ export default function TypeTabs() {
       case 'QnA':
         newType = {
           nextTabId: nextTabId,
-          template_type: 1,
-          template_name: 'QnA',
+          templateType: 1,
+          templateName: 'QnA',
           data: qnas
         };
         break;
-      case 'CodeTest':
+      case 'CodingTest':
         newType = {
           nextTabId: nextTabId,
-          template_type: 2,
-          template_name: 'CodeTest',
+          templateType: 2,
+          templateName: 'CodingTest',
           data: cts
         };
         break;
       case 'Toggle':
         newType = {
           nextTabId: nextTabId,
-          template_type: 3,
-          template_name: 'Toggle',
+          templateType: 3,
+          templateName: 'Toggle',
           data: interviews
         };
         break;
       case 'Memo':
         newType = {
           nextTabId: nextTabId,
-          template_type: 4,
-          template_name: 'Memo',
+          templateType: 4,
+          templateName: 'Memo',
           data: memos
         };
         break;
@@ -96,14 +96,14 @@ export default function TypeTabs() {
       setTypes([...types, newType]);
       setNextTabId(nextTabId + 1);
       setActiveTab(nextTabId);
-      settemplate_type(newType.template_type);
+      settemplateType(newType.templateType);
     }
   }
 
-  function handleTabClick(tabId,template_type) {
+  function handleTabClick(tabId,templateType) {
     setActiveTab(tabId);
-    settemplate_type(types.find(tab => tab.nextTabId === tabId).template_type);
-    navigate(`/p/${pid}/test/${tabId}/${template_type}`);
+    settemplateType(types.find(tab => tab.nextTabId === tabId).templateType);
+    navigate(`/p/${pid}/test/${tabId}/${templateType}`, { state: {"step" :"test"} });
   }
 
   return (
@@ -111,8 +111,8 @@ export default function TypeTabs() {
       <div className="test-tabs">
         {types && <div className="tab-menu">
           {types.map(tab => (
-            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.template_type)} className={activeTab === tab.nextTabId ? 'active-tab' : ''}>
-              {tab.template_name}
+            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={activeTab === tab.nextTabId ? 'active-tab' : ''}>
+              {tab.templateName}
             </div>
           ))}
         </div>}
@@ -120,13 +120,13 @@ export default function TypeTabs() {
         <select value='' onChange={handleDropdownChange} className="select-template">
           <option value="">템플릿 추가</option>
           <option value="QnA">자기소개서</option>
-          <option value="CodeTest">코딩테스트</option>
+          <option value="CodingTest">코딩테스트</option>
           <option value="Toggle">면접 문항</option>
           <option value="Memo">빈 페이지</option>
         </select>
       </div>
-      <div className="tab-menu">
-        {/* <ContentRenderer nextTabId={template_type}/>
+      <div className="test-menu">
+        {/* <ContentRenderer nextTabId={templateType}/>
          */}
         <Outlet />
         

@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import styled from "styled-components";
 import { IoClose, IoAddCircleOutline } from "react-icons/io5";
 import { Input, ConfigProvider } from "antd";
 import { useRecoilValue } from "recoil";
 import { processDataState } from "../../../state/atoms";
+import { useParams, useLocation,useNavigate } from "react-router";
+import axios from "axios"; // axios import 추가
 
 const { TextArea } = Input;
 
@@ -71,27 +73,116 @@ function QnAComponent({
 function QnAContainer() {
   const processData = useRecoilValue(processDataState);
   const [qnas, setQnAs] = useState([]);
+  const [dataToSend, setDataToSend] = useState();
+  const [company, setCompany] = useState();
+  const [qnaId, setQnaId] = useState(0);
+  const [now, setNow] = useState();
+  const valueRef = useRef();
+  const params = useParams();
+  const location = useLocation(); // 어떤 스텝이니 test? interview ?
+  const navigate = useNavigate();
+  const step = location.state.step;
+  const { tabId,pid } = params;   // 몇번째 템플릿이니
+  const ntab = tabId;
+  console.log(step, "st  props")
+  console.log(ntab,"stabId")
+  const currentPath = window.location.pathname;
+  const lastSlashIndex = currentPath.lastIndexOf('/');
+  const lastValue = currentPath.substring(lastSlashIndex + 1);
+    
+
+  useEffect(() => {
+    if (processData[step][ntab].qnaList) {
+      // const now = processData[step][tabId];
+      setCompany(processData.company)
+      console.log(processData[step], "NOW")
+      console.log(processData[step][ntab].qnaList, "NOW2222")
+      const t = processData[step][ntab].qnaList
+      const newQnAs = t.map((item, index) => ({
+        ...item,
+        qnaId: `${index}`, // qnaId 필드 추가
+      }));
+      setQnaId(processData[step][ntab].qnaList.length)
+      setQnAs(newQnAs);
+      console.log(processData[step][ntab].qnaList,"New Q")
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(processData[step][ntab], " Q == = = = Q")
+    
+  }, [processData[step][ntab]]);
   
 
   useEffect(() => {
-    if (processData) {
-      
-      const newQnAs = processData.test.flatMap((item, index) => (
-        item.content.map((contentItem, contentIndex) => ({
-          ...contentItem,
-          qnaId: `${index}-${contentIndex}`, // 적절한 고유 식별자 생성
-        }))
-      ));
-      setQnAs(newQnAs);
+    console.log(qnas, " qnas")
+    const dts = qnas.map(({ qnaId, ...rest }) => ({
+      ...rest, // qnaId 필드를 제외한 나머지 필드들을 복사하여 dataToSend 배열에 추가
+      company:company
+    }));
+    console.log(dts,"dts")
+    setDataToSend(dts)
+    valueRef.current = dts;
+    
 
-      console.log(processData, "QNS");
+  }, [qnas]);
+
+  
+
+  // useEffect(() => {
+    
+  //   const intervalId = setInterval(() => {
+  //     sendPutRequest(dataToSend);
+  //     console.log(dataToSend,"Interval!!!!!!!!!!!!!!!!!!!")
+  //   }, 30000);
+  
+  //   // 컴포넌트가 unmount될 때 타이머 정리
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   }
+  // }, [dataToSend]); // dataToSend가 변경될 때마다 타이머 설정 혹은 정리
+
+  useEffect(() => {
+    // 마운트될 때 실행할 코드
+    console.log('컴포넌트가 마운트되었습니다.');
+
+    // 언마운트될 때 실행할 함수 반환
+    return () => {
+      console.log('컴포넌트가 언마운트되었습니다.');
+      sendPutRequest(valueRef.current);
+      // 여기서 특정 함수를 호출하거나 작업을 수행할 수 있습니다.
+    };
+  }, []);
+  
+
+  async function sendPutRequest(data) {
+    try {
+      console.log(data,"datatatatata")
+      if (data!==undefined) {
+        console.log(data,"PUT AXIOS")
+        // PUT 요청 보내기
+        await axios.put(`https://i10b112.p.ssafy.io/api/qna`, 
+          data // 또는 필요한 데이터
+        );
+        
+      }
       
+    } catch (error) {
+      console.error("Error sending PUT request:", error);
     }
-  }, [processData]);
+  }
 
-  function AddQnA() {
-    const newId = qnas.length > 0 ? Math.max(...qnas.map((q) => parseInt(q.qnaId.split("-")[0], 10))) + 1 : 0;
-    setQnAs([...qnas, { qnaId: `${newId}-0`, id: newId, question: "", answer: "" }]);
+
+  async function AddQnA() {
+    try {
+      const response = await axios.post(`https://i10b112.p.ssafy.io/api/${pid}/${step}/${ntab}/qna`, {
+      });
+      const oid = response.data.id; // 응답에서 id 값을 추출하여 oid 변수에 저장
+      const newId = qnas.length > 0 ? Math.max(...qnas.map((q) => parseInt(q.qnaId.split("-")[0], 10))) + 1 : 0;
+      setQnAs([...qnas, { qnaId: `${newId}-0`, id: oid, question: "", answer: "" }]);
+    } catch (error) {
+      console.error("Error adding QnA:", error);
+    }
   }
 
   function removeQnA(qnaId, index) {
@@ -102,12 +193,12 @@ function QnAContainer() {
 
   function handleQuestionChange(qnaId, newQuestion) {
     setQnAs(qnas.map((q) => (q.qnaId === qnaId ? { ...q, question: newQuestion } : q)));
-    console.log(`질문 ${qnaId} 변경됨:`, newQuestion);
+    // console.log(`질문 ${qnaId} 변경됨:`, newQuestion);
   }
 
   const handleAnswerChange = (qnaId, newAnswer) => {
     setQnAs(qnas.map((q) => (q.qnaId === qnaId ? { ...q, answer: newAnswer } : q)));
-    console.log(`답변 ${qnaId} 변경됨:`, newAnswer);
+    // console.log(`답변 ${qnaId} 변경됨:`, newAnswer);
   };
 
   return (

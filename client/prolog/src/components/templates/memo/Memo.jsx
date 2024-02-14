@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import "./Memo.scss";
+import { useParams,useLocation } from "react-router";
+import { useRecoilValue } from "recoil";
+import { processDataState } from "../../../state/atoms";
 
 // 저장이랑 수정 어떻게 하지..
 
@@ -14,9 +17,30 @@ const ContainerAll = styled.div`
 `;
 
 function Memo() {
-  const [memo, setMemo] = useState(""); // 현재 입력중인 메모
+  const [memo, setMemo] = useState(); // 현재 입력중인 메모
   const [savedMemo, setSavedMemo] = useState(""); // 저장된 메모
   const textareaRef = useRef(null);
+
+
+
+  const processData = useRecoilValue(processDataState);
+  
+  const params = useParams();
+  const location = useLocation(); // 어떤 스텝이니 test? interview ?
+  const step = location.state.step;
+  const { tabId } = params;   // 몇번째 템플릿이니
+  const ntab = tabId;
+  console.log(step, "st  props")
+  console.log(ntab,"stabId")
+
+  useEffect(() => {
+    if (processData[step][ntab].memo) {
+      // const now = processData[step][tabId];
+      console.log(processData[step][ntab].memo, "NOW2222")
+      const t = processData[step][ntab].memo
+      setMemo(t);
+    }
+  }, [processData]);
 
   const handleResizeHeight = () => {
     if (textareaRef.current) {
