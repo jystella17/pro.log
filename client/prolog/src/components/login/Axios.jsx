@@ -3,7 +3,8 @@ import { setCookie, getCookie, removeCookie } from "../../cookie/cookie";
 import { useNavigate } from "react-router-dom";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  // baseURL: "http://localhost:8080",
+  baseURL: "https://i10b112.p.ssafy.io",
 });
 
 // 요청 인터셉터 : 모든 요청에 JWT 토큰을 포함
