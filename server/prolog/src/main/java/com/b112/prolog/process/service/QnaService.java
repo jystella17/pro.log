@@ -20,31 +20,26 @@ public class QnaService {
     private final QnaRepository qnaRepository;
     private final ProcessRepository processRepository;
 
-    public String insertQnA(QnaDto dto, String oid,String step,int index){
-        Qna qna = Qna.builder()
-                .question(dto.getQuestion())
-                .answer(dto.getAnswer())
-                .company(dto.getCompany())
-                .start_date(dto.getStart_date())
-                .build();
+    public String insertQnA(QnaDto dto, String oid, String step, int index){
+        Qna qna = qnaRepository.save(Qna.builder().question(dto.getQuestion()).answer(dto.getAnswer())
+                    .company(dto.getCompany()).start_date(dto.getStart_date()).build());
 
-        Qna qid = qnaRepository.save(qna);
+        QnaDto qnaDto = QnaDto.builder().id(qna.getId()).question(qna.getQuestion()).answer(qna.getAnswer())
+                .company(qna.getCompany()).start_date(qna.getStart_date()).build();
 
-        QnaDto qnaDto = new QnaDto();
-        qnaDto.setId(qid.getId());
         Query q = new Query(Criteria.where("_id").is(oid));
         Update u = new Update();
 
         String target = step+"."+index+"."+"content";
 //        u.push(target,qid.getId());
-        u.push(target,qnaDto);
+        u.push(target, qnaDto);
 //        u.set(step,)
         // Process id의 essay[]에 추가한 Qna ObjectId insert
 
         processRepository.updateTemplate(q,u, Process.class);
 
         //TBD USER의 자소서 Array에도 qid추가 해야함 .
-        return qid.getId();
+        return qna.getId();
     }
 
     /*
@@ -58,15 +53,12 @@ public class QnaService {
             u.set("question",qnaDto.getQuestion());
             u.set("answer",qnaDto.getAnswer());
             qnaRepository.updateTemplate(q,u,Qna.class);
-
         }
-
         return 1;
     }
 
     public List<QnaDto> searchQnaByKeyword(String keyword){
         Query query = new Query(Criteria.where("question").regex(keyword));
-        List<QnaDto> qnaDtos = qnaRepository.find(query,"qna");
-        return qnaDtos;
+        return qnaRepository.find(query,"qna");
     }
 }
