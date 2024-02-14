@@ -2,19 +2,15 @@ package com.b112.prolog.user.entity;
 
 import com.b112.prolog.process.entity.Process;
 import com.b112.prolog.process.entity.Qna;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.List;
 
 @Document(collection = "users")
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Builder
 public class User {
@@ -23,11 +19,11 @@ public class User {
     private String email;
     private String nickname;
     private List<String> wishCompany;
-    @DocumentReference
+    @DBRef
     private List<Process> processes;
     private boolean developer;
     private boolean newbie;
-    @DocumentReference
+    @DBRef
     private List<Qna> qnas;
 
     @Override

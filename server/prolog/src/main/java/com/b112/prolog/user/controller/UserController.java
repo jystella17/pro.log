@@ -9,10 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -35,7 +32,7 @@ public class UserController {
 
     @PutMapping("/profile")
 //    public ResponseEntity<?> editProfile(Profile profile) {
-    public ResponseEntity<?> editProfile(HashMap<String, Object> map) {
+    public ResponseEntity<?> editProfile(@RequestBody HashMap<String, Object> map) {
         userService.updateUserInfo(map);
         return ResponseEntity.ok().build();
     }
@@ -61,8 +58,5 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/cover-letter")
-    public ResponseEntity<?> getEssays() {
-        return ResponseEntity.ok().build();
-    }
+
 }
