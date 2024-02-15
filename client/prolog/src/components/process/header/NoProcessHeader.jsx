@@ -73,13 +73,13 @@ export default function ProcessHeader() {
     if (!processData) {
         return null;
     }
-    console.log(processData, "ProcessHeader")
+    // console.log(processData, "ProcessHeader")
     
     return (
         <div className='totalBox'>
             <div className='box1'>
                 <CompanyName company={processData.company} />
-                <InputTag backgroundcolor={'white'}/>
+                {processData.tag && <InputTag backgroundcolor={'white'} />}
             </div>
             <div className="box2">
                 <div className="deadline">

@@ -73,11 +73,11 @@ function AddProcessContent({
       company: addCompany, step: addType, end_date: deadline
     })
       .then(res =>
-        console.log('저장 완료: ', res.data))
+        navigate(`/process/${res.data}`))
       .catch(err =>
         console.error(err.message))
     
-    navigate('/process')
+    
   }
 
 

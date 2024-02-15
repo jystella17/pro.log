@@ -57,12 +57,12 @@ function JDContent({ selectedJd, closeModalHandler, day }) {
             end_date: expirationDate
           })
             .then(res =>
-              console.log('저장 완료: ', res.data))
+              navigate(`/process/${res.data}`))
             .catch(err =>
               console.error(err.message))
         });
   
-      navigate('/process')
+      
     } else {
       console.log('selectedJd is undefined');
     }
