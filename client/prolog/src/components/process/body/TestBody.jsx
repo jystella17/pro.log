@@ -122,7 +122,7 @@ export default function TypeTabs() {
   function handleTabClick(tabId,templateType) {
     setActiveTab(tabId);
     settemplateType(types.find(tab => tab.nextTabId === tabId).templateType);
-    navigate(`/p/${pid}/test/${tabId}/${templateType}`, { state: {"step" :"test"} });
+    navigate(`/process/${pid}/test/${tabId}/${templateType}`, { state: {"step" :"test"} });
   }
 
   return (

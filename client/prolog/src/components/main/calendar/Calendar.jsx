@@ -72,7 +72,7 @@ function CalendarBody({
                     </div>
                    {my && (<ul className="my-plan-wrapper">
                         {dayPlans.map((data, index) => (
-                            <li className="my-plan" key={index} onClick={navigateToProcess}>{data.company}</li>
+                            <li className="my-plan" key={index} onClick={() => navigateToProcess(data.id)}>{data.company}</li>
                         ))}
                     </ul>)}
                     {all && (<Recruit
@@ -123,8 +123,9 @@ export default function Calendar() {
     const [my, setMy] = useState(false)
     const [all, setAll] = useState(true)
 
-    function navigateToProcess() {
-        navigate('/process')
+    function navigateToProcess(pid) {
+        // console.log(pid,"pid")
+        navigate(`/process/${pid}`)
     }
 
     // 채용 공고 받아오기

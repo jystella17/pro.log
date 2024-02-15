@@ -26,19 +26,19 @@ function ProcessRoutes() {
                         className={`tab paper ${activeStep === 'paper' ? 'active' : ''}`}
                         onClick={() => handleTabClick('paper')}
                     >
-                        <Link to={`/p/${pid}/paper`}>Paper</Link>
+                        <Link to={`/process/${pid}/paper`}>Paper</Link>
                     </li>
                     <li
                         className={`tab test ${activeStep === 'test' ? 'active' : ''}`}
                         onClick={() => handleTabClick('test')}
                     >
-                        <Link to={`/p/${pid}/test`}>Test</Link>
+                        <Link to={`/process/${pid}/test`}>Test</Link>
                     </li>
                     <li
                         className={`tab interview ${activeStep === 'interview' ? 'active' : ''}`}
                         onClick={() => handleTabClick('interview')}
                     >
-                        <Link to={`/p/${pid}/interview`}>Interview</Link>
+                        <Link to={`/process/${pid}/interview`}>Interview</Link>
                     </li>
                 </ul>
             </div>
