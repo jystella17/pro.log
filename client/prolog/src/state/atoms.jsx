@@ -9,3 +9,8 @@ export const processDataState = atom({
   key: 'processDataState',
   default: null
 });
+
+export const masterDataState = atom({
+  key: 'masterDataState',
+  default: null
+});

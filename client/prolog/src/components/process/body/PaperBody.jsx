@@ -33,10 +33,6 @@ export default function TypeTabs() {
     setIsMasterOpen(!isMasterOpen)
   }
 
-
-
-  
-
   const navigate = useNavigate();
 
   const params = useParams();
@@ -125,10 +121,10 @@ export default function TypeTabs() {
 
   return (
     <div className="paper-body">
-      <div className="paper-tabs">
-        {types && <div className="tab-menu">
+      <div className="paper-tabs-wrapper">
+        {types && <div className="paper-tab-menu">
           {types.map(tab => (
-            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={activeTab === tab.nextTabId ? 'active-tab' : ''}>
+            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={`paper-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
               {tab.templateName}
             </div>
           ))}
@@ -142,15 +138,14 @@ export default function TypeTabs() {
           <option value="Memo">빈 페이지</option>
         </select>
       </div>
-      {templateType === 1 &&
-          <Button className={'navy'} width={'100px'} height={'40px'} onClick={openMasterModal}>{'불러오기'}</Button>}
+      
       <div className="paper-menu">
         {/* <ContentRenderer nextTabId={templateType}/>
          */}
         <Outlet />
         
       </div>
-      <SearchMaster isMasterOpen={isMasterOpen} setIsMasterOpen={setIsMasterOpen} openMasterModal={openMasterModal} />
+      
     </div>
   );
 };

@@ -21,29 +21,25 @@ function ProcessRoutes() {
     return (
         <div className="process-routes">
             <div>
-                <ul className="tabs">
-                    <li
-                        className={`tab paper ${activeStep === 'paper' ? 'active' : ''}`}
-                        onClick={() => handleTabClick('paper')}
-                    >
-                        <Link to={`/process/${pid}/paper`}>Paper</Link>
-                    </li>
-                    <li
-                        className={`tab test ${activeStep === 'test' ? 'active' : ''}`}
-                        onClick={() => handleTabClick('test')}
-                    >
-                        <Link to={`/process/${pid}/test`}>Test</Link>
-                    </li>
-                    <li
-                        className={`tab interview ${activeStep === 'interview' ? 'active' : ''}`}
-                        onClick={() => handleTabClick('interview')}
-                    >
-                        <Link to={`/process/${pid}/interview`}>Interview</Link>
-                    </li>
+                <ul className="step-tabs">
+
+                    <Link to={`/process/${pid}/paper`} className={`step-tab paper ${activeStep === 'paper' ? 'active' : ''}`}>
+                        <li onClick={() => handleTabClick('paper')}>Paper</li>
+                    </Link>
+                        
+                    <Link to={`/process/${pid}/test`} className={`step-tab test ${activeStep === 'test' ? 'active' : ''}`}>
+                        <li onClick={() => handleTabClick('test')}>Test</li>
+                    </Link>
+                        
+                    <Link to={`/process/${pid}/interview`}  className={`step-tab interview ${activeStep === 'interview' ? 'active' : ''}`}>
+                        <li onClick={() => handleTabClick('interview')}>Interview</li>
+                    </Link>
+                    
                 </ul>
             </div>
-            
-            <Outlet /> 
+            <div>
+                <Outlet /> 
+            </div>
         </div>
     );
 }
