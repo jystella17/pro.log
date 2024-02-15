@@ -108,7 +108,7 @@ function QnAContainer() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("https://i10b112.p.ssafy.io/api/cover-letter");
+        const response = await api.get("/api/cover-letter");
         setQnAs(response.data || []);
       } catch (error) {
         console.error("마스터자소서 불러오기 실패", error);
@@ -120,23 +120,23 @@ function QnAContainer() {
   }, []);
 
   // qnas put test
-  function SaveQnAs() {
-    const saveData = async () => {
-      try {
-        // qnas배열을 json으로 변환
-        // const qnasJsonString = JSON.stringify(qnas);
-        // await api.put("https://i10b112.p.ssafy.io/api/cover-letter", qnasJsonString);
-        await api.put("https://i10b112.p.ssafy.io/api/cover-letter", qnas, {
-          headers: {
-            "Content-Type": "application/json", // 이 헤더를 추가
-          },
-        });
-      } catch (error) {
-        console.error("마스터자소서 저장 실패", error);
-      }
-    };
-    saveData();
-  }
+  // function SaveQnAs() {
+  //   const saveData = async () => {
+  //     try {
+  //       // qnas배열을 json으로 변환
+  //       // const qnasJsonString = JSON.stringify(qnas);
+  //       // await api.put("https://i10b112.p.ssafy.io/api/cover-letter", qnasJsonString);
+  //       await api.put("https://i10b112.p.ssafy.io/api/cover-letter", qnas, {
+  //         headers: {
+  //           "Content-Type": "application/json", // 이 헤더를 추가
+  //         },
+  //       });
+  //     } catch (error) {
+  //       console.error("마스터자소서 저장 실패", error);
+  //     }
+  //   };
+  //   saveData();
+  // }
 
   // qna 추가
   function AddQnA() {
@@ -184,6 +184,7 @@ function QnAContainer() {
 
   // on Input end
   const handleChange = (id, question, answer) => {
+    console.log("id", id);
     api
       .put("/api/cover-letter", {
         id,
