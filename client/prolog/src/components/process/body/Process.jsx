@@ -1,7 +1,7 @@
 
 import styled from "styled-components";
 import ProcessHeader from "../header/NoProcessHeader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSetRecoilState } from 'recoil';
 import { processDataState } from "../../../state/atoms"; 
 import { useParams } from "react-router-dom";
