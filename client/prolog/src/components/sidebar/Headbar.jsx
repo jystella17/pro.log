@@ -53,7 +53,7 @@ export default function Headbar() {
     <Head>
       {isLoggedIn ? (
         <>
-          <Greetings>{`${profile?.nickname}님 안녕하세요 !`}</Greetings>
+          {profile?.nickname ? <Greetings>{`${profile?.nickname}님 안녕하세요 !`}</Greetings> : ""}
           <LogoutButton />
         </>
       ) : (
