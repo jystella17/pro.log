@@ -19,4 +19,5 @@ public class Profile {
     private boolean developer;
     private boolean newbie;
     private List<Qna> qnas;
+    private String phoneNumber;
 }
