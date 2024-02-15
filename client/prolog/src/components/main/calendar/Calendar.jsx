@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 
 import MainPageHeader from './CalendarHeader.jsx';
@@ -20,9 +21,6 @@ import { isSameMonth, isSameDay, addDays, parseISO, parse } from 'date-fns';
 import { CiSquarePlus } from "react-icons/ci";
 
 
-
-
-
 // 달력 body component
 function CalendarBody({
     JDData,
@@ -31,6 +29,7 @@ function CalendarBody({
     selectedDate,
     mapCompanyData,
     openAddProcessHandler,
+    navigateToProcess,
     searchTerm,
     dateType }) {
 
@@ -73,7 +72,7 @@ function CalendarBody({
                     </div>
                    {my && (<ul className="my-plan-wrapper">
                         {dayPlans.map((data, index) => (
-                            <li className="my-plan" key={index}>{data.company}</li>
+                            <li className="my-plan" key={index} onClick={() => navigateToProcess(data.id)}>{data.company}</li>
                         ))}
                     </ul>)}
                     {all && (<Recruit
@@ -100,6 +99,7 @@ function CalendarBody({
 
 
 export default function Calendar() {
+    const navigate = useNavigate()
     
     // 달력 상태 관리
     const [Month, setMonth] = useState(new Date())
@@ -123,17 +123,9 @@ export default function Calendar() {
     const [my, setMy] = useState(false)
     const [all, setAll] = useState(true)
 
-    // JD 모달 상태 관리
-    const [JDOpen, setJDOpen] = useState(false)
-    // const [selectedJd, setSelectedJd] = useState(null)
-    
-    // function openJDModalHandler() {
-    //     setJDOpen(true)
-    // }
-    
-    
-    function saveSelectedRecruit() {
-        setSelectedJd
+    function navigateToProcess(pid) {
+        // console.log(pid,"pid")
+        navigate(`/process/${pid}`)
     }
 
     // 채용 공고 받아오기
@@ -141,7 +133,7 @@ export default function Calendar() {
     const [mapCompanyData, setMapCompanyData] = useState()
 
     useEffect(() => {
-        fetchJD()
+        fetchJD({ year: format(Month, 'yyyy'), month: format(Month, 'MM') })
           .then(res => {
             console.log(res.data)
             setJDData(res.data)
@@ -171,13 +163,15 @@ export default function Calendar() {
                 return {
                     companyId: id,
                     companyName: filteredJobs[0].company.companyName,
+                    closeTypeCode : filteredJobs[0].closeTypeCode,
                     jobGroups: Object.entries(jobGroups).map(([dateKeyStr, jobs]) => ({ dateKey: JSON.parse(dateKeyStr), jobs }))
                 };
             });
             setMapCompanyData(mapData)
         }
     }, [JDData])
-
+    
+    console.log(mapCompanyData)
     return (
         <div className="calendar">
             <div>
@@ -197,7 +191,7 @@ export default function Calendar() {
                         Month={Month}
                         selectedDate={selectedDate}
                         openAddProcessHandler={openAddProcessHandler}
-                        // openJDModalHandler={openJDModalHandler}
+                        navigateToProcess={navigateToProcess}
                         searchTerm={searchTerm}
                         dateType={dateType}
                     />}
@@ -211,9 +205,6 @@ export default function Calendar() {
             
             {mapCompanyData && JDData && <JobDescription
                 JDData={JDData}
-                // openJDModalHandler={openJDModalHandler}
-                JDOpen={JDOpen} setJDOpen={setJDOpen}
-                // closeModalHandler={closeModalHandler}
                 mapCompanyData={mapCompanyData} />}
         </div>
     )

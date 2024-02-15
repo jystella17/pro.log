@@ -26,8 +26,8 @@ const api = {
 //   return axios.get(url);
 // }
 
-function fetchJD() {
-  const url = `${api.calendar}/2023/02`
+function fetchJD({ year, month }) {
+  const url = `${api.calendar}/${year}/${month}`
   return axios.get(url)
 }
 

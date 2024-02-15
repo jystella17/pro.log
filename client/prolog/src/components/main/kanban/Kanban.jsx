@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import initialData from "./initial-data";
 import Column from "./Column";
@@ -13,6 +14,8 @@ function Kanban() {
   // const [state, setState] = useState(initialData);
   const [state, setState] = useState();
   const [data, setData] = useState();
+  const navigate = useNavigate();
+
   useEffect(() => {
 
     const initialColumns = {
@@ -31,7 +34,8 @@ function Kanban() {
         
         // 데이터를 변환하여 state에 저장
         const cards = {};
-        const columns = {...initialColumns};
+        const columns = { ...initialColumns };
+        console.log(receivedData)
         
 
         receivedData.forEach((item, index) => {
@@ -61,13 +65,13 @@ function Kanban() {
       
   }, []);
 
-  
+  //////////////////////////////////////////////
   useEffect(() => {
     if (state) {
       console.log(state, "State");
     }
   }, [state]);
-  
+  ////////////////////////////////
   function onDragEnd(result) {
     // console.log(result);
     // 시작위치 source, 끝 위치 destination, 드래그카드의 고유 식별자draggableId
@@ -171,6 +175,14 @@ function Kanban() {
 
   }
 
+  const handleCardClick = (cardId) => {
+    navigate(`/cards/${cardId}`)
+  };
+  const showInfo = (id) => {
+    console.log(id)
+  }
+
+
   return (
     <div>
       {state &&
@@ -190,6 +202,7 @@ function Kanban() {
                     key={column.id}
                     column={column}
                     cards={[passcards, failcards]}
+                    
                   />
                 );
               } else {
