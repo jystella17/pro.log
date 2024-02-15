@@ -8,12 +8,11 @@ import SearchMaster from "../../masterPaper/SearchMaster";
 import Button from '../../../common/components/Button'
 
 
-import './PaperBody.scss'
+import './ProcessBody.scss'
 
 import { useRecoilValue } from "recoil";
 import { processDataState } from "../../../state/atoms";
 import { Outlet, useNavigate, useParams } from "react-router";
-import './Process.scss'
 
 export default function TypeTabs() {
   const processData = useRecoilValue(processDataState);
@@ -121,10 +120,10 @@ export default function TypeTabs() {
 
   return (
     <div className="paper-body">
-      <div className="paper-tabs-wrapper">
-        {types && <div className="paper-tab-menu">
+      <div className="process-tabs-wrapper">
+        {types && <div className="process-tabs">
           {types.map(tab => (
-            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={`paper-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
+            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={`process-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
               {tab.templateName}
             </div>
           ))}
@@ -139,7 +138,7 @@ export default function TypeTabs() {
         </select>
       </div>
       
-      <div className="paper-menu">
+      <div className="process-menu">
         {/* <ContentRenderer nextTabId={templateType}/>
          */}
         <Outlet />

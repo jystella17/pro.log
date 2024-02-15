@@ -12,8 +12,8 @@ const ContainerAll = styled.div`
   align-items: center;
   justify-content: center;
   padding: 70px 100px;
-  background-color: #ecefff;
-  border-radius: 10px;
+  // background-color: #ecefff;
+  // border-radius: 10px;
 `;
 
 function Memo() {

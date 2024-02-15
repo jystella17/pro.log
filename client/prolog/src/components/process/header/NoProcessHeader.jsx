@@ -47,7 +47,7 @@ function DeadLine() {
                 <span style={{ fontSize: '13.5px' }}>마감일</span>
                 <Dday>D-{daysDiff}</Dday>
             </div>
-            <DatePick onChange={handleChange} />
+            <DatePick selectedDate={selectedDate} setSelectedDate={setSelectedDate} onChange={handleChange} />
         </div>
     )
 }

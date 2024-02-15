@@ -5,7 +5,7 @@ import CT from '../../templates/ct/CT'
 import Interview from '../../templates/interview/Interview'
 import Memo from '../../templates/memo/Memo'
 
-import './Process.scss'
+import './ProcessBody.scss'
 
 export default function TypeTabs() {
   const [types, setTypes] = useState([])
@@ -122,10 +122,10 @@ export default function TypeTabs() {
   
   return (
     <div className="interview-body">
-      <div className="interview-tabs">
-        <div className="tab-menu">
+      <div className="process-tabs-wrapper">
+        <div className="process-tabs">
           {types.map(tab => (
-            <div key={tab.id} onClick={() => handleTabClick(tab.id)} className={activeTab === tab.id ? 'active-tab' : ''}>
+            <div key={tab.id} className={`process-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
               {tab.title}
             </div>
           ))}
@@ -139,7 +139,7 @@ export default function TypeTabs() {
           <option value="memo">빈 페이지</option>
         </select>
       </div>
-      <div className="tab-menu">
+      <div className="process-menu">
         <ContentRenderer templateType={templateType}/>
       </div>
     </div>

@@ -6,7 +6,7 @@ import Memo from '../../templates/memo/Memo'
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { processDataState } from "../../../state/atoms";
 import { Outlet, useNavigate, useParams } from "react-router";
-import './Process.scss'
+import './ProcessBody.scss'
 
 export default function TypeTabs() {
   const processData = useRecoilValue(processDataState);
@@ -127,10 +127,10 @@ export default function TypeTabs() {
 
   return (
     <div className="test-body">
-      <div className="test-tabs">
-        {types && <div className="tab-menu">
+      <div className="process-tabs-wrapper">
+        {types && <div className="process-tabs">
           {types.map(tab => (
-            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={activeTab === tab.nextTabId ? 'active-tab' : ''}>
+            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={`process-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
               {tab.templateName}
             </div>
           ))}
@@ -144,7 +144,7 @@ export default function TypeTabs() {
           <option value="Memo">빈 페이지</option>
         </select>
       </div>
-      <div className="test-menu">
+      <div className="process-menu">
         {/* <ContentRenderer nextTabId={templateType}/>
          */}
         <Outlet />
