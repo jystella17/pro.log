@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { IoClose, IoAddCircleOutline } from "react-icons/io5";
 import { Input, ConfigProvider } from "antd";
 import { useRecoilValue,useSetRecoilState } from "recoil";
-import { processDataState } from "../../../state/atoms";
-import { useParams, useLocation,useNavigate } from "react-router";
+import { processDataState, masterDataState } from "../../../state/atoms";
+import { useParams, useLocation, useNavigate } from "react-router";
+import Button from "../../../common/components/Button";
+import SearchMaster from '../../masterPaper/SearchMaster'
 import axios from "axios"; // axios import 추가
 
 const { TextArea } = Input;
 
 const ContainerAll = styled.div`
-  padding: 70px 100px 30px 100px;
+  // padding: 70px 100px 30px 100px;
   background-color: #f3f8ff;
   border-radius: 10px;
 `;
@@ -26,8 +28,11 @@ function QnAComponent({
   index,
   isRemovable,
 }) {
+
+  
   return (
-    <div className="qna">
+    <div className="qna-wrapper">
+      
       <div className="qna-header">
         <div className="qna-number">
           <p>{index + 1}.</p>
@@ -66,6 +71,7 @@ function QnAComponent({
           }}
         />
       </ConfigProvider>{" "}
+      
     </div>
   );
 }
@@ -73,8 +79,8 @@ function QnAComponent({
 function QnAContainer() {
   const processData = useRecoilValue(processDataState);
   const setProcessData = useSetRecoilState(processDataState);
-
-  
+  const masterData = useRecoilValue(masterDataState);
+  console.log(processData)
 
   const [qnas, setQnAs] = useState([]);
   const [dataToSend, setDataToSend] = useState();
@@ -86,7 +92,7 @@ function QnAContainer() {
   const location = useLocation(); // 어떤 스텝이니 test? interview ?
   const navigate = useNavigate();
   const step = location.state.step;
-  const { tabId,pid } = params;   // 몇번째 템플릿이니
+  const { tabId, pid } = params;   // 몇번째 템플릿이니
   const ntab = tabId;
   console.log(step, "st  props")
   console.log(ntab,"stabId")
@@ -96,6 +102,7 @@ function QnAContainer() {
     
 
   useEffect(() => {
+    console.log(processData[step][ntab],"processData[step][ntab]")
     if (processData[step][ntab].qnaList) {
       // const now = processData[step][tabId];
       setCompany(processData.company)
@@ -119,7 +126,7 @@ function QnAContainer() {
   
 
   useEffect(() => {
-    if (processData[step][ntab].qnaList) {
+    if (processData) {
       console.log(qnas, " qnas")
       const dts = qnas.map(({ qnaId, ...rest }) => ({
       ...rest, // qnaId 필드를 제외한 나머지 필드들을 복사하여 dataToSend 배열에 추가
@@ -128,12 +135,7 @@ function QnAContainer() {
       console.log(dts,"dts")
       setDataToSend(dts)
       valueRef.current = dts;
-      
-
     }
-    
-    
-
   }, [qnas]);
 
   
@@ -178,6 +180,11 @@ function QnAContainer() {
       console.log('컴포넌트가 언마운트되었습니다.');
     };
   }, []);
+
+  
+  
+
+
 
   function updateProcessDataState(newValue) {
     const setProcessDataState = useSetRecoilState(processDataState);
@@ -228,15 +235,23 @@ function QnAContainer() {
     // console.log(`질문 ${qnaId} 변경됨:`, newQuestion);
   }
 
+
   const handleAnswerChange = (qnaId, newAnswer) => {
     setQnAs(qnas.map((q) => (q.qnaId === qnaId ? { ...q, answer: newAnswer } : q)));
     // console.log(`답변 ${qnaId} 변경됨:`, newAnswer);
   };
 
+  const [isMasterOpen, setIsMasterOpen] = useState(false)
+  const openMasterModal = () => {
+    setIsMasterOpen(!isMasterOpen)
+  }
+ 
+
   return (
     <>
       <ContainerAll>
-        {processData && <div className="content">
+        {processData && <div className="qna-container">
+          <Button className={'navy'} width={'100px'} height={'40px'} onClick={openMasterModal}>{'불러오기'}</Button>
           <div className="qnas">
             {qnas.map((q, index) => (
               <QnAComponent
@@ -258,6 +273,7 @@ function QnAContainer() {
           </div>
         </div>}
       </ContainerAll>
+      <SearchMaster isMasterOpen={isMasterOpen} setIsMasterOpen={setIsMasterOpen} openMasterModal={openMasterModal} />
     </>
   );
 }

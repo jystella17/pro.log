@@ -66,16 +66,19 @@ function SaveButton() {
 export default function ProcessHeader() {
     // const params = useParams()
     // const addCompany = params.company
+
     const processData = useRecoilValue(processDataState);
-    console.log(processData, "PD====")
+    // const cname = useState(processData)
+    
     if (!processData) {
         return null;
     }
+    console.log(processData, "ProcessHeader")
     
     return (
         <div className='totalBox'>
             <div className='box1'>
-            <CompanyName company={processData.company} />
+                <CompanyName company={processData.company} />
                 <InputTag backgroundcolor={'white'}/>
             </div>
             <div className="box2">

@@ -8,8 +8,7 @@ import Chatting from "./Chatting";
 import MainPage from "./MainPage";
 import Sidebar from "../components/sidebar/Sidebar";
 import Headbar from "../components/sidebar/Headbar";
-import NoProcess from "./NoProcess";
-import YesProcess from "./YesProcess";
+
 
 import Login from "./Login";
 import WebRtc from "./WebRtc";
@@ -74,10 +73,34 @@ export default function Result() {
               />
               <Route path="/chatting" element={<WebRtc />} />
               <Route path="/login" element={<Login />} />
-              {/* <Route path="/process" element={<NoProcess />} />
-                <Route path="/process/:selectedJdId" element={<YesProcess />} />
-                <Route path="/process/:company" element={<NoProcess />} /> */}
-              <Route path="/webrtc" element={<WebRtc />} />
+            <Route path="/webrtc" element={<WebRtc />} />
+            
+            <Route path="/process/:pid" element={<Process />}>
+              <Route path="essay" element={<PaperBody />}>
+                <Route path=":tabId">
+                  <Route path="1" element={<QnAContainer />} />
+                  <Route path="2" element={<CT />} />
+                  <Route path="3" element={<Interview />} />
+                  <Route path="4" element={<Memo />} />
+                </Route>
+              </Route>
+              <Route path="test" element={<TestBody />}>
+                <Route path=":tabId">
+                  <Route path="1" element={<QnAContainer />} />
+                  <Route path="2" element={<CT />} />
+                  <Route path="3" element={<Interview />} />
+                  <Route path="4" element={<Memo />} />
+                </Route>
+              </Route>
+              <Route path="interview" element={<InterviewBody />}>
+                <Route path=":tabId">
+                  <Route path="1" element={<QnAContainer />} />
+                  <Route path="2" element={<CT />} />
+                  <Route path="3" element={<Interview />} />
+                  <Route path="4" element={<Memo />} />
+                </Route>
+              </Route>
+            </Route>
 
               <Route path="/process/:pid" element={<Process />}>
                 <Route path="paper" element={<PaperBody />} />

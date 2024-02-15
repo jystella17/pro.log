@@ -1,14 +1,14 @@
 .paper-body {
   background-color: rgb(243, 248, 255);
   flex: 1;
-  // height: 500px;
+  height: 437px;
 
 }
 
 .paper-tabs-wrapper {
   display: flex;
   gap: 10px;
-  justify-content: space-between;
+  // justify-content: space-between;
   height: 100%;
   padding: 5px 10px;
 }
@@ -51,6 +51,7 @@
 }
 
 .select-template {
+  height: 50px;
   border: none;
   box-shadow: 2px 2px 2px -2px gray;
 }

@@ -4,6 +4,7 @@ import { useParams, useLocation } from 'react-router';
 import { useRecoilValue,useSetRecoilState } from 'recoil';
 import { processDataState } from '../../../state/atoms';
 import Tag from '../../../common/components/InputTag';
+import NCT from "./NCT";
 import SmallInputBox from '../../../common/components/SmallInputBox';
 import InputBox from '../../../common/components/InputBox';
 import styled from 'styled-components';
@@ -142,64 +143,68 @@ export default function CT() {
 
   const [rowData, setRowData] = useState([]);
 
-  useEffect(() => {
-    ctRef.current = rowData;
-    console.log(ctRef.current,"ctRef")
-  }, [rowData]);
-
-  useEffect(() => {
-    console.log('코테 컴포넌트 마운트되었습니다.',processData);
-
-    // 언마운트될 때 실행할 함수 반환
-    return () => {
-      
-      // sendPutRequest(memoRef.current);
-      console.log(ntab, "ntab")
-      console.log(processData.test[ntab], "processData.test[ntab]")
-      
-      const updatedProcessData = {
-        ...processData,
-        test: [
-          ...processData.test.slice(0, ntab), // 이전 요소들을 유지합니다.
-          {
-            ...processData.test[ntab],
-            codingTestList: ctRef.current
-          },
-          ...processData.test.slice(ntab + 1)
-        ]
-      };
-      console.log('컴포넌트가 언마운트되었습니다.', ctRef.current);
-      console.log('컴포넌트가 언마운트되었습니다.', updatedProcessData);
-      setProcessData(updatedProcessData);
-    }
-    
-  }, []);
-
-
+  if (!processData) {
+    return null;
+  }
 
   useEffect(() => {
     if (processData) {
-      const codingTestList = processData[step][ntab].codingTestList;
-      setRowData(codingTestList);
+      setRowData(processData[step][ntab].codingTestList)
     }
-  }, [processData]);
+  }, []);
+
+  useEffect(() => {
+    ctRef.current = rowData;
+  }, [rowData]);
+
+  useEffect(() => {
+    console.log('코테 컴포넌트 마운트되었습니다.', processData);
+
+    return () => {
+      const deepCopy = obj => {
+        if (typeof obj !== 'object' || obj === null) {
+          return obj;
+        }
+
+        const newObj = Array.isArray(obj) ? [] : {};
+
+        for (let key in obj) {
+          newObj[key] = deepCopy(obj[key]);
+        }
+
+        return newObj;
+      };
+
+      const updatedTest = deepCopy(processData);
+      updatedTest.test[ntab].codingTestList = ctRef.current;
+
+      console.log(updatedTest, "updatedTest")
+      console.log('컴포넌트가 언마운트되었습니다.', ctRef.current);
+      console.log('컴포넌트가 언마운트되었습니다.', updatedTest);
+      setProcessData(updatedTest);
+    }
+  }, []);
 
   const handleRowDataChange = (index, newData) => {
     const updatedRowData = [...rowData];
     updatedRowData[index] = newData;
+    ctRef.current = updatedRowData;
     setRowData(updatedRowData);
   };
 
   return (
     <div className="ct">
       <Header company={processData.company} />
-      <Body
-        qnum={rowData.length}
-        setQNum={setRowData}
-        codingTestList={rowData}
-        onDataChange={handleRowDataChange}
-      />
-      {/* <CTTable codingTestList={rowData} onDataChange={handleRowDataChange} /> */}
+      {processData[step][ntab] !== undefined ? (
+        <Body
+          qnum={rowData.length}
+          setQNum={setRowData}
+          codingTestList={processData[step][ntab].codingTestList}
+          onDataChange={handleRowDataChange}
+        />
+      ) : (
+        <NCT />
+      )}
     </div>
   );
 }
