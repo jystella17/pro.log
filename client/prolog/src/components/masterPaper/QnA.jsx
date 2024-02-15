@@ -150,7 +150,8 @@ function QnAContainer() {
       })
       .then((response) => {
         const id = response.data;
-        setQnAs([...qnas, { ...emptyQna, id }]);
+        // setQnAs([...qnas, { ...emptyQna, id }]);
+        setQnAs((prev) => prev.concat({ ...emptyQna, id }));
       })
       .catch((error) => {
         console.error(error);
