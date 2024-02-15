@@ -147,13 +147,13 @@ export default function TypeTabs() {
   return (
     <div className="interview-body">
       <div className="process-tabs-wrapper">
-        <div className="process-tabs">
+      {types && <div className="process-tabs">
           {types.map(tab => (
-            <div key={tab.id} className={`process-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
-              {tab.title}
+            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={`process-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
+              {tab.templateName}
             </div>
           ))}
-        </div>
+        </div>}
 
         <select value='' onChange={handleDropdownChange} className="select-template">
           <option value="">템플릿 추가</option>
