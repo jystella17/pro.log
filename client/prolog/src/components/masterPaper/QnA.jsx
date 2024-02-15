@@ -45,11 +45,12 @@ function QnAComponent({
   onRemove,
   onQChange,
   onAChange,
+  onChange,
   index,
   isRemovable,
 }) {
   return (
-    <div className="qna">
+    <div className="qna" onChange={() => onChange(id, question, answer)}>
       {/* 질문 */}
       <div className="qna-header">
         <div className="qna-number">
@@ -58,7 +59,7 @@ function QnAComponent({
             className="question"
             type="text"
             placeholder="질문을 입력하세요."
-            value={question}
+            value={question || ""}
             // 입력 변경 시 onChange
             onChange={(e) => onQChange(id, e.target.value)}
           />
@@ -87,7 +88,7 @@ function QnAComponent({
           className="answer"
           type="text"
           placeholder="답변을 입력하세요."
-          value={answer}
+          value={answer || ""}
           // 입력 변경 시 onChange
           onChange={(e) => onAChange(id, e.target.value)}
         />
@@ -98,16 +99,17 @@ function QnAComponent({
 
 // 상태관리
 function QnAContainer() {
-  const [qnas, setQnAs] = useState([{ id: 0, question: "", answer: "" }]);
+  // const [qnas, setQnAs] = useState([{ id: 0, question: "", answer: "" }]);
+  const [qnas, setQnAs] = useState([]);
+
   const navigate = useNavigate();
 
-  // QnA get
+  // qnas get
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get("https://i10b112.p.ssafy.io/api/cover-letter");
-        setQnAs(response.data);
-        console.log("마스터자소서 불러오기 성공", response.data);
+        setQnAs(response.data || []);
       } catch (error) {
         console.error("마스터자소서 불러오기 실패", error);
         navigate("/login");
@@ -117,42 +119,80 @@ function QnAContainer() {
     fetchData();
   }, []);
 
-  // QnA put test
-  // function SaveQnAs() {
-  //   const saveData = async () => {
-  //     try {
-  //       await api.put("https://i10b112.p.ssafy.io/api/cover-letter", qnas);
-  //       console.log("마스터자소서 저장 성공!", qnas);
-  //     } catch (error) {
-  //       console.error("마스터자소서 저장 실패", error);
-  //     }
-  //   };
-  //   saveData();
-  // }
-
-  // QnA 컴포넌트 추가 함수
-  function AddQnA() {
-    const newId = qnas.length > 0 ? Math.max(...qnas.map((q) => q.id)) + 1 : 1;
-    setQnAs([...qnas, { id: newId, question: "", answer: "" }]);
+  // qnas put test
+  function SaveQnAs() {
+    const saveData = async () => {
+      try {
+        // qnas배열을 json으로 변환
+        // const qnasJsonString = JSON.stringify(qnas);
+        // await api.put("https://i10b112.p.ssafy.io/api/cover-letter", qnasJsonString);
+        await api.put("https://i10b112.p.ssafy.io/api/cover-letter", qnas, {
+          headers: {
+            "Content-Type": "application/json", // 이 헤더를 추가
+          },
+        });
+      } catch (error) {
+        console.error("마스터자소서 저장 실패", error);
+      }
+    };
+    saveData();
   }
 
-  // 특정 QnA 삭제 함수
+  // qna 추가
+  function AddQnA() {
+    const emptyQna = {
+      question: "",
+      answer: "",
+    };
+    api
+      .post("/api/cover-letter", {
+        data: emptyQna,
+      })
+      .then((response) => {
+        const id = response.data;
+        setQnAs([...qnas, { ...emptyQna, id }]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  // qna 삭제
   function removeQnA(id, index) {
     if (window.confirm(`문항 ${index + 1}을 삭제하시겠습니까?`)) {
       setQnAs(qnas.filter((q) => q.id !== id));
+      api
+        .delete(`/api/cover-letter/${id}`)
+        .then((response) => {
+          // console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 
-  // 질문 내용이 변경될 때 호출되는 함수
+  // Question onChange
   function handleQuestionChange(id, newQuestion) {
     setQnAs(qnas.map((q) => (q.id === id ? { ...q, question: newQuestion } : q)));
   }
 
-  // 답변 내용이 변경될 때 호출되는 함수
+  // Answer onChange
   const handleAnswerChange = (id, newAnswer) => {
     setQnAs(qnas.map((q) => (q.id === id ? { ...q, answer: newAnswer } : q)));
   };
 
+  // on Input end
+  const handleChange = (id, question, answer) => {
+    api
+      .put("/api/cover-letter", {
+        id,
+        question,
+        answer,
+      })
+      .then((response) => {})
+      .catch((error) => {});
+  };
   return (
     <>
       <Container>
@@ -160,9 +200,7 @@ function QnAContainer() {
           <MasterTitle>마스터 자기소개서</MasterTitle>
           <Explain>마스터 자기소개서를 만들어서 여러 자기소개서에 사용해보세요!</Explain>
         </div>
-        <div>
-          <Button className="navy" children="저장하기"></Button>
-        </div>
+        <div>{/* <Button className="navy" children="저장하기" onClick={SaveQnAs}></Button> */}</div>
       </Container>
       <ContainerAll>
         <div className="qnas-button">
@@ -178,6 +216,7 @@ function QnAContainer() {
                 onRemove={removeQnA}
                 onQChange={handleQuestionChange}
                 onAChange={handleAnswerChange}
+                onChange={handleChange}
                 isRemovable={qnas.length > 1}
               />
             ))}
