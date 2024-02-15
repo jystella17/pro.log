@@ -27,7 +27,9 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile() {
-        return ResponseEntity.ok().body(userService.findCurrentUser());
+        
+        return ResponseEntity.ok().body(userService.findCurrentUserAsMap());
+//        return ResponseEntity.ok().body(userService.findCurrentUser());
     }
 
     @PutMapping("/profile")

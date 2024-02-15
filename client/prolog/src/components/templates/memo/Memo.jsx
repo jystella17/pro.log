@@ -32,10 +32,13 @@ function Memo() {
   const step = location.state.step;
   const { tabId } = params;   // 몇번째 템플릿이니
   const ntab = tabId;
-  console.log(step, "st  props")
-  console.log(ntab,"stabId")
 
+  if (!processData) {
+    return null;
+}
+  
   useEffect(() => {
+    // console.log(processData,"pd in Memo")
     if (processData) {
       // const now = processData[step][tabId];
       console.log(processData[step][ntab].memoList, "NOW2222")
@@ -47,7 +50,7 @@ function Memo() {
 
   useEffect(() => {
     memoRef.current = memo;
-    console.log(memoRef.current,"memoref")
+    // console.log(memoRef.current,"memoref")
   }, [memo]);
 
   useEffect(() => {
@@ -56,22 +59,24 @@ function Memo() {
 
     // 언마운트될 때 실행할 함수 반환
     return () => {
-      console.log('컴포넌트가 언마운트되었습니다.',[memoRef.current]);
-      // sendPutRequest(memoRef.current);
-      const updatedProcessData = {
-        ...processData,
-        test: [
-          ...processData.test.slice(0, ntab), // 이전 요소들을 유지합니다.
-          {
-            ...processData.test[ntab], 
-            memoList: [memoRef.current]
-          },
-          ...processData.test.slice(ntab + 1), // ntab 다음 요소들을 유지합니다.
-        ]
-      };
-      
-      
-      setProcessData(updatedProcessData);
+      const deepCopy = obj => {
+        if (typeof obj !== 'object' || obj === null) {
+            return obj; // 객체가 아니거나 null인 경우 그대로 반환
+        }
+
+        const newObj = Array.isArray(obj) ? [] : {}; // 배열인지 객체인지에 따라 새로운 객체 생성
+
+        for (let key in obj) {
+            newObj[key] = deepCopy(obj[key]); // 재귀적으로 내부 객체들을 복사
+        }
+
+        return newObj;
+    };
+
+    const updatedTest = deepCopy(processData);
+    updatedTest[step][ntab].memoList = memoRef.current;
+    console.log('MeMo컴포넌트가 언마운트되었습니다.', updatedTest);
+    setProcessData(updatedTest);
       
     };
   }, []);

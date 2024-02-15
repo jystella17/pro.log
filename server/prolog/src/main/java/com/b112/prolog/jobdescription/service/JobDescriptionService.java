@@ -44,7 +44,7 @@ public class JobDescriptionService {
      * 캘린더뷰 실행했을 때 받아와야하는 부분
      * @return 리스트 <JD>
      */
-    @Cacheable(cacheNames = "job-description", key = "#jdId")
+    @Cacheable(cacheNames = "job-description")
     public List<JobDescription> findAllJDs() {
         log.info("JD fetching from DB");
         return jdRepository.findAll();
@@ -56,10 +56,11 @@ public class JobDescriptionService {
      * @param date : 사용자가 보고 있는 년도-월
      * @return 월 안에 존재하는 JD 리스트
      */
-    @Cacheable(cacheNames = "job-description", key = "#date")
-    public List<JobDescription> findByPeriod(String date){
+    @Cacheable(cacheNames = "job-description", key = "#year + '_' + #month")
+    public List<JobDescription> findByPeriod(String date, String year, String month){
         log.info("JD fetching from DB :" + date);
-        return jdRepository.findByOpeningDateGreaterThanEqualOrExpirationDateLessThanEqual(date, date);
+
+        return jdRepository.findAllByOpeningDateStartingWithOrExpirationDateStartingWith(date, date);
     }
 
     /**
