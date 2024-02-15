@@ -59,7 +59,8 @@ public class JobDescriptionService {
     @Cacheable(cacheNames = "job-description", key = "#year + '_' + #month")
     public List<JobDescription> findByPeriod(String date, String year, String month){
         log.info("JD fetching from DB :" + date);
-        return jdRepository.findByOpeningDateStartingWithAndExpirationDateStartingWith(date, date);
+
+        return jdRepository.findAllByOpeningDateStartingWithOrExpirationDateStartingWith(date, date);
     }
 
     /**
