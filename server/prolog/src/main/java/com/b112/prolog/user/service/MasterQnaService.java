@@ -3,6 +3,7 @@ package com.b112.prolog.user.service;
 import com.b112.prolog.process.entity.Qna;
 import com.b112.prolog.user.entity.User;
 import com.b112.prolog.user.exception.AccessDeniedException;
+import com.b112.prolog.user.exception.DataNotFoundException;
 import com.b112.prolog.user.repository.MasterQnaRepository;
 import com.b112.prolog.user.repository.UserRepository;
 import com.b112.prolog.user.util.AuthenticationUtils;
@@ -91,10 +92,9 @@ public class MasterQnaService {
 
         List<Qna> qnas = Optional.ofNullable(user).orElseThrow(AccessDeniedException::new).getQnas();
 
-        boolean own = qnas.stream().anyMatch(qna -> qna.getId().equals(id));
+        boolean own = qnas.stream().anyMatch(qna -> Optional.ofNullable(qna).orElseThrow(DataNotFoundException::new).getId().equals(id));
 
         if (!own) throw new AccessDeniedException();
-
         return true;
     }
 }
