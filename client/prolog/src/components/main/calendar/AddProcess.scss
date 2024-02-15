@@ -1,3 +1,10 @@
+.add-process {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .date {
   background-color: #fff;
   border: 0.5px solid rgb(203, 203, 203);
@@ -22,4 +29,18 @@
   &:focus {
     outline: none;
   }
+}
+
+.input-company {
+  border: 0.5px solid rgb(203, 203, 203);
+  border-radius: 5px;
+  padding: 0px 10px;
+  width: 270px;
+  height: 38px;
+}
+
+.input-datas {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
