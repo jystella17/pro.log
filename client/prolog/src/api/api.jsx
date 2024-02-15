@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASEAPI = "https://i10b112.p.ssafy.io/api"
+const BASEAPI = "http://localhost:8080/api"
 
 const api = {
   kakao: `${BASEAPI}/oauth2/code/kakao`,
@@ -26,8 +26,8 @@ const api = {
 //   return axios.get(url);
 // }
 
-function fetchJD() {
-  const url = `${api.calendar}/2023/02`
+function fetchJD({ year, month }) {
+  const url = `${api.calendar}/${year}/${month}`
   return axios.get(url)
 }
 

@@ -19,7 +19,8 @@ const customJDModal = Modal.Styles = {
     left: '0',
   },
   content: {
-    width: '600px',
+    width: '800px',
+    height: '400px',
     zIndex: '20',
     position: 'absolute',
     top: "50%",
@@ -51,6 +52,7 @@ function JDContent({ selectedJd, closeModalHandler, day }) {
   
           fetchAddProcess({
             company: selectedJd.companyName,
+            step: 'assay',
             start_date: openingDate,
             end_date: expirationDate
           })
@@ -75,23 +77,28 @@ function JDContent({ selectedJd, closeModalHandler, day }) {
           const isExpiration = isSameDay(parse(jobGroup.dateKey.expirationDate, "yyyy-MM-dd HH:mm:ss", new Date()), day);
           if (isStart || isExpiration) {
             return (
-              <div key={`${selectedJd.companyName}-${jobGroup.dateKey.openingDate}-${jobGroup.dateKey.expirationDate}`} className="jd-deadline">
-              <CiCalendar />
-              <div>{jobGroup.dateKey.openingDate} ~ {jobGroup.dateKey.expirationDate}</div>
-              {jobGroup.jobs.map(job => {
-                return (
-                  <div key={job.title} className="jd-jobs">
-                    <div className="jd-job-title">{job.title}</div>
-                    <a href={job.link}><Button className={'navy'}>{'홈페이지 바로가기'}</Button></a>
+              <div className="jd-contents">
+                <div key={`${selectedJd.companyName}-${jobGroup.dateKey.openingDate}-${jobGroup.dateKey.expirationDate}`} className="jd-deadline">
+                  <CiCalendar style={{height:"20px", width:"20px"}} />
+                  <div>{jobGroup.dateKey.openingDate} ~ {jobGroup.dateKey.expirationDate}</div>
                   </div>
-                )
-              })}
+                  {jobGroup.jobs.map(job => {
+                  if (!job || !job.title || !job.link) { // job이 빈 객체인지 확인
+                    return null; // job이 빈 객체라면 아무것도 출력하지 않음
+                  }
+                    return (
+                      <div key={job.title} className="jd-jobs">
+                        <div className="jd-job-title">{job.title}</div>
+                        <a href={job.link}><Button className={'navy'} width={'130.5px'}>{'홈페이지 바로가기'}</Button></a>
+                      </div>
+                  )
+                })}
               </div>)
           } else { return null }
         })}
         </div>
-      <div className="buttons">
-        <Button className={'navy'} onClick={saveAddProcess}>{'프로세스 시작하기'}</Button>
+      <div className="jd-buttons">
+        <Button className={'navy'} onClick={saveAddProcess} >{'프로세스 시작하기'}</Button>
         <Button onClick={closeModalHandler}>{'취소'}</Button>
       </div>
 

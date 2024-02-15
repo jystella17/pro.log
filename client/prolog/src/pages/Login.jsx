@@ -22,7 +22,7 @@ function KakaoLogin() {
       href={`${BASE_URL}/api/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`}
     >
       <img
-        src="/src/assets/kakao_login.png"
+        src="../src/assets/kakao_login.png"
         alt="카카오 로그인"
         width="350"
         height="52"
@@ -42,7 +42,7 @@ function NaverLogin() {
   return (
     <div className="naverLogins" onClick={() => (window.location.href = naverLink)}>
       <div className="naverLogo">
-        <img src="/src/assets/naver_login.png" alt="네이버 로그인" width="45" height="45" />
+        <img src="../src/assets/naver_login.png" alt="네이버 로그인" width="45" height="45" />
       </div>
       <div className="naverLogin">네이버 로그인</div>
     </div>
