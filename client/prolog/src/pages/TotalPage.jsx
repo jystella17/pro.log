@@ -35,7 +35,7 @@ export default function Result() {
         <TotalPageContent>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/analysis" element={<Dashboard />} />
             <Route path="/masterpaper" element={<MasterPaper />} />
             <Route path="/myinfo" element={<MyInfo />} />
             <Route path="/chatting" element={<WebRtc />} />
