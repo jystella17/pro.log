@@ -10,10 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.b112.prolog.user.jwt.TokenProvider.*;
 
@@ -35,7 +32,7 @@ public class UserController {
     }
 
     @PutMapping("/profile")
-    public ResponseEntity<?> editProfile(Profile profile) {
+    public ResponseEntity<?> editProfile(@RequestBody Profile profile) {
 //    public ResponseEntity<?> editProfile(@RequestBody HashMap<String, Object> map) {
         userService.updateUserInfo(profile);
         return ResponseEntity.ok().build();
