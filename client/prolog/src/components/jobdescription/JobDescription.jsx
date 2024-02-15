@@ -2,9 +2,7 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import Modal from 'react-modal'
 import { fetchJD, fetchAddProcess } from '../../api/api'
-import { useRecoilState, useRecoilValue } from "recoil";
-// import { JDState } from "../../state/atoms";
-// import { getJD } from "../../state/selectors"
+import { isSameDay, parse } from "date-fns"
 
 import { CiCalendar } from "react-icons/ci";
 import './JobDescription.css'
@@ -36,70 +34,82 @@ const customJDModal = Modal.Styles = {
 }
 
 
-function JDContent({ selectedJdId, JDData }) {
+function JDContent({ selectedJd, closeModalHandler, day }) {
   const navigate = useNavigate()
 
-  const selectedJD = JDData.jd.find(jd => jd.jdId === selectedJdId)
-
   function saveAddProcess() {
-    fetchAddProcess({
-      company: selectedJD.company.companyName, end_date: selectedJD.expirationDate
-    })
-      .then(res =>
-        console.log('저장 완료: ', res.data))
-      .catch(err =>
-        console.error(err.message))
-    
-    navigate('/process')
+    if (selectedJd) { 
+      selectedJd.jobGroups
+        .filter(jobGroup => {
+          const isStart = isSameDay(parse(jobGroup.dateKey.openingDate, "yyyy-MM-dd HH:mm:ss", new Date()), day);
+          const isExpiration = isSameDay(parse(jobGroup.dateKey.expirationDate, "yyyy-MM-dd HH:mm:ss", new Date()), day);
+          return isStart || isExpiration;
+        })
+        .map(jobGroup => {
+          const openingDate = jobGroup.dateKey.openingDate;
+          const expirationDate = jobGroup.dateKey.expirationDate;
+  
+          fetchAddProcess({
+            company: selectedJd.companyName,
+            start_date: openingDate,
+            end_date: expirationDate
+          })
+            .then(res =>
+              console.log('저장 완료: ', res.data))
+            .catch(err =>
+              console.error(err.message))
+        });
+  
+      navigate('/process')
+    } else {
+      console.log('selectedJd is undefined');
+    }
   }
-
-
 
   return (
     <div className="jd-data">
       <div className="jd-title">
-        <div className="jd-company-name">{selectedJD.company.companyName}</div>
-        <div className="jd-job-title">{selectedJD.jobTitle}</div>
-        <div className="jd-deadline">
-          <CiCalendar />
-          <div>{selectedJD.openingDate} ~ {selectedJD.expirationDate}</div>
+        <div className="jd-company-name">{selectedJd.companyName}</div>
+        {selectedJd.jobGroups.map((jobGroup, index) => {
+          const isStart = isSameDay(parse(jobGroup.dateKey.openingDate, "yyyy-MM-dd HH:mm:ss", new Date()), day);
+          const isExpiration = isSameDay(parse(jobGroup.dateKey.expirationDate, "yyyy-MM-dd HH:mm:ss", new Date()), day);
+          if (isStart || isExpiration) {
+            return (
+              <div key={`${selectedJd.companyName}-${jobGroup.dateKey.openingDate}-${jobGroup.dateKey.expirationDate}`} className="jd-deadline">
+              <CiCalendar />
+              <div>{jobGroup.dateKey.openingDate} ~ {jobGroup.dateKey.expirationDate}</div>
+              {jobGroup.jobs.map(job => {
+                return (
+                  <div key={job.title} className="jd-jobs">
+                    <div className="jd-job-title">{job.title}</div>
+                    <a href={job.link}><Button className={'navy'}>{'홈페이지 바로가기'}</Button></a>
+                  </div>
+                )
+              })}
+              </div>)
+          } else { return null }
+        })}
         </div>
-        <div className="job-mid-code">
-          <div>{selectedJD.jobMidCode}</div>
-        </div>
-      </div>
-
       <div className="buttons">
-        <a href={selectedJD.link}><Button className={'navy'}>{'홈페이지 바로가기'}</Button></a>
         <Button className={'navy'} onClick={saveAddProcess}>{'프로세스 시작하기'}</Button>
+        <Button onClick={closeModalHandler}>{'취소'}</Button>
       </div>
 
     </div>
-    )
+  )
 }
 
 
-export default function JobDescription({ selectedJdId, JDOpen, setJDOpen }) {
-  const [JDData, setJDData] = useState();
-
-  useEffect(() => {
-    if (!JDData) {fetchJD()
-      .then(res => {
-        console.log(res.data)
-        setJDData(res.data)
-      })
-      .catch(err => console.log(err))}
-  },[])
-  
-  
+export default function JobDescription({ JDOpen, setJDOpen, day,
+  selectedJd, closeModalHandler }) {
   return (
     <Modal
       isOpen={JDOpen}
-      onRequestClose={() => setJDOpen(false)}
+      onRequestClose={closeModalHandler}
       style={customJDModal}
       contentLabel="JDPage"
     >
-      <JDContent selectedJdId={selectedJdId} JDData={JDData} />
+      <JDContent selectedJd={selectedJd} closeModalHandler={closeModalHandler} day={day} />
     </Modal>
   )
 }

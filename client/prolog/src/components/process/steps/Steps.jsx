@@ -23,12 +23,12 @@ function Steps() {
   // }
 
   return (
-    <div>
-      <ul className="tabs">
+    <div className="step-wrapper">
+      <ul className="step-tabs">
         {tabs.map((tab, index) => (
           <li
             key={index}
-            className={`tab ${tab} ${index == activeStep ? 'active' : ''}`}
+            className={`step-tab ${tab} ${index == activeStep ? 'active' : ''}`}
             onClick={() => setActiveStep(index)}
           >
               {tab}

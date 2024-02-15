@@ -5,6 +5,8 @@ import MainPageHeader from './CalendarHeader.jsx';
 import CalendarFilter from './CalendarFilter.jsx'
 import Week from './Week.jsx'
 import Recruit from './Recruit.jsx'
+import JobDescription from "../../jobdescription/JobDescription.jsx";
+import Tag from '../../../common/components/Tag'
 
 import { AddProcess } from './AddProcess.jsx'
 import { api, fetchJD } from '../../../api/api.jsx' 
@@ -13,9 +15,12 @@ import './Calendar.scss'
 
 import { format } from 'date-fns';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
-import { isSameMonth, isSameDay, addDays, parseISO } from 'date-fns';
+import { isSameMonth, isSameDay, addDays, parseISO, parse } from 'date-fns';
 
 import { CiSquarePlus } from "react-icons/ci";
+
+
+
 
 
 // 달력 body component
@@ -24,6 +29,7 @@ function CalendarBody({
     Month,
     my, all,
     selectedDate,
+    mapCompanyData,
     openAddProcessHandler,
     searchTerm,
     dateType }) {
@@ -70,7 +76,11 @@ function CalendarBody({
                             <li className="my-plan" key={index}>{data.company}</li>
                         ))}
                     </ul>)}
-                    {all && (<Recruit day={day} searchTerm={searchTerm} dateType={dateType} JDData={JDData} />)}
+                    {all && (<Recruit
+                        day={day}
+                        searchTerm={searchTerm}
+                        dateType={dateType}
+                        mapCompanyData={mapCompanyData} />)}
                 </div>
             )
             day = addDays(day, 1) 
@@ -90,18 +100,7 @@ function CalendarBody({
 
 
 export default function Calendar() {
-    const [JDData, setJDData] = useState();
-
-    useEffect(() => {
-        if (!JDData) {fetchJD()
-          .then(res => {
-            console.log(res.data)
-            setJDData(res.data)
-          })
-          .catch(err => console.log(err))}
-      },[JDData])
-
-
+    
     // 달력 상태 관리
     const [Month, setMonth] = useState(new Date())
     const [selectedDate, setSelectedDate] = useState(new Date())
@@ -111,18 +110,73 @@ export default function Calendar() {
     const openAddProcessHandler = () => {
         setIsAddProcessOpen(!isAddProcessOpen)
     }
-
+    
     // 공고 검색 상태 관리
     const [searchTerm, setSearchTerm] = useState('')
     const [dateType, setDateType] = useState('')
-
-
+    
+    
     // 달력에 추가되는 내 일정 관리
     const [plans, setPlans] = useState([])
-
+    
     // 일정 필터링 상태 관리
     const [my, setMy] = useState(false)
     const [all, setAll] = useState(true)
+
+    // JD 모달 상태 관리
+    const [JDOpen, setJDOpen] = useState(false)
+    // const [selectedJd, setSelectedJd] = useState(null)
+    
+    // function openJDModalHandler() {
+    //     setJDOpen(true)
+    // }
+    
+    
+    function saveSelectedRecruit() {
+        setSelectedJd
+    }
+
+    // 채용 공고 받아오기
+    const [JDData, setJDData] = useState();
+    const [mapCompanyData, setMapCompanyData] = useState()
+
+    useEffect(() => {
+        fetchJD()
+          .then(res => {
+            console.log(res.data)
+            setJDData(res.data)
+          })
+          .catch(err => console.log(err))
+    }, [])
+
+    // 데이터 변환 ( 회사 번호별 map )
+    useEffect(() => {
+        if (JDData) {
+            let companyIds = [...new Set(JDData.jd.map(data => data.company.companyId))];
+            let mapData = companyIds.map(id => {
+                let filteredJobs = JDData.jd.filter(item => item.company.companyId === id);
+                let jobGroups = filteredJobs.reduce((acc, item) => {
+                    let dateKey = { openingDate: item.openingDate, expirationDate: item.expirationDate }
+                    let dateKeyStr = JSON.stringify(dateKey)
+                    if (!acc[dateKeyStr]) {
+                        acc[dateKeyStr] = [];
+                    }
+                    acc[dateKeyStr].push({
+                        jdId: item.jdId,
+                        title: item.jobTitle,
+                        link: item.link
+                    }, {});
+                    return acc;
+                }, []);
+                return {
+                    companyId: id,
+                    companyName: filteredJobs[0].company.companyName,
+                    jobGroups: Object.entries(jobGroups).map(([dateKeyStr, jobs]) => ({ dateKey: JSON.parse(dateKeyStr), jobs }))
+                };
+            });
+            setMapCompanyData(mapData)
+        }
+    }, [JDData])
 
     return (
         <div className="calendar">
@@ -136,12 +190,14 @@ export default function Calendar() {
                 <MainPageHeader Month={Month} setMonth={setMonth} />
                 <div className="calendarBody">
                     <Week />
-                    {JDData && <CalendarBody
+                    {JDData && mapCompanyData && <CalendarBody
                         my={my} all={all}
                         JDData={JDData}
+                        mapCompanyData={mapCompanyData}
                         Month={Month}
                         selectedDate={selectedDate}
                         openAddProcessHandler={openAddProcessHandler}
+                        // openJDModalHandler={openJDModalHandler}
                         searchTerm={searchTerm}
                         dateType={dateType}
                     />}
@@ -152,6 +208,13 @@ export default function Calendar() {
                 openAddProcessHandler={openAddProcessHandler}
                 isAddProcessOpen={isAddProcessOpen}
                 setIsAddProcessOpen={setIsAddProcessOpen} />
+            
+            {mapCompanyData && JDData && <JobDescription
+                JDData={JDData}
+                // openJDModalHandler={openJDModalHandler}
+                JDOpen={JDOpen} setJDOpen={setJDOpen}
+                // closeModalHandler={closeModalHandler}
+                mapCompanyData={mapCompanyData} />}
         </div>
     )
 }
