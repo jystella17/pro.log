@@ -1,17 +1,23 @@
 import axios from "axios";
 
-const BASEAPI = "http://localhost:8080"
+const BASEAPI = "https://i10b112.p.ssafy.io/api"
 
 const api = {
-  user: `${BASEAPI}/user/`,
-  jd: `${BASEAPI}/schedule/calendar/`,
+  kakao: `${BASEAPI}/oauth2/code/kakao`,
+  naver: `${BASEAPI}/oauth2/code/naver`,
+  calendar: `${BASEAPI}/schedule/calendar`,
   process: `${BASEAPI}/process/`,
-  qna: `${BASEAPI}/qna/search/${keyword}`,
+  addProcess: `${BASEAPI}/schedule/process`,
+  // qna: `${BASEAPI}/qna/search/${keyword}`,
 };
 
 
-// function fetchUser() {
-//   return axios.get(api.jobs);
+// function fetchKakao() {
+//   return axios.get(api.kakao);
+// }
+
+// function fetchNaver() {
+//   return axios.get(api.naver);
 // }
 
 // (예시) 참고하려고 남겨둠
@@ -20,20 +26,25 @@ const api = {
 //   return axios.get(url);
 // }
 
-// function fetchJD(year, month) {
-//   const url = `${api.jd}${year}/${month}`
-//   return axios.get(url)
-// }
+function fetchJD() {
+  const url = `${api.calendar}/2023/02`
+  return axios.get(url)
+}
 
 
 // function fetchProcess() {
 //   return axios.get(api.process);
 // }
 
+
 // function fetchQna() {
 //   return axios.get(api.qna);
 // }
 
+function fetchAddProcess(data) {
+  return axios.post(api.addProcess, data)
+}
 
 
-// export { fetchJD, fetchProcess, fetchUser, fetchQna};
+export { api, fetchJD, fetchAddProcess }
+// export { fetchJD, fetchProcess, fetchUser, fetchQna };

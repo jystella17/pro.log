@@ -1,5 +1,5 @@
 .calendar {
-    padding: 3% 10%;
+    padding: 3% 7%;
 }
 
 .calendarBody {
@@ -46,8 +46,11 @@
 
 
 .dayBox {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     padding: 3px;
+    gap: 1px;
 
     .plusHover { 
         .plusButton {
@@ -94,10 +97,24 @@
 
 .text {
     color: rgb(106, 106, 106);
-//     margin: 3px;
 }
 
 .recruit-tag {
     display: flex;
     font-size: small;
+}
+
+.my-plan-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.my-plan {
+    display: flex;
+    align-items: center;
+    padding: 1px 6px;
+    background-color: rgb(125, 124, 197);
+    color: white;
+    font-size: small;
+    border-radius: 10px;
 }

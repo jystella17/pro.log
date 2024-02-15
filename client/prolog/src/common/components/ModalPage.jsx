@@ -12,6 +12,7 @@ const customModal = Modal.Styles = {
   },
   content: {
     width: '600px',
+    height: '400px',
     zIndex: '20',
     position: 'absolute',
     top: "50%",
@@ -22,6 +23,7 @@ const customModal = Modal.Styles = {
     backgroundColor: "white",
     justifyContent: "center",
     overflow: "auto",
+    padding: "40px"
   }
 }
 

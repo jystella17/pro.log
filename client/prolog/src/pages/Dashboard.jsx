@@ -23,7 +23,7 @@ const Title = styled.div`
 const Dashboard = () => {
   return (
     <Container>
-      <Title>유지원님의 진행 상태를 통계로 확인해보세요.</Title>
+      <Title>진행 상태를 통계로 확인해보세요.</Title>
       <ProgressBarBox />
       <CountProcess />
     </Container>
