@@ -127,13 +127,21 @@ public class UserService {
                 .matching(new Query(
                         Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
 
+        Update update = new Update();
+        Optional.ofNullable(profile.getEmail()).ifPresent(value ->
+                update.set("email", value));
+        Optional.ofNullable(profile.getNickname()).ifPresent(value ->
+                update.set("nickname", value));
+        Optional.ofNullable(profile.getWishCompany()).ifPresent(value ->
+                update.set("wishCompany", value));
+        Optional.of(profile.isDeveloper()).ifPresent(value ->
+                update.set("developer", value));
+        Optional.of(profile.isNewbie()).ifPresent(value ->
+                update.set("newbie", value));
+        Optional.ofNullable(profile.getPhoneNumber()).ifPresent(value ->
+                update.set("phoneNumber", value));
 
-        System.out.println("profile = " + profile);
-//
-//        profile.
-//        Map<String, Object> entry
-//        updateTarget.apply(new Update());
-//        json.forEach((key, value) -> updateTarget.apply(new Update().set(key, value)).all());
+        updateTarget.apply(update).all();
     }
 
 
