@@ -8,7 +8,8 @@ import Memo from '../../templates/memo/Memo'
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { processDataState } from "../../../state/atoms";
 import { Outlet, useNavigate, useParams } from "react-router";
-import './Process.scss'
+
+import './ProcessBody.scss'
 
 export default function TypeTabs() {
   const processData = useRecoilValue(processDataState);
@@ -145,15 +146,14 @@ export default function TypeTabs() {
   
   return (
     <div className="interview-body">
-      <div className="interview-tabs">
-        <div className="tab-menu">
-        {types && <div className="tab-menu">
+      <div className="process-tabs-wrapper">
+        <div className="process-tabs">
           {types.map(tab => (
-            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={activeTab === tab.nextTabId ? 'active-tab' : ''}>
-              {tab.templateName}
+            <div key={tab.id} className={`process-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
+              {tab.title}
             </div>
           ))}
-        </div>}
+        </div>
 
         <select value='' onChange={handleDropdownChange} className="select-template">
           <option value="">템플릿 추가</option>
@@ -163,11 +163,11 @@ export default function TypeTabs() {
           <option value="Memo">빈 페이지</option>
         </select>
       </div>
-      <div className="interview-menu">
+      <div className="process-menu">
           {/* <ContentRenderer templateType={templateType}/> */}
           <Outlet />
         </div>
         </div>
-    </div>
+  
   );
 };

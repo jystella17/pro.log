@@ -4,14 +4,14 @@ import CT from '../../templates/ct/CT'
 import Interview from '../../templates/interview/Interview'
 import Memo from '../../templates/memo/Memo'
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { processDataState } from "../../../state/atoms";
-import { Outlet, useNavigate, useParams } from "react-router";
 import SearchMaster from "../../masterPaper/SearchMaster";
 import Button from '../../../common/components/Button'
 
 
-// import './PaperBody.scss'
-import './Process.scss'
+import './ProcessBody.scss'
+
+import { processDataState } from "../../../state/atoms";
+import { Outlet, useNavigate, useParams } from "react-router";
 
 export default function TypeTabs() {
   const processData = useRecoilValue(processDataState);
@@ -150,10 +150,10 @@ export default function TypeTabs() {
 
   return (
     <div className="paper-body">
-      <div className="paper-tabs-wrapper">
-        {types && <div className="paper-tab-menu">
+      <div className="process-tabs-wrapper">
+        {types && <div className="process-tabs">
           {types.map(tab => (
-            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={`paper-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
+            <div key={tab.nextTabId} onClick={() => handleTabClick(tab.nextTabId,tab.templateType)} className={`process-tab ${activeTab === tab.nextTabId ? 'active-tab' : ''}`}>
               {tab.templateName}
             </div>
           ))}
@@ -168,9 +168,7 @@ export default function TypeTabs() {
         </select>
       </div>
       
-      {/* {templateType === 1 &&
-          <Button className={'navy'} width={'100px'} height={'40px'} onClick={openMasterModal}>{'불러오기'}</Button>} */}
-      <div className="paper-menu">
+      <div className="process-menu">
         {/* <ContentRenderer nextTabId={templateType}/>
          */}
         <Outlet />
