@@ -33,19 +33,20 @@ export default function Result() {
         <Sidebar />
         <Headbar />
         <TotalPageContent>
-            <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/masterpaper" element={<MasterPaper />} />
-              <Route path="/myinfo" element={<MyInfo />} />
-              <Route path="/chatting" element={<Chatting />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/process" element={<NoProcess />} />
-              <Route path="/process/:selectedJdId(\d+)" element={<YesProcess />} />
-              <Route path="/process/:company" element={<NoProcess />} />
-              <Route path="/webrtc" element={<WebRtc />} />
-            </Routes>
-          </TotalPageContent>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/analysis" element={<Dashboard />} />
+            <Route path="/masterpaper" element={<MasterPaper />} />
+            <Route path="/myinfo" element={<MyInfo />} />
+            <Route path="/chatting" element={<WebRtc />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/process" element={<NoProcess />} />
+            <Route path="/process/:selectedJdId(\d+)" element={<YesProcess />} />
+            <Route path="/process/:company" element={<NoProcess />} />
+            <Route path="/webrtc" element={<WebRtc />} />
+          </Routes>
+        </TotalPageContent>
       </AppContainer>
     </BrowserRouter>
   );
