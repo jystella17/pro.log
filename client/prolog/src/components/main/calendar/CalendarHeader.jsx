@@ -31,22 +31,13 @@ export default function MainHeader({ Month, setMonth }) {
     function prevMonth() {
         const newMonth = subMonths(Month, 1)
         setMonth(newMonth)
-        updateJDApi(newMonth)
     }
     
     const nextMonth = () => {
         const newMonth = addMonths(Month, 1)
         setMonth(newMonth)
-        updateJDApi(newMonth)
     }
     
-    // function updateApiUrl(newMonth) {
-    //     // newMonth에 해당하는 년도와 월을 추출하여 API 주소를 업데이트
-    //     const year = format(newMonth, 'yyyy');
-    //     const month = format(newMonth, 'MM');
-    //     const newApiUrl = `your_api_endpoint/${year}/${month}`;
-    //     setApiUrl(newApiUrl); // 새로운 API 주소를 상태로 설정
-    // }
     return (
         <CalendarHeader
         Month={Month}
