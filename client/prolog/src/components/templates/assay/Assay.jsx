@@ -12,9 +12,9 @@ import axios from "axios"; // axios import 추가
 const { TextArea } = Input;
 
 const ContainerAll = styled.div`
-  // padding: 70px 100px 30px 100px;
-  background-color: #f3f8ff;
-  border-radius: 10px;
+  padding: 20px 10%;
+  // background-color: #f3f8ff;
+  // border-radius: 10px;
 `;
 
 function QnAComponent({
@@ -181,10 +181,6 @@ function QnAContainer() {
     };
   }, []);
 
-  
-  
-
-
 
   function updateProcessDataState(newValue) {
     const setProcessDataState = useSetRecoilState(processDataState);
@@ -245,13 +241,36 @@ function QnAContainer() {
   const openMasterModal = () => {
     setIsMasterOpen(!isMasterOpen)
   }
+
+  // 불러오기 요청을 받았을 때 추가하는 함수
+  async function AddQnAMaster(masterId) {
+    if (masterData) {
+      const masterItem = masterData.find(item => item.id === masterId)
+      const newQnA = {
+        ...masterItem,
+        qnaId: `${qnas.length}-0`,
+      };
+      try {
+        await axios.post(`https://i10b112.p.ssafy.io/api/${pid}/${step}/${ntab}/qna`, {
+          newQnA
+        });
+        setQnAs([...qnas, newQnA]);
+      } catch (error) {
+        console.error("Error adding QnA:", error);
+      }
+    }
+  }
+
+
  
 
   return (
     <>
       <ContainerAll>
         {processData && <div className="qna-container">
-          <Button className={'navy'} width={'100px'} height={'40px'} onClick={openMasterModal}>{'불러오기'}</Button>
+          <div style={{display: 'flex', justifyContent:'flex-end', width: '100%', padding: '20px 10px'}}>
+            <Button className={'navy'} width={'100px'} height={'40px'} onClick={openMasterModal}>{'불러오기'}</Button>
+          </div>
           <div className="qnas">
             {qnas.map((q, index) => (
               <QnAComponent
@@ -273,7 +292,12 @@ function QnAContainer() {
           </div>
         </div>}
       </ContainerAll>
-      <SearchMaster isMasterOpen={isMasterOpen} setIsMasterOpen={setIsMasterOpen} openMasterModal={openMasterModal} />
+      <SearchMaster
+        isMasterOpen={isMasterOpen}
+        setIsMasterOpen={setIsMasterOpen}
+        openMasterModal={openMasterModal}
+        AddQnAMaster={AddQnAMaster}
+      />
     </>
   );
 }

@@ -145,7 +145,7 @@ function AddProcess({
   
   const [addCompany, setAddCompany] = useState('')
   const [deadline, setDeadline] = useState(new Date());
-  const [addType, setAddType] = useState('assay')
+  const [addType, setAddType] = useState('paper')
 
   function AddPlan() {
     const newPlan = {
