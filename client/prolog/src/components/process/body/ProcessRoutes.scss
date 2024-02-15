@@ -1,77 +1,40 @@
-.types {
-  display: flex;
-  flex-wrap: wrap;
-  ul {
-    display: flex;
-  }
-}
-
-.tabs {
+.step-tabs {
   display: flex;
 
-  .tab {
+  .step-tab {
     flex: 1;
     display: flex;
-    height: 30px;
-    padding: 5px 15px;
+    height: 50px;
+    padding: 10px 20px;
   }
 }
 
 @mixin steps-box {
-  font-weight: 550;
-  border-radius: 5px 5px 5px 0px;
+  font-weight: 600;
+  border-radius: 7px 7px 0px 0px;
   color: rgb(54, 48, 98);
   background-color: rgb(243, 248, 255);
 }
 
-.tab.Paper {
+.step-tab.paper {
   @include steps-box;
   background-color: rgb(243, 248, 255);
 }
 
-.tab.Test {
+.step-tab.test {
   @include steps-box;
   background-color: rgb(222, 236, 255);
 }
 
-.tab.Interview {
+.step-tab.interview {
   @include steps-box;
   background-color: rgb(198, 207, 255);
 }
-
-.steps {
-  display: flex;
-  flex-direction: row;
-  height: 70px;
-}
-
-.step {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 40px;
-  width: calc(100% / 3);
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 7%;
-}
-
-.title {
-  font-weight: bold;
-}
-
-
-
   
-  ul {
-    list-style-type: none;
-  }
-  
-  ul > li {
-    // font-size: 14px;
-    cursor: pointer;
-  }
+ul {
+  list-style-type: none;
+}
+
+ul > li {
+  cursor: pointer;
+}
