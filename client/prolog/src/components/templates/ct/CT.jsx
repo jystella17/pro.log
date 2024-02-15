@@ -142,51 +142,67 @@ export default function CT() {
 
   const [rowData, setRowData] = useState([]);
 
+  if (!processData) {
+    return null;
+}
+
+
+  useEffect(() => {
+    if (processData) {
+      // const now = processData[step][tabId];
+      // setCompany(processData.company)
+      console.log(processData[step], "NOW")
+      console.log(processData[step][ntab].codingTestList, "NOW2222")
+      setRowData(processData[step][ntab].codingTestList)
+      // const t = processData[step][ntab].qnaList
+      
+    }
+  }, []);
+
   useEffect(() => {
     ctRef.current = rowData;
     console.log(ctRef.current,"ctRef")
   }, [rowData]);
 
   useEffect(() => {
-    console.log('코테 컴포넌트 마운트되었습니다.',processData);
+    console.log('코테 컴포넌트 마운트되었습니다.', processData);
 
     // 언마운트될 때 실행할 함수 반환
     return () => {
-      
-      // sendPutRequest(memoRef.current);
-      console.log(ntab, "ntab")
-      console.log(processData.test[ntab], "processData.test[ntab]")
-      
-      const updatedProcessData = {
-        ...processData,
-        test: [
-          ...processData.test.slice(0, ntab), // 이전 요소들을 유지합니다.
-          {
-            ...processData.test[ntab],
-            codingTestList: ctRef.current
-          },
-          ...processData.test.slice(ntab + 1)
-        ]
-      };
-      console.log('컴포넌트가 언마운트되었습니다.', ctRef.current);
-      console.log('컴포넌트가 언마운트되었습니다.', updatedProcessData);
-      setProcessData(updatedProcessData);
+        
+        // 깊은 복사 수행
+        const deepCopy = obj => {
+            if (typeof obj !== 'object' || obj === null) {
+                return obj; // 객체가 아니거나 null인 경우 그대로 반환
+            }
+
+            const newObj = Array.isArray(obj) ? [] : {}; // 배열인지 객체인지에 따라 새로운 객체 생성
+
+            for (let key in obj) {
+                newObj[key] = deepCopy(obj[key]); // 재귀적으로 내부 객체들을 복사
+            }
+
+            return newObj;
+        };
+
+        const updatedTest = deepCopy(processData);
+        updatedTest.test[ntab].codingTestList = ctRef.current;
+
+        console.log(updatedTest,"updatedTest")
+        console.log('컴포넌트가 언마운트되었습니다.', ctRef.current);
+        console.log('컴포넌트가 언마운트되었습니다.', updatedTest);
+        setProcessData(updatedTest);
     }
     
-  }, []);
+}, []);
 
 
-
-  useEffect(() => {
-    if (processData) {
-      const codingTestList = processData[step][ntab].codingTestList;
-      setRowData(codingTestList);
-    }
-  }, [processData]);
 
   const handleRowDataChange = (index, newData) => {
     const updatedRowData = [...rowData];
+    console.log(updatedRowData,"upRData")
     updatedRowData[index] = newData;
+    ctRef.current = updatedRowData;
     setRowData(updatedRowData);
   };
 
@@ -196,7 +212,7 @@ export default function CT() {
       <Body
         qnum={rowData.length}
         setQNum={setRowData}
-        codingTestList={rowData}
+        codingTestList={processData[step][ntab].codingTestList}
         onDataChange={handleRowDataChange}
       />
       {/* <CTTable codingTestList={rowData} onDataChange={handleRowDataChange} /> */}

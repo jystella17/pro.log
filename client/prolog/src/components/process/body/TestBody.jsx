@@ -38,21 +38,29 @@ export default function TypeTabs() {
       setTypes(updatedTypes);
       setNextTabId(savedTemplate.test.length)
       setInitFlag(1);
-      console.log(updatedTypes, "Updated Types");
+      // console.log(updatedTypes, "Updated Types");
     }
   }, [savedTemplate]);
   /////////////////////
   useEffect(() => {
-    
     if (types !== undefined && types !== null && flag === 1) {
-      const updatedProcessData = { ...processData, test: types };
+      const updatedTypes = types.map((type) => {
+        // Exclude nextTabId field from newType
+        const { nextTabId, ...newTypeWithoutNextTabId } = type;
+        return newTypeWithoutNextTabId;
+      });
+  
+      const updatedProcessData = { ...processData, test: updatedTypes };
       setProcessData(updatedProcessData);
       console.log(updatedProcessData, "Updated Process Data");
       setFlag(0);
     }
-    
   }, [types, flag]);
+  
   /////
+  useEffect(() => {
+    console.log(types,"TTTTTTTTTTTTTTT");
+  }, [types]);
 
   function handleDropdownChange(event) {
     const selectedValue = event.target.value;
@@ -79,7 +87,11 @@ export default function TypeTabs() {
           nextTabId: nextTabId,
           templateType: 1,
           templateName: 'QnA',
-          data: qnas
+          codingTestList: [],
+          memoList: [],
+          toggleList: [],
+          qnaList: [],
+
         };
         break;
       case 'CodingTest':
@@ -87,7 +99,10 @@ export default function TypeTabs() {
           nextTabId: nextTabId,
           templateType: 2,
           templateName: 'CodingTest',
-          data: cts
+          codingTestList: [],
+          memoList: [],
+          toggleList: [],
+          qnaList: [],
         };
         break;
       case 'Toggle':
@@ -95,7 +110,10 @@ export default function TypeTabs() {
           nextTabId: nextTabId,
           templateType: 3,
           templateName: 'Toggle',
-          data: interviews
+          codingTestList: [],
+          memoList: [],
+          toggleList: [],
+          qnaList: [],
         };
         break;
       case 'Memo':
@@ -103,7 +121,10 @@ export default function TypeTabs() {
           nextTabId: nextTabId,
           templateType: 4,
           templateName: 'Memo',
-          data: memos
+          codingTestList: [],
+          memoList: [],
+          toggleList: [],
+          qnaList: [],
         };
         break;
       default:
@@ -115,6 +136,7 @@ export default function TypeTabs() {
       setActiveTab(nextTabId); // setActiveTab을 nextTabId로 설정
       settemplateType(newType.templateType);
       setFlag(1);
+      
     }
   }
   

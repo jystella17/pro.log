@@ -66,11 +66,14 @@ function SaveButton() {
 export default function ProcessHeader() {
     // const params = useParams()
     // const addCompany = params.company
+
     const processData = useRecoilValue(processDataState);
-    console.log(processData, "PD====")
+    // const cname = useState(processData)
+    
     if (!processData) {
         return null;
     }
+    console.log(processData, "ProcessHeader")
     
     return (
         <div className='totalBox'>
