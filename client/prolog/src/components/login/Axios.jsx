@@ -46,7 +46,7 @@ api.interceptors.response.use(
             Authorization: refreshToken || "",
           },
         });
-        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        originalRequest.headers["Authorization"] = `Bearer ${refreshToken}`;
         return api(originalRequest);
       } catch (refreshError) {
         console.log("리프레시 토큰 만료", refreshError);
