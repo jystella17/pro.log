@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import Assay from '../../templates/assay/Assay'
-import CT from '../../templates/ct/CT'
-import Interview from '../../templates/interview/Interview'
-import Memo from '../../templates/memo/Memo'
+
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { processDataState } from "../../../state/atoms";
 import { Outlet, useNavigate, useParams } from "react-router";
@@ -17,10 +14,6 @@ export default function TypeTabs() {
   const [templateType, settemplateType] = useState(null);
   // const [templateType, settemplateType] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
-  const [qnas, setQnas] = useState();
-  const [cts, setCts] = useState();
-  const [interviews, setInterviews] = useState();
-  const [memos, setMemos] = useState();
   const [flag, setFlag] = useState(0);
   const [initflag, setInitFlag] = useState(0);
 
@@ -38,21 +31,27 @@ export default function TypeTabs() {
       setTypes(updatedTypes);
       setNextTabId(savedTemplate.test.length)
       setInitFlag(1);
-      console.log(updatedTypes, "Updated Types");
+      // console.log(updatedTypes, "Updated Types");
     }
   }, [savedTemplate]);
   /////////////////////
   useEffect(() => {
-    
     if (types !== undefined && types !== null && flag === 1) {
-      const updatedProcessData = { ...processData, test: types };
+      const updatedTypes = types.map((type) => {
+        // Exclude nextTabId field from newType
+        const { nextTabId, ...newTypeWithoutNextTabId } = type;
+        return newTypeWithoutNextTabId;
+      });
+  
+      const updatedProcessData = { ...processData, test: updatedTypes };
       setProcessData(updatedProcessData);
-      console.log(updatedProcessData, "Updated Process Data");
+      // console.log(updatedProcessData, "Updated Process Data===========HERE@@");
       setFlag(0);
+      
     }
-    
   }, [types, flag]);
-  /////
+  
+  
 
   function handleDropdownChange(event) {
     const selectedValue = event.target.value;
@@ -79,7 +78,11 @@ export default function TypeTabs() {
           nextTabId: nextTabId,
           templateType: 1,
           templateName: 'QnA',
-          data: qnas
+          codingTestList: [],
+          memoList: [],
+          toggleList: [],
+          qnaList: [],
+
         };
         break;
       case 'CodingTest':
@@ -87,7 +90,10 @@ export default function TypeTabs() {
           nextTabId: nextTabId,
           templateType: 2,
           templateName: 'CodingTest',
-          data: cts
+          codingTestList: [],
+          memoList: [],
+          toggleList: [],
+          qnaList: [],
         };
         break;
       case 'Toggle':
@@ -95,7 +101,10 @@ export default function TypeTabs() {
           nextTabId: nextTabId,
           templateType: 3,
           templateName: 'Toggle',
-          data: interviews
+          codingTestList: [],
+          memoList: [],
+          toggleList: [],
+          qnaList: [],
         };
         break;
       case 'Memo':
@@ -103,7 +112,10 @@ export default function TypeTabs() {
           nextTabId: nextTabId,
           templateType: 4,
           templateName: 'Memo',
-          data: memos
+          codingTestList: [],
+          memoList: [],
+          toggleList: [],
+          qnaList: [],
         };
         break;
       default:
@@ -115,6 +127,7 @@ export default function TypeTabs() {
       setActiveTab(nextTabId); // setActiveTab을 nextTabId로 설정
       settemplateType(newType.templateType);
       setFlag(1);
+      
     }
   }
   

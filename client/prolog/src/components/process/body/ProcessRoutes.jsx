@@ -23,10 +23,10 @@ function ProcessRoutes() {
             <div>
                 <ul className="tabs">
                     <li
-                        className={`tab paper ${activeStep === 'paper' ? 'active' : ''}`}
-                        onClick={() => handleTabClick('paper')}
+                        className={`tab paper ${activeStep === 'essay' ? 'active' : ''}`}
+                        onClick={() => handleTabClick('essay')}
                     >
-                        <Link to={`/process/${pid}/paper`}>Paper</Link>
+                        <Link to={`/process/${pid}/essay`}>Paper</Link>
                     </li>
                     <li
                         className={`tab test ${activeStep === 'test' ? 'active' : ''}`}
@@ -42,8 +42,9 @@ function ProcessRoutes() {
                     </li>
                 </ul>
             </div>
-            
-            <Outlet /> 
+            <div>
+                <Outlet /> 
+            </div>
         </div>
     );
 }
