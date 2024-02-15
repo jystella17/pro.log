@@ -37,12 +37,10 @@ public class ScheduleController {
      */
     @GetMapping("/calendar/{year}/{month}")
     public ResponseEntity<?> calendarView(@PathVariable("year") String year, @PathVariable("month") String month) {
-
         String date = year + "-" + month;
 
         try {
-
-            JdAndProcessListDto jdAndProcessListDto = jdAndProcessService.findAllJdAndProcess(date);
+            JdAndProcessListDto jdAndProcessListDto = jdAndProcessService.findAllJdAndProcess(date, year, month);
 
             if (jdAndProcessListDto.getJd() != null || jdAndProcessListDto.getProcess() != null) {
                 return new ResponseEntity<>(jdAndProcessListDto, HttpStatus.OK);
@@ -52,7 +50,6 @@ public class ScheduleController {
         } catch (Exception e) {
             return exceptionHandling(e);
         }
-
     }
 
     /**
@@ -62,9 +59,7 @@ public class ScheduleController {
      */
     @GetMapping("/calendar/{title}")
     public ResponseEntity<?> calendarView(@PathVariable("title") String title) {
-
         try {
-
             List<JobDescription> jobDescriptionList = jobDescriptionService.findByJobTitleContaining(title);
 
             if (jobDescriptionList != null) {
@@ -75,9 +70,7 @@ public class ScheduleController {
         } catch (Exception e) {
             return exceptionHandling(e);
         }
-
     }
-
 
     /**
      * 칸반 창 API
@@ -85,9 +78,9 @@ public class ScheduleController {
      */
     @GetMapping("/kanban")
     public ResponseEntity<?> kanbanView() {
-
         try {
             List<Process> pcList = processService.getProcessList();
+
             if (pcList != null) {
                 return new ResponseEntity<>(pcList, HttpStatus.OK);
             } else {
@@ -110,14 +103,13 @@ public class ScheduleController {
             return new ResponseEntity<Void>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
-
 
     @GetMapping("/calendar/{jdid}")
     public ResponseEntity<?> viewJD(@PathVariable Long jdid) {
         try {
             Optional<JobDescription> jobDescription = jobDescriptionService.findOne(jdid);
+
             if (jobDescription.isPresent()) {
                 return new ResponseEntity<>(jobDescription, HttpStatus.OK);
             } else {
@@ -138,6 +130,7 @@ public class ScheduleController {
     public ResponseEntity<?> insertProcess(@RequestBody ProcessDto dto) {
         try {
             Process pc = processService.insertProcess(dto);
+
             if (pc != null) {
                 return new ResponseEntity<>(pc.getId(), HttpStatus.OK);
             } else {
@@ -147,9 +140,9 @@ public class ScheduleController {
             return exceptionHandling(e);
         }
     }
+
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

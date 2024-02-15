@@ -11,6 +11,5 @@ public interface JobDescriptionRepository extends JpaRepository<JobDescription, 
 
     List<JobDescription> findByJobTitleContaining(String title);
 
-    List<JobDescription> findByOpeningDateGreaterThanEqualOrExpirationDateLessThanEqual(String openingDate, String expirationDate);
-
+    List<JobDescription> findByOpeningDateLikeOrExpirationDateLike(String openingDate, String expirationDate);
 }
