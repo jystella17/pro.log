@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { RecoilRoot } from 'recoil'
-import TotalPage from './pages/TotalPage'
-import './App.css'
-
-import styled from 'styled-components'
+import { RecoilRoot } from "recoil";
+import TotalPage from "./pages/TotalPage";
+import "./App.css";
+import { CookiesProvider } from "react-cookie";
+import styled from "styled-components";
 // const Page = styled.div`
 //   display: flex;
 //   width: 1536px;
@@ -11,13 +11,13 @@ import styled from 'styled-components'
 //   background-color: gray;
 // `
 
-
 function App() {
   return (
-    <RecoilRoot>
-      <TotalPage />
-    </RecoilRoot>
-
+    <CookiesProvider defaultSetOptions={{ path: "/" }}>
+      <RecoilRoot>
+        <TotalPage />
+      </RecoilRoot>
+    </CookiesProvider>
   );
 }
 
