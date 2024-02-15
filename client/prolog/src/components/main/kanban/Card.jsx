@@ -27,7 +27,7 @@ function Card({ card, index }) {
   const navigate = useNavigate();
 
   const handleCardClick = (cardId) => {
-    navigate(`/p/${cardId}`)
+    navigate(`/process/${cardId}`)
   };
 
 
