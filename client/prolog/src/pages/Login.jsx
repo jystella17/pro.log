@@ -22,7 +22,7 @@ function KakaoLogin() {
       href={`${BASE_URL}/api/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`}
     >
       <img
-        src="src/assets/kakao_login.png"
+        src="/src/assets/kakao_login.png"
         alt="카카오 로그인"
         width="350"
         height="52"
@@ -105,7 +105,6 @@ export default function Logins() {
       <div style={{ fontSize: "14px" }}>소셜 계정으로 로그인</div>
       <KakaoLogin />
       <NaverLogin />
-      <div>{loginedUserInfo ? loginedUserInfo.nickname : "no"}</div>
     </div>
   );
 }
