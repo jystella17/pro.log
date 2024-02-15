@@ -26,6 +26,8 @@ public class User {
     @DBRef
     private List<Qna> qnas;
 
+    private String phoneNumber;
+
     @Override
     public String toString() {
         return "User{" +
@@ -37,6 +39,7 @@ public class User {
                 ", developer=" + developer +
                 ", newbie=" + newbie +
                 ", qnas=" + qnas +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }

@@ -51,6 +51,7 @@ public class UserService {
                 .developer(user.isDeveloper())
                 .newbie(user.isNewbie())
                 .qnas(user.getQnas())
+                .phoneNumber(user.getPhoneNumber())
                 .build();
     }
 
@@ -76,7 +77,7 @@ public class UserService {
     }
 
     public void saveUserIfNotExists(OAuth2UserInfo userInfo) {
-        Optional<Profile> existUser = Optional.ofNullable(findUserById(userInfo.getId()));
+        Optional<User> existUser = userRepository.findById(userInfo.getId());
 
         if (existUser.isEmpty()) {
             User user = User.builder()
@@ -88,6 +89,7 @@ public class UserService {
                     .developer(false)
                     .newbie(true)
                     .qnas(new ArrayList<>())
+                    .phoneNumber("")
                     .build();
 
             saveUser(user);
@@ -112,13 +114,28 @@ public class UserService {
         3. 프론트에서 변경사항만 들어오면, 모든 필드에 null check를 해서 필드에 맞게 Update?
         그게 아니면 Map 형태로 받아서 map에 존재하는 key들만 overwrite
      */
-    public void updateUserInfo(Map<String, Object> json) {
+//    public void updateUserInfo(Map<String, Object> json) {
+//        ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
+//                .matching(new Query(
+//                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+//
+//        json.forEach((key, value) -> updateTarget.apply(new Update().set(key, value)).all());
+//    }
+
+    public void updateUserInfo(Profile profile) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
                         Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
 
-        json.forEach((key, value) -> updateTarget.apply(new Update().set(key, value)).all());
+
+        System.out.println("profile = " + profile);
+//
+//        profile.
+//        Map<String, Object> entry
+//        updateTarget.apply(new Update());
+//        json.forEach((key, value) -> updateTarget.apply(new Update().set(key, value)).all());
     }
+
 
     public void updateUserProcess(String id) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)

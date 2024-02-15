@@ -1,5 +1,6 @@
 package com.b112.prolog.user.controller;
 
+import com.b112.prolog.user.dto.Profile;
 import com.b112.prolog.user.jwt.TokenProvider;
 import com.b112.prolog.user.service.RefreshTokenService;
 import com.b112.prolog.user.service.UserService;
@@ -9,9 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.b112.prolog.user.jwt.TokenProvider.*;
 
@@ -27,15 +29,15 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile() {
-        
-        return ResponseEntity.ok().body(userService.findCurrentUserAsMap());
+
+        return ResponseEntity.ok().body(userService.findCurrentUser());
 //        return ResponseEntity.ok().body(userService.findCurrentUser());
     }
 
     @PutMapping("/profile")
-//    public ResponseEntity<?> editProfile(Profile profile) {
-    public ResponseEntity<?> editProfile(@RequestBody HashMap<String, Object> map) {
-        userService.updateUserInfo(map);
+    public ResponseEntity<?> editProfile(Profile profile) {
+//    public ResponseEntity<?> editProfile(@RequestBody HashMap<String, Object> map) {
+        userService.updateUserInfo(profile);
         return ResponseEntity.ok().build();
     }
 
