@@ -5,7 +5,7 @@ const Container = styled.div`
   /* 가로축 정렬 */
   margin: 0 auto;
   padding: 0 50px;
-  width: 70%;
+  width: 60%;
   min-height: 100vh;
 `;
 
