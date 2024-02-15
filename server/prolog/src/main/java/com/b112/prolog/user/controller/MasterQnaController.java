@@ -40,10 +40,10 @@ public class MasterQnaController {
 
 
     // RequestBody Json의 id필드 key는 항상 id여야 합니다.
-    @DeleteMapping
-    public ResponseEntity<?> deleteMasterQna(@RequestBody Qna masterQna) {
-        masterQnaService.deleteMasterQna(masterQna);
-        userService.deleteUserQna(masterQna.getId());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMasterQna(@PathVariable String id) {
+        masterQnaService.deleteMasterQnaById(id);
+        userService.deleteUserQna(id);
 
         return ResponseEntity.ok().build();
     }
