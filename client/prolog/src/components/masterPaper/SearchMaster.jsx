@@ -67,8 +67,9 @@ const InputBox = styled.input`
 `
   
 
-function SearchMasterContent({ openMasterModal }) {
+function SearchMasterContent({ openMasterModal, AddQnAMaster, checkedMaster, setCheckedMaster, handleCheckMasterChange }) {
   const [searchTerm, setSearchTerm] = useState('')
+  
   const setMasterData = useSetRecoilState(masterDataState);
   const masterData = useRecoilValue(masterDataState);
 
@@ -99,19 +100,18 @@ function SearchMasterContent({ openMasterModal }) {
   }
   
   
-  function MasterList({ masterData }) {
+  function MasterList() {
     // 한 개만 체크되게 하도록 체크 박스 상태 관리
-    const [checkedMaster, setCheckedMasters] = useState({});
-  
+    const [checkedMaster, setCheckedMaster] = useState(null);
     const handleCheckMasterChange = (event) => {
-      setCheckedMasters(event.target.id);
+      setCheckedMaster(event.target.id);
     };
     
     useEffect(() => {
       if (masterData && masterData.length > 0) {
-        setCheckedMasters(masterData[0].id); // 첫 번째 항목이 default
+        setCheckedMaster(masterData[0].id); // 첫 번째 항목이 default
       }
-    }, [masterData]);
+    }, []);
     
     return (
       <div>
@@ -143,10 +143,10 @@ function SearchMasterContent({ openMasterModal }) {
   }
   
   
-  function SearchMasterButtons({openMasterModal}) {
+  function SearchMasterButtons() {
     return (
       <Buttons>
-        <Button className={"navy"}>{'불러오기'}</Button>
+        <Button className={"navy"} onClick={() => {AddQnAMaster(checkedMaster)}} >{'불러오기'}</Button>
         <Button onClick={openMasterModal}>{'취소'}</Button>
       </Buttons>
     )
@@ -164,7 +164,12 @@ function SearchMasterContent({ openMasterModal }) {
 
 
 
-export default function SearchMaster({ isMasterOpen, setIsMasterOpen, openMasterModal }) {
+export default function SearchMaster({ isMasterOpen, setIsMasterOpen, openMasterModal, AddQnAMaster }) {
+  const [checkedMaster, setCheckedMaster] = useState(null);
+    const handleCheckMasterChange = (event) => {
+      setCheckedMaster(String(event.target.id));
+    };
+
   return (
     <ModalPage
       isOpen={isMasterOpen}
@@ -173,6 +178,11 @@ export default function SearchMaster({ isMasterOpen, setIsMasterOpen, openMaster
     >
       {<SearchMasterContent
         openMasterModal={openMasterModal}
+        AddQnAMaster={AddQnAMaster}
+        checkedMaster={checkedMaster}
+        setCheckedMaster={setCheckedMaster}
+        handleCheckMasterChange={handleCheckMasterChange}
+
       />}
     </ModalPage>
   )
