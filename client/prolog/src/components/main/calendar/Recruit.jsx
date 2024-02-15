@@ -11,7 +11,6 @@ export default function Recruit({ day, searchTerm, dateType, mapCompanyData, ope
 
     function openJDModalHandler(data) {
         setSelectedJd(data)
-        console.log(selectedJd)
         setJDOpen(true)
     }
 
@@ -20,18 +19,20 @@ export default function Recruit({ day, searchTerm, dateType, mapCompanyData, ope
     }
     
     let filteredRecruits = mapCompanyData.filter(data => {
-        
         if (searchTerm && !data.companyName.toLowerCase().includes(searchTerm.toLowerCase())) {
             return false;
         }
-        // if (dateType === '시작') {
-        //     return isSameDay(parse(data.jobGroups.dateKey.openingDate, "yyyy-MM-dd HH:mm:ss", new Date()), day);
-        // } else if (dateType === '마감') {
-        //     return isSameDay(parse(data.jobGroups.dateKey.expirationDate, "yyyy-MM-dd HH:mm:ss", new Date()), day);
-        // } else if (dateType == '수시') {
-        //     return ''
-        // }
-        return true;
+        if (dateType.value === '1') {
+            return data.closeTypeCode === '1'
+        }  else if (dateType.value === '2') {
+            return data.closeTypeCode === '2'
+        } else if (dateType.value === '3') {
+            return data.closeTypeCode === '3'
+        } else if (dateType.value === '4') {
+            return data.closeTypeCode === '4'  
+        } else {
+            return true;
+        }
     });
 
     return (
@@ -44,7 +45,7 @@ export default function Recruit({ day, searchTerm, dateType, mapCompanyData, ope
                         parse(jobGroup.dateKey.expirationDate, "yyyy-MM-dd HH:mm:ss", new Date()), day);
                     if (isStart || isExpiration) {
                         return (
-                            <div key={`${dataIndex}-${jobIndex}`} className="recruit-tag" > {/* 고유한 key 값 생성 */}
+                            <div key={`${dataIndex}-${jobIndex}`} className="recruit-tag" >
                                 <Tag backgroundcolor={isStart ? 'rgb(54, 48, 98)' : 'rgb(249, 148, 23)'} fontsize={'10px'}>
                                     <div style={{ width: '20px' }}>{isStart ? '시작' : '마감'}</div>
                                 </Tag>
