@@ -3,22 +3,26 @@ import Assay from '../../templates/assay/Assay'
 import CT from '../../templates/ct/CT'
 import Interview from '../../templates/interview/Interview'
 import Memo from '../../templates/memo/Memo'
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { processDataState } from "../../../state/atoms";
 import { Outlet, useNavigate, useParams } from "react-router";
 import './Process.scss'
 
 export default function TypeTabs() {
   const processData = useRecoilValue(processDataState);
+  const setProcessData = useSetRecoilState(processDataState);
   const savedTemplate = processData;
   const [types, setTypes] = useState();
   const [nextTabId, setNextTabId] = useState(0);
   const [templateType, settemplateType] = useState(null);
+  // const [templateType, settemplateType] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
   const [qnas, setQnas] = useState();
   const [cts, setCts] = useState();
   const [interviews, setInterviews] = useState();
   const [memos, setMemos] = useState();
+  const [flag, setFlag] = useState(0);
+  const [initflag, setInitFlag] = useState(0);
 
   const navigate = useNavigate();
 
@@ -26,16 +30,29 @@ export default function TypeTabs() {
   const { pid } = params; // 현재 pid 가져오기
 
   useEffect(() => {
-    if (savedTemplate !== null) {
+    if (savedTemplate !== null && initflag === 0) {
       const updatedTypes = savedTemplate.test.map((item, index) => ({
         ...item,
         nextTabId: nextTabId + index
       }));
       setTypes(updatedTypes);
       setNextTabId(savedTemplate.test.length)
+      setInitFlag(1);
       console.log(updatedTypes, "Updated Types");
     }
   }, [savedTemplate]);
+  /////////////////////
+  useEffect(() => {
+    
+    if (types !== undefined && types !== null && flag === 1) {
+      const updatedProcessData = { ...processData, test: types };
+      setProcessData(updatedProcessData);
+      console.log(updatedProcessData, "Updated Process Data");
+      setFlag(0);
+    }
+    
+  }, [types, flag]);
+  /////
 
   function handleDropdownChange(event) {
     const selectedValue = event.target.value;
@@ -93,12 +110,14 @@ export default function TypeTabs() {
         newType = null;
     }
     if (newType) {
-      setTypes([...types, newType]);
-      setNextTabId(nextTabId + 1);
-      setActiveTab(nextTabId);
+      setTypes([...(types || []), newType]); // 이전 상태가 없는 경우를 고려하여 초기화
+      setNextTabId(nextTabId + 1); // nextTabId를 1 증가시킴
+      setActiveTab(nextTabId); // setActiveTab을 nextTabId로 설정
       settemplateType(newType.templateType);
+      setFlag(1);
     }
   }
+  
 
   function handleTabClick(tabId,templateType) {
     setActiveTab(tabId);

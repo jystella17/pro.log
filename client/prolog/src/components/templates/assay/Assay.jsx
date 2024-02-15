@@ -2,7 +2,7 @@ import { useState, useEffect,useRef } from "react";
 import styled from "styled-components";
 import { IoClose, IoAddCircleOutline } from "react-icons/io5";
 import { Input, ConfigProvider } from "antd";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue,useSetRecoilState } from "recoil";
 import { processDataState } from "../../../state/atoms";
 import { useParams, useLocation,useNavigate } from "react-router";
 import axios from "axios"; // axios import 추가
@@ -72,6 +72,10 @@ function QnAComponent({
 
 function QnAContainer() {
   const processData = useRecoilValue(processDataState);
+  const setProcessData = useSetRecoilState(processDataState);
+
+  
+
   const [qnas, setQnAs] = useState([]);
   const [dataToSend, setDataToSend] = useState();
   const [company, setCompany] = useState();
@@ -150,9 +154,32 @@ function QnAContainer() {
     return () => {
       console.log('컴포넌트가 언마운트되었습니다.');
       sendPutRequest(valueRef.current);
+      const updatedProcessData = {
+        ...processData,
+        test: [
+          ...processData.test.slice(0, ntab), // 기존 배열의 0번째 요소부터 1번째 요소 직전까지를 복사합니다.
+          {
+            ...processData.test[ntab], // 기존 1번째 요소를 복사합니다.
+            qnaList: valueRef.current // qnaList를 types로 설정합니다.
+          },
+          ...processData.test.slice(ntab+1) // 기존 배열의 2번째 요소부터 끝까지를 복사합니다.
+        ]
+      };
+      
+      
+      setProcessData(updatedProcessData);
+      
+      
       // 여기서 특정 함수를 호출하거나 작업을 수행할 수 있습니다.
     };
   }, []);
+
+  function updateProcessDataState(newValue) {
+    const setProcessDataState = useSetRecoilState(processDataState);
+    setProcessDataState(newValue);
+  }
+  
+  
   
 
   async function sendPutRequest(data) {
