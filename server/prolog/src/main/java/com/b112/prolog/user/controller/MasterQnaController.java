@@ -39,12 +39,11 @@ public class MasterQnaController {
     }
 
 
-    // 프론트에서 요청할 때 json을 적을 때 id는 전부 "id" 로 보내야한다!!!
-    // "_id"로 보내면 못읽음
-    @DeleteMapping
-    public ResponseEntity<?> deleteMasterQna(@RequestBody Qna masterQna) {
-        masterQnaService.deleteMasterQna(masterQna);
-        userService.deleteUserQna(masterQna.getId());
+    // RequestBody Json의 id필드 key는 항상 id여야 합니다.
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMasterQna(@PathVariable String id) {
+        masterQnaService.deleteMasterQnaById(id);
+        userService.deleteUserQna(id);
 
         return ResponseEntity.ok().build();
     }

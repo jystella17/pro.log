@@ -1,6 +1,5 @@
 package com.b112.prolog.user.handler;
 
-import com.b112.prolog.user.entity.User;
 import com.b112.prolog.user.info.OAuth2Provider;
 import com.b112.prolog.user.info.OAuth2UserInfo;
 import com.b112.prolog.user.info.OAuth2UserPrincipal;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.b112.prolog.user.jwt.TokenProvider.*;
@@ -84,31 +82,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         if ("login".equalsIgnoreCase(mode)) {
             OAuth2UserInfo userInfo = principal.getUserInfo();
-            User user = User.builder()
-                    .id(userInfo.getId())
-                    .email(userInfo.getEmail())
-                    .nickname(userInfo.getNickName())
-                    .wishCompany(new ArrayList<>())
-                    .processes(new ArrayList<>())
-                    .developer(false)
-                    .newbie(true)
-                    .qnas(new ArrayList<>())
-                    .build();
 
-            // 사용자 정보 DB 저장 혹은 업데이트
-            userService.saveUser(user);
-
-            log.info("email={}, name={}, nickname={}, accessToken={}", principal.getUserInfo().getEmail(),
-                    principal.getUserInfo().getName(),
-                    principal.getUserInfo().getNickName(),
-                    principal.getUserInfo().getAccessToken()
-            );
-
+            userService.saveUserIfNotExists(userInfo);
+            
             String accessToken = tokenProvider.createAccessToken(authentication);
             String refreshToken = tokenProvider.createRefreshToken(authentication);
-
-            //  TODO: log 지우기
-            log.info("accessToken={}\nrefreshToken={}", accessToken, refreshToken);
 
             // 리프레시 토큰을 데이터베이스에 저장
             refreshTokenService.saveRefreshToken(refreshToken);

@@ -13,8 +13,6 @@ import { Input, ConfigProvider } from "antd";
 const ContainerAll = styled.div`
   padding: 70px 100px 30px 100px;
   /* width: 60vw; */
-  /* background-color: #7c93c326; */
-  background-color: #c6cfff;
   border-radius: 10px;
 `;
 
