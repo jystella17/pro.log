@@ -13,8 +13,10 @@ api.interceptors.request.use(
     // localStorage에서 accessToken을 불러오기
     // const accessToken = localStorage.getItem("accessToken");
     const accessToken = getCookie("access_token");
+    console.log("토큰", accessToken);
 
     config.headers["Authorization"] = `Bearer ${accessToken || ""}`;
+    config.headers["Content-Type"] = "application/json";
 
     return config;
   },
@@ -40,7 +42,7 @@ api.interceptors.response.use(
         const refreshToken = getCookie("refresh_token");
 
         // refreshToken으로 새로운 accessToken 요청
-        const response = await axios.get(`${kakaoApi.defaults.baseURL}/api/user/token/refresh`, {
+        const response = await axios.get(`${baseURL}/api/user/token/refresh`, {
           // refreshToken: refreshToken,
           header: {
             Authorization: refreshToken || "",
