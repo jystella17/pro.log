@@ -1,7 +1,6 @@
 
 import styled from "styled-components";
 import ProcessHeader from "../header/NoProcessHeader";
-import { useEffect } from "react";
 import Steps from "../steps/Steps";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from 'recoil';
