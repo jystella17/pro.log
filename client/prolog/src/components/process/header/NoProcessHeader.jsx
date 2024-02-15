@@ -75,7 +75,7 @@ export default function ProcessHeader() {
     return (
         <div className='totalBox'>
             <div className='box1'>
-            <CompanyName company={processData.company} />
+                <CompanyName company={processData.company} />
                 <InputTag backgroundcolor={'white'}/>
             </div>
             <div className="box2">

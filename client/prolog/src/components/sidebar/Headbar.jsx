@@ -11,9 +11,9 @@ const Head = styled.div`
   left: 246px;
   height: 60px;
   width: 1290px;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 10px 30px;
+  padding: 10px 50px;
   border-bottom: 1px solid rgb(245, 245, 245);
   background-color: white;
   z-index: 10;
@@ -30,7 +30,6 @@ export default function Headbar() {
 
   return (
     <Head>
-      <BsLayoutSidebar style={{ height: "20px", width: "20px" }} />
       {isLoggedIn ? (
         <LogoutButton />
       ) : (
