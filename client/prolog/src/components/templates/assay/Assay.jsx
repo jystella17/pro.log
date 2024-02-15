@@ -1,28 +1,22 @@
-// masterPaper와 동일
-
-// 불러오기 기능은 후순위로...
-
-// db 저장 기능(저장할 때는 qnas를  axios 요청)
-// 삭제는 qna를 axios.delete
-import { useState } from "react";
+import { useState, useEffect,useRef } from "react";
 import styled from "styled-components";
 import { IoClose, IoAddCircleOutline } from "react-icons/io5";
-import "./Assay.scss";
 import { Input, ConfigProvider } from "antd";
+import { useRecoilValue,useSetRecoilState } from "recoil";
+import { processDataState } from "../../../state/atoms";
+import { useParams, useLocation,useNavigate } from "react-router";
+import axios from "axios"; // axios import 추가
 
-// 높이 늘어나는 것 수정
+const { TextArea } = Input;
 
 const ContainerAll = styled.div`
   padding: 70px 100px 30px 100px;
-  /* width: 60vw; */
   background-color: #f3f8ff;
   border-radius: 10px;
 `;
 
-// 실시간 글자수 적용 textarea
-const { TextArea } = Input;
-
 function QnAComponent({
+  qnaId,
   id,
   question,
   answer,
@@ -34,7 +28,6 @@ function QnAComponent({
 }) {
   return (
     <div className="qna">
-      {/* 질문 */}
       <div className="qna-header">
         <div className="qna-number">
           <p>{index + 1}.</p>
@@ -43,19 +36,15 @@ function QnAComponent({
             type="text"
             placeholder="질문을 입력하세요."
             value={question}
-            // 입력 변경 시 onChange
-            onChange={(e) => onQChange(id, e.target.value)}
+            onChange={(e) => onQChange(qnaId, e.target.value)}
           />
         </div>
-        {/* qna가 하나 남았을 때는 삭제 불가 */}
         {isRemovable && (
-          <div className="x-button" onClick={() => onRemove(id, index)}>
+          <div className="x-button" onClick={() => onRemove(qnaId, index)}>
             <IoClose />
           </div>
         )}
       </div>
-      {/* 답변 */}
-      {/* padding.. */}
       <ConfigProvider
         theme={{
           token: {
@@ -65,7 +54,6 @@ function QnAComponent({
         }}
       >
         <TextArea
-          // ref={textareaRef}
           showCount
           cols="4"
           rows="8"
@@ -74,7 +62,7 @@ function QnAComponent({
           placeholder="답변을 입력하세요."
           value={answer}
           onChange={(e) => {
-            onAChange(id, e.target.value);
+            onAChange(qnaId, e.target.value);
           }}
         />
       </ConfigProvider>{" "}
@@ -82,44 +70,178 @@ function QnAComponent({
   );
 }
 
-// 상태관리
 function QnAContainer() {
-  const [qnas, setQnAs] = useState([{ id: 0, question: "", answer: "" }]);
+  const processData = useRecoilValue(processDataState);
+  const setProcessData = useSetRecoilState(processDataState);
 
-  // QnA 컴포넌트 추가 함수
-  function AddQnA() {
-    const newId = qnas.length > 0 ? Math.max(...qnas.map((q) => q.id)) + 1 : 1;
-    setQnAs([...qnas, { id: newId, question: "", answer: "" }]);
+  
+
+  const [qnas, setQnAs] = useState([]);
+  const [dataToSend, setDataToSend] = useState();
+  const [company, setCompany] = useState();
+  const [qnaId, setQnaId] = useState(0);
+  const [now, setNow] = useState();
+  const valueRef = useRef();
+  const params = useParams();
+  const location = useLocation(); // 어떤 스텝이니 test? interview ?
+  const navigate = useNavigate();
+  const step = location.state.step;
+  const { tabId,pid } = params;   // 몇번째 템플릿이니
+  const ntab = tabId;
+  console.log(step, "st  props")
+  console.log(ntab,"stabId")
+  const currentPath = window.location.pathname;
+  const lastSlashIndex = currentPath.lastIndexOf('/');
+  const lastValue = currentPath.substring(lastSlashIndex + 1);
+    
+
+  useEffect(() => {
+    if (processData[step][ntab].qnaList) {
+      // const now = processData[step][tabId];
+      setCompany(processData.company)
+      console.log(processData[step], "NOW")
+      console.log(processData[step][ntab].qnaList, "NOW2222")
+      const t = processData[step][ntab].qnaList
+      const newQnAs = t.map((item, index) => ({
+        ...item,
+        qnaId: `${index}`, // qnaId 필드 추가
+      }));
+      setQnaId(processData[step][ntab].qnaList.length)
+      setQnAs(newQnAs);
+      console.log(processData[step][ntab].qnaList,"New Q")
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(processData[step][ntab], " Q == = = = Q")
+    
+  // }, [processData[step][ntab]]);
+  
+
+  useEffect(() => {
+    if (processData[step][ntab].qnaList) {
+      console.log(qnas, " qnas")
+      const dts = qnas.map(({ qnaId, ...rest }) => ({
+      ...rest, // qnaId 필드를 제외한 나머지 필드들을 복사하여 dataToSend 배열에 추가
+      company:company
+      }));
+      console.log(dts,"dts")
+      setDataToSend(dts)
+      valueRef.current = dts;
+      
+
+    }
+    
+    
+
+  }, [qnas]);
+
+  
+
+  // useEffect(() => {
+    
+  //   const intervalId = setInterval(() => {
+  //     sendPutRequest(dataToSend);
+  //     console.log(dataToSend,"Interval!!!!!!!!!!!!!!!!!!!")
+  //   }, 30000);
+  
+  //   // 컴포넌트가 unmount될 때 타이머 정리
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   }
+  // }, [dataToSend]); // dataToSend가 변경될 때마다 타이머 설정 혹은 정리
+
+  useEffect(() => {
+    // 마운트될 때 실행할 코드
+    console.log('컴포넌트가 마운트되었습니다.',processData);
+
+    // 언마운트될 때 실행할 함수 반환
+    return () => {
+      
+      sendPutRequest(valueRef.current);
+      const updatedProcessData = {
+        ...processData,
+        test: [
+          ...processData.test.slice(0, ntab), // 기존 배열의 0번째 요소부터 1번째 요소 직전까지를 복사합니다.
+          {
+            ...processData.test[ntab], // 기존 1번째 요소를 복사합니다.
+            qnaList: valueRef.current // qnaList를 types로 설정합니다.
+          },
+          ...processData.test.slice(ntab+1) // 기존 배열의 2번째 요소부터 끝까지를 복사합니다.
+        ]
+      };
+      
+      
+      setProcessData(updatedProcessData);
+      
+      
+      console.log('컴포넌트가 언마운트되었습니다.');
+    };
+  }, []);
+
+  function updateProcessDataState(newValue) {
+    const setProcessDataState = useSetRecoilState(processDataState);
+    setProcessDataState(newValue);
   }
+  
+  
+  
 
-  // 특정 QnA 삭제 함수
-  function removeQnA(id, index) {
-    if (window.confirm(`문항 ${index + 1}을 삭제하시겠습니까?`)) {
-      setQnAs(qnas.filter((q) => q.id !== id));
+  async function sendPutRequest(data) {
+    try {
+      console.log(data,"datatatatata")
+      if (data!==undefined) {
+        console.log(data,"PUT AXIOS")
+        // PUT 요청 보내기
+        await axios.put(`https://i10b112.p.ssafy.io/api/qna`, 
+          data // 또는 필요한 데이터
+        );
+        
+      }
+      
+    } catch (error) {
+      console.error("Error sending PUT request:", error);
     }
   }
 
-  // 질문 내용이 변경될 때 호출되는 함수
-  function handleQuestionChange(id, newQuestion) {
-    setQnAs(qnas.map((q) => (q.id === id ? { ...q, question: newQuestion } : q)));
-    console.log(`질문 ${id + 1} 변경됨:`, newQuestion);
+
+  async function AddQnA() {
+    try {
+      const response = await axios.post(`https://i10b112.p.ssafy.io/api/${pid}/${step}/${ntab}/qna`, {
+      });
+      const oid = response.data.id; // 응답에서 id 값을 추출하여 oid 변수에 저장
+      const newId = qnas.length > 0 ? Math.max(...qnas.map((q) => parseInt(q.qnaId.split("-")[0], 10))) + 1 : 0;
+      setQnAs([...qnas, { qnaId: `${newId}-0`, id: oid, question: "", answer: "" }]);
+    } catch (error) {
+      console.error("Error adding QnA:", error);
+    }
   }
 
-  // 답변 내용이 변경될 때 호출되는 함수
-  const handleAnswerChange = (id, newAnswer) => {
-    setQnAs(qnas.map((q) => (q.id === id ? { ...q, answer: newAnswer } : q)));
-    console.log(`답변 ${id + 1} 변경됨:`, newAnswer);
+  function removeQnA(qnaId, index) {
+    if (window.confirm(`문항 ${index + 1}을 삭제하시겠습니까?`)) {
+      setQnAs(qnas.filter((q) => q.qnaId !== qnaId));
+    }
+  }
+
+  function handleQuestionChange(qnaId, newQuestion) {
+    setQnAs(qnas.map((q) => (q.qnaId === qnaId ? { ...q, question: newQuestion } : q)));
+    // console.log(`질문 ${qnaId} 변경됨:`, newQuestion);
+  }
+
+  const handleAnswerChange = (qnaId, newAnswer) => {
+    setQnAs(qnas.map((q) => (q.qnaId === qnaId ? { ...q, answer: newAnswer } : q)));
+    // console.log(`답변 ${qnaId} 변경됨:`, newAnswer);
   };
 
   return (
     <>
       <ContainerAll>
-        <div className="content">
+        {processData && <div className="content">
           <div className="qnas">
-            {/* react에서 list의 각 항목을 렌더링 할 때는, 각 항목에 고유한 key prop이 있어야함 */}
             {qnas.map((q, index) => (
               <QnAComponent
-                key={q.id}
+                key={q.qnaId}
+                qnaId={q.qnaId}
                 id={q.id}
                 index={index}
                 question={q.question}
@@ -134,7 +256,7 @@ function QnAContainer() {
           <div className="addButton">
             <IoAddCircleOutline size="60" color="#5D5D8A" onClick={AddQnA} />
           </div>
-        </div>
+        </div>}
       </ContainerAll>
     </>
   );

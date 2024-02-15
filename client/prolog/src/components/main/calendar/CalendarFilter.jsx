@@ -11,7 +11,7 @@ const Filter = styled.div`
   padding: 0px 40px;
 `
 
-function SearchFilter({setSearchTerm}) {
+function SearchFilter({ setSearchTerm }) {
   function handleSearchChange(event) {
     setSearchTerm(event.target.value)
   }
@@ -27,7 +27,6 @@ function SearchFilter({setSearchTerm}) {
     </div>
   )
 }
-
 
 
 function JobFilter() {
@@ -52,22 +51,40 @@ function JobFilter() {
 }
 
 function DateFilter({ setDateType }) {
-  const DateTypes = ['시작', '마감', '수시']
+  const DateTypes = [
+    {
+      title: '채용 마감일',
+      value: '1'
+    },
+    {
+      title: '채용시',
+      value: '2'
+    },
+    {
+      title: '상시',
+      value: '3'
+    },
+    {
+      title: '수시',
+      value: '4'
+    }
+  ]
 
   const [selectedDate, setSelectedDate] = useState(null)
 
   function handleDateChange(event) {
     const selectedDateType = event.target.value
     setSelectedDate(selectedDateType)
-    setDateType(selectedDateType)
+    const selectedDateObject = DateTypes.find(type => type.value.toString() === selectedDateType)
+    setDateType(selectedDateObject)
   }
 
   return (
     <div>
       <select onChange={handleDateChange} className="date-filter">
-        <option value="">채용기간</option>
+        <option value="" disabled>마감일 형식</option>
         {DateTypes.map((type, index) => (
-          <option key={index} value={type}>{type}</option>
+          <option key={index} value={type.value}>{type.title}</option>
         ))}
       </select>
     </div>
