@@ -30,10 +30,6 @@ public class JobDescription {
     @Column(name ="expirationDate")
     private String expirationDate;
 
-//    @Column(name="companyName")
-//    private String companyName;
-
-
     @ManyToOne
     @JoinColumn(name="company_id")
     private Company company;
@@ -61,7 +57,6 @@ public class JobDescription {
 
     @Column(name="close_code")
     private String closeTypeCode;
-
 
     @Builder
     public JobDescription(Long jdId, String link, String keyword, String openingDate, String expirationDate, Company company, String jobTitle, String industry, String workingArea, String jobType, String jobMidCode, String experience, String education, String closeTypeCode) {

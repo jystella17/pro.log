@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 public class CacheJd {
 
     private String calendar;
-    private int year;
-    private int month;
+    private String year;
+    private String month;
 
     private Long jdId;
     private String link;
@@ -39,8 +39,8 @@ public class CacheJd {
                    Long companyId, String companyName, String jobTitle, String industry, String workingArea,
                    String jobType, String jobMidCode, String experience, String education, String closeTypeCode) {
 
-        this.year = Integer.parseInt(openingDate.substring(0, 3));
-        this.month = Integer.parseInt(openingDate.substring(5, 6));
+        this.year = openingDate.substring(0, 3);
+        this.month = openingDate.substring(5, 6);
         this.jdId = jdId;
         this.link = link;
         this.keyword = keyword;
@@ -60,8 +60,8 @@ public class CacheJd {
     }
 
     public CacheJd(JobDescription jd) {
-        this.year = Integer.parseInt(jd.getOpeningDate().substring(0, 3));
-        this.month = Integer.parseInt(jd.getOpeningDate().substring(5, 6));
+        this.year = jd.getOpeningDate().substring(0, 3);
+        this.month = jd.getOpeningDate().substring(5, 6);
         this.jdId = jd.getJdId();
         this.link = jd.getLink();
         this.keyword = jd.getKeyword();
