@@ -1,32 +1,48 @@
 .jd-data {
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding: 30px;
+  gap: 40px;
   justify-content: space-between;
 }
 
 .jd-title {
   display: flex;
   flex-direction: column;
+  align-content: space-between;
   gap: 10px;
 }
 
-.company-name {
-  font-size: xx-large;
+.jd-contents {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  gap: 10px;
+  overflow: auto;
+}
+
+.jd-company-name {
+  font-size: x-large;
   font-weight: 600;
 }
 
-.job-title {
-  font-size: large;
+
+.jd-jobs {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .jd-deadline {
   display: flex;
   align-items: flex-end;
   gap: 10px;
+  padding: 20px 0px;
 }
 
-.buttons {
+.jd-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
