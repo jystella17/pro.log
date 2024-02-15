@@ -92,7 +92,7 @@ public class MasterQnaService {
 
         List<Qna> qnas = Optional.ofNullable(user).orElseThrow(AccessDeniedException::new).getQnas();
 
-        boolean own = qnas.stream().anyMatch(qna -> Optional.ofNullable(qna).orElseThrow(DataNotFoundException::new).getId().equals(id));
+        boolean own = qnas.stream().anyMatch(qna -> Optional.ofNullable(qna.getId()).orElseThrow(DataNotFoundException::new).equals(id));
 
         if (!own) throw new AccessDeniedException();
         return true;
