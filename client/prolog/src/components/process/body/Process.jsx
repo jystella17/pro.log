@@ -1,13 +1,11 @@
 
 import styled from "styled-components";
 import ProcessHeader from "../header/NoProcessHeader";
-import Steps from "../steps/Steps";
 import { useEffect } from "react";
 import { useSetRecoilState } from 'recoil';
 import { processDataState } from "../../../state/atoms"; 
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import PaperBody from "../body/PaperBody"
 import ProcessRoutes from "./ProcessRoutes";
 
 const Content = styled.div`
@@ -15,7 +13,6 @@ display: flex;
 flex-direction: column;
 gap: 10px;
 `
-
 
 
 function Process() {
@@ -40,7 +37,7 @@ function Process() {
         <div className="process">
         <ProcessHeader />
             {/* <Steps /> */}
-            <ProcessRoutes/>
+        <ProcessRoutes/>
         
         </div>
     );
