@@ -4,15 +4,12 @@ import CT from '../../templates/ct/CT'
 import Interview from '../../templates/interview/Interview'
 import Memo from '../../templates/memo/Memo'
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { processDataState } from "../../../state/atoms";
-import { Outlet, useNavigate, useParams } from "react-router";
 import SearchMaster from "../../masterPaper/SearchMaster";
 import Button from '../../../common/components/Button'
 
 
 import './ProcessBody.scss'
 
-import { useRecoilValue } from "recoil";
 import { processDataState } from "../../../state/atoms";
 import { Outlet, useNavigate, useParams } from "react-router";
 
