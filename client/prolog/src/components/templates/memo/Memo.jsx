@@ -74,7 +74,7 @@ function Memo() {
     };
 
     const updatedTest = deepCopy(processData);
-    updatedTest.test[ntab].memoList = memoRef.current;
+    updatedTest[step][ntab].memoList = memoRef.current;
     console.log('MeMo컴포넌트가 언마운트되었습니다.', updatedTest);
     setProcessData(updatedTest);
       

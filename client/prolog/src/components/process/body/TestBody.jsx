@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import Assay from '../../templates/assay/Assay'
-import CT from '../../templates/ct/CT'
-import Interview from '../../templates/interview/Interview'
-import Memo from '../../templates/memo/Memo'
+
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { processDataState } from "../../../state/atoms";
 import { Outlet, useNavigate, useParams } from "react-router";
@@ -17,10 +14,6 @@ export default function TypeTabs() {
   const [templateType, settemplateType] = useState(null);
   // const [templateType, settemplateType] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
-  const [qnas, setQnas] = useState();
-  const [cts, setCts] = useState();
-  const [interviews, setInterviews] = useState();
-  const [memos, setMemos] = useState();
   const [flag, setFlag] = useState(0);
   const [initflag, setInitFlag] = useState(0);
 
@@ -52,15 +45,13 @@ export default function TypeTabs() {
   
       const updatedProcessData = { ...processData, test: updatedTypes };
       setProcessData(updatedProcessData);
-      console.log(updatedProcessData, "Updated Process Data");
+      // console.log(updatedProcessData, "Updated Process Data===========HERE@@");
       setFlag(0);
+      
     }
   }, [types, flag]);
   
-  /////
-  useEffect(() => {
-    console.log(types,"TTTTTTTTTTTTTTT");
-  }, [types]);
+  
 
   function handleDropdownChange(event) {
     const selectedValue = event.target.value;
