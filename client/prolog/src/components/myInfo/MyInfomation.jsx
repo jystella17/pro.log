@@ -189,7 +189,6 @@ function MyInfoBody() {
   const navigate = useNavigate();
   // const loginedUserInfo = useRecoilValue(loginedUser);
   const [profile, setProfile] = useState(null);
-  console.log("profile", profile);
 
   function NavigateToMain() {
     navigate("/");
@@ -205,7 +204,7 @@ function MyInfoBody() {
       const response = await api.get(`${BASE_URL}/api/user/profile`);
       setProfile(response.data);
     } catch (error) {
-      console.error("사용자 정보 가져오기 실패", error);
+      // console.error("사용자 정보 가져오기 실패", error);
     }
   };
   // 내 정보 get
@@ -233,9 +232,9 @@ function MyInfoBody() {
   // onChange
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(e);
-    console.log("value", e.target.value);
-    console.log("name", e.target.name);
+    // console.log(e);
+    // console.log("value", e.target.value);
+    // console.log("name", e.target.name);
     setProfile((prevProfile) => ({
       ...prevProfile,
       [name]: value,
@@ -247,10 +246,10 @@ function MyInfoBody() {
     const updateUserDetails = async () => {
       try {
         const update = await api.put(`${BASE_URL}/api/user/profile`, { ...profile });
-        console.log("내 정보 저장 완료");
+        // console.log("내 정보 저장 완료");
         window.alert("저장되었습니다.");
       } catch (error) {
-        console.error("내 정보 저장 실패", error);
+        // console.error("내 정보 저장 실패", error);
       }
     };
     updateUserDetails();
