@@ -22,7 +22,7 @@ const Head = styled.div`
 `;
 
 const Greetings = styled.div`
-  padding-left: 900px;
+  padding-right: 40px;
 `;
 
 export default function Headbar() {
