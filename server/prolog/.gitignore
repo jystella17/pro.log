@@ -26,7 +26,9 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 application.properties
+application-prod.properties
 application.yml
+#/src/main/java/com/b112/prolog/user/config/WebConfig.java
 
 ### NetBeans ###
 /nbproject/private/
