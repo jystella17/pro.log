@@ -1,6 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   height: 90px;
@@ -23,6 +24,13 @@ const Job = styled.div`
   font-size: smaller;
 `;
 function Card({ card, index }) {
+  const navigate = useNavigate();
+
+  const handleCardClick = (cardId) => {
+    navigate(`/process/${cardId}`)
+  };
+
+
   return (
     <div>
       <Draggable draggableId={card.id} index={index}>
@@ -33,7 +41,7 @@ function Card({ card, index }) {
             ref={provided.innerRef}
             $isDragging={snapshot.isDragging}
           >
-            <Company>{card.company}</Company>
+            <Company onClick={() => handleCardClick(card.id)}>{card.company}</Company>
             <Job>{card.job}</Job>
           </Container>
         )}

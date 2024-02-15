@@ -50,9 +50,13 @@ public class QnaService {
             String oid = qnaDto.getId();
             Query q = new Query(Criteria.where("_id").is(oid));
             Update u = new Update();
-            u.set("question",qnaDto.getQuestion());
-            u.set("answer",qnaDto.getAnswer());
-            qnaRepository.updateTemplate(q,u,Qna.class);
+
+            u.set("company", qnaDto.getCompany());
+            u.set("question", qnaDto.getQuestion());
+            u.set("answer", qnaDto.getAnswer());
+            u.set("start_date", qnaDto.getStart_date());
+
+            qnaRepository.updateTemplate(q, u, Qna.class);
         }
         return 1;
     }

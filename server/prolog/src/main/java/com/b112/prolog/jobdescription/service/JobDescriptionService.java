@@ -1,16 +1,19 @@
 package com.b112.prolog.jobdescription.service;
 
+import com.b112.prolog.jobdescription.cache.CacheJd;
 import com.b112.prolog.jobdescription.entity.Company;
 import com.b112.prolog.jobdescription.entity.JobDescription;
 import com.b112.prolog.jobdescription.repository.CompanyRepository;
 import com.b112.prolog.jobdescription.repository.JobDescriptionRepository;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,10 +25,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class JobDescriptionService {
+
+    private static final CacheJd CACHE_JD = new CacheJd();
 
     private final JobDescriptionRepository jdRepository;
     private final CompanyRepository companyRepository;
@@ -38,17 +44,23 @@ public class JobDescriptionService {
      * 캘린더뷰 실행했을 때 받아와야하는 부분
      * @return 리스트 <JD>
      */
+    @Cacheable(cacheNames = "job-description")
     public List<JobDescription> findAllJDs() {
+        log.info("JD fetching from DB");
         return jdRepository.findAll();
     }
 
     /**
      * 기간으로 JD 조회
+     *
      * @param date : 사용자가 보고 있는 년도-월
      * @return 월 안에 존재하는 JD 리스트
      */
-    public List<JobDescription> findByPeriod(String date){
-        return jdRepository.findByOpeningDateGreaterThanEqualOrExpirationDateLessThanEqual(date, date);
+    @Cacheable(cacheNames = "job-description", key = "#year + '_' + #month")
+    public List<JobDescription> findByPeriod(String date, String year, String month){
+        log.info("JD fetching from DB :" + date);
+
+        return jdRepository.findAllByOpeningDateStartingWithOrExpirationDateStartingWith(date, date);
     }
 
     /**

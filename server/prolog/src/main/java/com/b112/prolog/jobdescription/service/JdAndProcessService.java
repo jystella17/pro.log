@@ -8,6 +8,7 @@ import com.b112.prolog.process.service.ProcessService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JdAndProcessService {
 
-    private static final CacheJd CACHE_JD = new CacheJd();
-
     private final ProcessService processService;
     private final JobDescriptionService jobDescriptionService;
 
-    @Transactional
-    public JdAndProcessListDto findAllJdAndProcess(String date){
-        List<JobDescription> jobDescriptionList = jobDescriptionService.findByPeriod(date);
+    public JdAndProcessListDto findAllJdAndProcess(String date, String year, String month){
+        List<JobDescription> jobDescriptionList = jobDescriptionService.findByPeriod(date, year, month);
         List<Process> processList = processService.getProcessList();
 
         JdAndProcessListDto build = JdAndProcessListDto.builder().jd(jobDescriptionList).process(processList).build();
