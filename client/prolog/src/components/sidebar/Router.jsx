@@ -50,8 +50,8 @@ const SidebarData = [
     // ],
   },
   {
-    path: "/dashboard",
-    name: "대시보드",
+    path: "/analysis",
+    name: "통계",
     icon: <IoPieChartOutline />,
   },
   {

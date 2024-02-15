@@ -77,7 +77,7 @@ function YesProcess() {
 
   return (
       <div className="process">
-      <YesProcessHeader onSave={handleProcessSave} />
+        <YesProcessHeader onSave={handleProcessSave} />
         <Steps onSave={handleProcessSave} />
       </div>
 

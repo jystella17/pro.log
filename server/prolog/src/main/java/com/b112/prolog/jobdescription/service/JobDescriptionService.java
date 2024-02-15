@@ -59,7 +59,7 @@ public class JobDescriptionService {
     @Cacheable(cacheNames = "job-description", key = "#year + '_' + #month")
     public List<JobDescription> findByPeriod(String date, String year, String month){
         log.info("JD fetching from DB :" + date);
-        return jdRepository.findByOpeningDateLikeOrExpirationDateLike(date, date);
+        return jdRepository.findByOpeningDateStartsWithAndExpirationDateStartsWith(date, date);
     }
 
     /**

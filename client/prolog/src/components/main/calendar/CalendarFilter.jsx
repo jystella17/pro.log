@@ -3,7 +3,9 @@ import { useState } from "react"
 import styled from 'styled-components'
 import './CalendarFilter.scss'
 
-const FilterBox = styled.div`
+import FilterBox from '../../../common/components/FilterBox'
+
+const Filter = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0px 40px;
@@ -73,13 +75,17 @@ function DateFilter({ setDateType }) {
 }
 
 
-export default function CalendarFilter({ setSearchTerm, setDateType }) {
+export default function CalendarFilter({
+  setSearchTerm,
+  setDateType,
+  my, setMy, all, setAll
+}) {
   return (
-    <FilterBox>
+    <Filter>
       <SearchFilter setSearchTerm={setSearchTerm}/>
-      <JobFilter />
       <DateFilter setDateType={setDateType} />
-    </FilterBox>
+      <FilterBox my={my} setMy={setMy} all={all} setAll={setAll} />
+    </Filter>
 
   )
 }
