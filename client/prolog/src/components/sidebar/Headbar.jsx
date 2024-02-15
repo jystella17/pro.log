@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
-
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import { BsLayoutSidebar } from "react-icons/bs";
 import Button from "../../common/components/Button";
+import LogoutButton from "../login/LogoutButton";
 
 const Head = styled.div`
   display: flex;
@@ -20,17 +21,23 @@ const Head = styled.div`
 
 export default function Headbar() {
   const navigate = useNavigate();
-
+  const [cookies] = useCookies(["access_token"]);
   function navigateToLogin() {
     navigate("/login");
   }
 
+  const isLoggedIn = !!cookies.access_token;
+
   return (
     <Head>
       <BsLayoutSidebar style={{ height: "20px", width: "20px" }} />
-      <Button className={"navy"} onClick={navigateToLogin}>
-        {"Login or SignUp"}
-      </Button>
+      {isLoggedIn ? (
+        <LogoutButton />
+      ) : (
+        <Button className={"navy"} onClick={navigateToLogin}>
+          {"Login or SignUp"}
+        </Button>
+      )}
     </Head>
   );
 }

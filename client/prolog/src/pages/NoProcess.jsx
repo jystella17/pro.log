@@ -25,8 +25,6 @@ function NoProcess() {
       <div className="process">
         <NoProcessHeader />
         <Steps />
-        <Content>
-          </Content>
       </div>
 
   );
