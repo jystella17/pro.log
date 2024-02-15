@@ -1,6 +1,11 @@
-import { Link } from "react-router-dom";
-import "./Login.css";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../components/login/Axios";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import loginedUser from "../components/store/atom";
+import "./Login.css";
+// const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://i10b112.p.ssafy.io";
 
 function KakaoLogin() {
   // 현재 위치한 페이지 저장
@@ -10,29 +15,18 @@ function KakaoLogin() {
     setLoginRedirectUrl(window.location.href);
   }, []);
 
-  // const KAKAO_AUTH_URL = `http://localhost:8080/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`;
-
-  const handleKakaoLogin = () => {
-    // 현재 페이지 sessionStorage에 저장
-    sessionStorage.setItem("prevPage", loginRedirectUrl);
-    // 카카오 로그인 이동
-    // window.location.href = KAKAO_AUTH_URL;
-    // axios.get(
-    // `${BASE_URL}/api/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`
-    // );
-  };
-  const BASE_URL = "http://localhost:8080";
+  sessionStorage.setItem("preLoginUrl", loginRedirectUrl);
 
   return (
     <a
       href={`${BASE_URL}/api/oauth2/authorization/kakao?redirect_uri=${loginRedirectUrl}&mode=login`}
     >
       <img
-        src="src/assets/kakao_login.png"
+        src="/src/assets/kakao_login.png"
         alt="카카오 로그인"
         width="350"
         height="52"
-        onClick={handleKakaoLogin}
+        // onClick={handleKakaoLogin}
       />
     </a>
   );
@@ -48,7 +42,7 @@ function NaverLogin() {
   return (
     <div className="naverLogins" onClick={() => (window.location.href = naverLink)}>
       <div className="naverLogo">
-        <img src="src/assets/naver_login.png" alt="네이버 로그인" width="45" height="45" />
+        <img src="/src/assets/naver_login.png" alt="네이버 로그인" width="45" height="45" />
       </div>
       <div className="naverLogin">네이버 로그인</div>
     </div>
@@ -56,6 +50,44 @@ function NaverLogin() {
 }
 
 export default function Logins() {
+  // 로그인한 사용자의 정보 가져오기
+  const setLoginedUser = useSetRecoilState(loginedUser);
+  const loginedUserInfo = useRecoilValue(loginedUser);
+  const [value, setValue] = useRecoilState(loginedUser);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // URL에서 쿼리 파라미터 확인
+    const searchParams = new URLSearchParams(window.location.search);
+    // 로그인 성공
+    if (searchParams.get("login") === "success") {
+      // 사용자 정보 가져오기
+      fetchUserDetails();
+      // 메인페이지로 이동
+      navigate("/");
+    }
+  }, []);
+
+  const fetchUserDetails = async () => {
+    try {
+      const response = await api.get(`${BASE_URL}/api/user/profile`);
+      // setLoginedUser(response.data);
+      // const updateLoginedUser = () => setLoginedUser((prev) => response.data);
+      // updateLoginedUser();
+      setValue(response.data);
+      console.log("데이터", response.data);
+    } catch (error) {
+      console.error("사용자 정보 가져오기 실패", error);
+    }
+  };
+
+  useEffect(() => {
+    // console.log("atom", loginedUserInfo);
+    console.log("atom", value);
+
+    // setLoginedUser(response.data);
+  }, [value]);
   return (
     <div className="login">
       <svg
@@ -73,6 +105,7 @@ export default function Logins() {
       <div style={{ fontSize: "14px" }}>소셜 계정으로 로그인</div>
       <KakaoLogin />
       <NaverLogin />
+      <div>{loginedUserInfo ? loginedUserInfo.nickname : "no"}</div>
     </div>
   );
 }
