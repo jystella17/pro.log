@@ -23,7 +23,7 @@ export default function Headbar() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["access_token"]);
   function navigateToLogin() {
-    navigate("/login");
+    navigate(`/login?path=${window.location.href}`);
   }
 
   const isLoggedIn = !!cookies.access_token;
