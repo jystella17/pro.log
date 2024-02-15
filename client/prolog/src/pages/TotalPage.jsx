@@ -11,7 +11,6 @@ import Headbar from "../components/sidebar/Headbar";
 import NoProcess from "./NoProcess";
 import YesProcess from "./YesProcess";
 
-
 import Login from "./Login";
 import WebRtc from "./WebRtc";
 import Process from "../components/process/body/Process";
@@ -23,6 +22,9 @@ import Interview from "../components/templates/interview/Interview";
 import CT from "../components/templates/ct/CT";
 import Memo from "../components/templates/memo/Memo";
 
+// 로그인 분기
+import { AuthProvider } from "../components/login/AuthContext";
+import NeedLogin from "../components/login/NeedLogin";
 
 const AppContainer = styled.div`
   width: 1519px;
@@ -38,39 +40,61 @@ const TotalPageContent = styled.div`
 
 export default function Result() {
   return (
-    <BrowserRouter>
-      <AppContainer>
-        <Sidebar />
-        <Headbar />
-        <TotalPageContent>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppContainer>
+          <Sidebar />
+          <Headbar />
+          <TotalPageContent>
             <Routes>
               <Route path="/" element={<MainPage />} />
-              <Route path="/analysis" element={<Dashboard />} />
-              <Route path="/masterpaper" element={<MasterPaper />} />
-              <Route path="/myinfo" element={<MyInfo />} />
+              <Route
+                path="/analysis"
+                element={
+                  <NeedLogin>
+                    <Dashboard />
+                  </NeedLogin>
+                }
+              />
+              <Route
+                path="/masterpaper"
+                element={
+                  <NeedLogin>
+                    <MasterPaper />
+                  </NeedLogin>
+                }
+              />
+              <Route
+                path="/myinfo"
+                element={
+                  <NeedLogin>
+                    <MyInfo />
+                  </NeedLogin>
+                }
+              />
               <Route path="/chatting" element={<WebRtc />} />
               <Route path="/login" element={<Login />} />
               {/* <Route path="/process" element={<NoProcess />} />
-              <Route path="/process/:selectedJdId" element={<YesProcess />} />
-              <Route path="/process/:company" element={<NoProcess />} /> */}
-            <Route path="/webrtc" element={<WebRtc />} />
-            
-            <Route path="/process/:pid" element={<Process />}>
-              <Route path="paper" element={<PaperBody />} />
-              <Route path="test" element={<TestBody />}>
-                <Route path=":tabId">
-                  <Route path="1" element={<QnAContainer />} />
-                  <Route path="2" element={<CT />} />
-                  <Route path="3" element={<Interview />} />
-                  <Route path="4" element={<Memo />} />
-                </Route>
-              </Route>
-              <Route path="interview" element={<InterviewBody />} />
-            </Route>
+                <Route path="/process/:selectedJdId" element={<YesProcess />} />
+                <Route path="/process/:company" element={<NoProcess />} /> */}
+              <Route path="/webrtc" element={<WebRtc />} />
 
+              <Route path="/process/:pid" element={<Process />}>
+                <Route path="paper" element={<PaperBody />} />
+                <Route path="test" element={<TestBody />}>
+                  <Route path=":tabId">
+                    <Route path="1" element={<QnAContainer />} />
+                    <Route path="2" element={<CT />} />
+                    <Route path="3" element={<Interview />} />
+                    <Route path="4" element={<Memo />} />
+                  </Route>
+                </Route>
+                <Route path="interview" element={<InterviewBody />} />
+              </Route>
             </Routes>
           </TotalPageContent>
-      </AppContainer>
-    </BrowserRouter>
+        </AppContainer>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
