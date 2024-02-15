@@ -96,6 +96,7 @@ function QnAContainer() {
     
 
   useEffect(() => {
+    console.log(processData[step][ntab],"processData[step][ntab]")
     if (processData[step][ntab].qnaList) {
       // const now = processData[step][tabId];
       setCompany(processData.company)

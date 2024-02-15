@@ -24,9 +24,9 @@ function ProcessRoutes() {
                 <ul className="tabs">
                     <li
                         className={`tab paper ${activeStep === 'paper' ? 'active' : ''}`}
-                        onClick={() => handleTabClick('paper')}
+                        onClick={() => handleTabClick('essay')}
                     >
-                        <Link to={`/process/${pid}/paper`}>Paper</Link>
+                        <Link to={`/process/${pid}/essay`}>Paper</Link>
                     </li>
                     <li
                         className={`tab test ${activeStep === 'test' ? 'active' : ''}`}

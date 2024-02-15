@@ -56,7 +56,14 @@ export default function Result() {
             <Route path="/webrtc" element={<WebRtc />} />
             
             <Route path="/process/:pid" element={<Process />}>
-              <Route path="paper" element={<PaperBody />} />
+              <Route path="essay" element={<PaperBody />}>
+                <Route path=":tabId">
+                  <Route path="1" element={<QnAContainer />} />
+                  <Route path="2" element={<CT />} />
+                  <Route path="3" element={<Interview />} />
+                  <Route path="4" element={<Memo />} />
+                </Route>
+              </Route>
               <Route path="test" element={<TestBody />}>
                 <Route path=":tabId">
                   <Route path="1" element={<QnAContainer />} />
@@ -65,7 +72,14 @@ export default function Result() {
                   <Route path="4" element={<Memo />} />
                 </Route>
               </Route>
-              <Route path="interview" element={<InterviewBody />} />
+              <Route path="interview" element={<InterviewBody />}>
+                <Route path=":tabId">
+                  <Route path="1" element={<QnAContainer />} />
+                  <Route path="2" element={<CT />} />
+                  <Route path="3" element={<Interview />} />
+                  <Route path="4" element={<Memo />} />
+                </Route>
+              </Route>
             </Route>
 
             </Routes>
