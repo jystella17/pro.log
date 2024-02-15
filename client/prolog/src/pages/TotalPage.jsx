@@ -50,12 +50,12 @@ export default function Result() {
               <Route path="/myinfo" element={<MyInfo />} />
               <Route path="/chatting" element={<WebRtc />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/process" element={<NoProcess />} />
+              {/* <Route path="/process" element={<NoProcess />} />
               <Route path="/process/:selectedJdId" element={<YesProcess />} />
-              <Route path="/process/:company" element={<NoProcess />} />
+              <Route path="/process/:company" element={<NoProcess />} /> */}
             <Route path="/webrtc" element={<WebRtc />} />
             
-            <Route path="/p/:pid" element={<Process />}>
+            <Route path="/process/:pid" element={<Process />}>
               <Route path="paper" element={<PaperBody />} />
               <Route path="test" element={<TestBody />}>
                 <Route path=":tabId">

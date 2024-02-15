@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASEAPI = "http://localhost:8080/api"
+const BASEAPI = "https://i10b112.p.ssafy.io/api"
 
 const api = {
   kakao: `${BASEAPI}/oauth2/code/kakao`,
