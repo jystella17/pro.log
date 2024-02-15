@@ -21,6 +21,7 @@ const Header = styled.div`
 `
 
 function NoProcess() {
+  
   return (
       <div className="process">
         <NoProcessHeader />

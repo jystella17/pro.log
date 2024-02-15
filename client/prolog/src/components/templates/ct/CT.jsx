@@ -1,12 +1,13 @@
-import { useState, useRef } from "react"
-
+import React, { useState, useEffect,useRef } from 'react';
 import { Checkbox, Rate } from 'antd';
-
-import Tag from "../../../common/components/InputTag"
-import SmallInputBox from "../../../common/components/SmallInputBox"
-import InputBox from "../../../common/components/InputBox"
-import styled from 'styled-components'
-import './CT.css'
+import { useParams, useLocation } from 'react-router';
+import { useRecoilValue,useSetRecoilState } from 'recoil';
+import { processDataState } from '../../../state/atoms';
+import Tag from '../../../common/components/InputTag';
+import SmallInputBox from '../../../common/components/SmallInputBox';
+import InputBox from '../../../common/components/InputBox';
+import styled from 'styled-components';
+import './CT.css';
 
 const Col = styled.div`
   display: flex;
@@ -16,29 +17,24 @@ const Col = styled.div`
   background-color: white;
   box-shadow: 5px 5px 5px -5px gray;
   gap: 15px;
-`
+`;
 
-function Header() {
+function Header({ company }) {
   return (
     <Col>
-      <h2>'기업이름' 코딩테스트에 대비할 문제 유형을 기록해보세요.</h2>
+      <h2>{company} 코딩테스트에 대비할 문제 유형을 기록해보세요.</h2>
       <Tag />
     </Col>
-  )
+  );
 }
 
-// 코테 문항 수 
 function Question({ question, qnum, setQNum }) {
-  
   const handleQNumChange = (e) => {
     const newValue = e.target.value;
-    // 입력값이 숫자인지 확인합니다.
     if (!isNaN(newValue)) {
-      // 숫자이고 10보다 작거나 같은 경우에만 설정합니다.
       if (newValue <= 10) {
         setQNum(newValue);
       } else {
-        // 10보다 큰 경우 10으로 설정합니다.
         setQNum(10);
       }
     }
@@ -47,75 +43,69 @@ function Question({ question, qnum, setQNum }) {
   return (
     <div className="q">
       <div>{question}</div>
-      <SmallInputBox width={'35px'} height={'35px'} size={'X-large'} value={qnum} onChange={handleQNumChange}/>
+      <SmallInputBox width={'35px'} height={'35px'} size={'X-large'} value={qnum} onChange={handleQNumChange} />
     </div>
-  )
+  );
 }
 
-function Body({ qnum, setQNum }) {
-
+function Body({ qnum, setQNum, codingTestList, onDataChange }) {
   return (
     <Col>
       <h4>테스트가 끝났다면, 문제를 복기해 보세요.</h4>
       <Question question={'몇 문제였나요?'} qnum={qnum} setQNum={setQNum} />
-      <div className="q">
-        <div>몇 문제 푸셨나요?</div>
-        <SmallInputBox width={'35px'} height={'35px'} size={'X-large'} />
-      </div>
-      <CTTable qnum={qnum} />
+      <CTTable codingTestList={codingTestList} onDataChange={onDataChange} />
     </Col>
-  )
+  );
 }
 
-
-function CTTableRow({ index, onDataChange }) {
-  const [cts, setCts] = useState([{id: 0, isSolve: false, algorithm:'', level:0, memo:''}])
+function CTTableRow({ index, codingTestItem, onDataChange }) {
+  const [isSolve, setIsSolve] = useState(codingTestItem.solved);
+  const [algorithm, setAlgorithm] = useState(codingTestItem.algorithm);
+  const [level, setLevel] = useState(codingTestItem.level);
+  const [memo, setMemo] = useState(codingTestItem.memo);
 
   const handleIsSolveChange = (e) => {
     const newValue = e.target.checked;
-    setCts(prevData => ({ ...prevData, isSolve: newValue }));
-    onDataChange(index, { ...cts, isSolve: newValue });
+    setIsSolve(newValue);
+    onDataChange(index, { ...codingTestItem, solved: newValue });
   };
 
   const handleAlgorithmChange = (e) => {
     const newValue = e.target.value;
-    setCts(prevData => ({ ...prevData, algorithm: newValue }));
-    onDataChange(index, { ...cts, algorithm: newValue });
+    setAlgorithm(newValue);
+    onDataChange(index, { ...codingTestItem, algorithm: newValue });
   };
 
   const handleLevelChange = (value) => {
-    setCts(prevData => ({ ...prevData, level: value }));
-    onDataChange(index, { ...cts, level: value });
+    setLevel(value);
+    onDataChange(index, { ...codingTestItem, level: value });
   };
 
   const handleMemoChange = (e) => {
     const newValue = e.target.value;
-    setCts(prevData => ({ ...prevData, memo: newValue }));
-    onDataChange(index, { ...cts, memo: newValue });
+    setMemo(newValue);
+    onDataChange(index, { ...codingTestItem, memo: newValue });
   };
 
   return (
     <tr>
-      <td><Checkbox checked={cts.isSolve} onChange={handleIsSolveChange} /></td>
-      <td><SmallInputBox width={'40px'} height={'23px'} size={'small'}  value={cts.algorithm} onChange={handleAlgorithmChange} /></td>
-      <td><Rate defaultValue={cts.level} onChange={handleLevelChange} /></td>
-      <td><InputBox width={'60px'} height={'30px'} size={'small'} value={cts.memo} onChange={handleMemoChange} /></td>
+      <td>
+        <Checkbox checked={isSolve} onChange={handleIsSolveChange} />
+      </td>
+      <td>
+        <SmallInputBox width={'70px'} height={'23px'} size={'small'} value={algorithm} onChange={handleAlgorithmChange} />
+      </td>
+      <td>
+        <Rate defaultValue={level} onChange={handleLevelChange} />
+      </td>
+      <td>
+        <InputBox width={'200px'} height={'30px'} size={'small'} value={memo} onChange={handleMemoChange} />
+      </td>
     </tr>
-  )
+  );
 }
 
-
-
-// 코테 문항 정보 표
-function CTTable({ qnum }) {
-  const [data, setData] = useState([])
-  
-  function handleDataChange(index, newData) {
-    const updatedData = [...data];
-    updatedData[index] = newData;
-    setData(updatedData);
-  };
-
+function CTTable({ codingTestList, onDataChange }) {
   return (
     <table>
       <thead>
@@ -127,22 +117,89 @@ function CTTable({ qnum }) {
         </tr>
       </thead>
       <tbody>
-      {Array.from({ length: qnum }).map((_, index) => (
-          <CTTableRow key={index} index={index} onDataChange={handleDataChange} />
+        {codingTestList.map((codingTestItem, index) => (
+          <CTTableRow
+            key={index}
+            index={index}
+            codingTestItem={codingTestItem}
+            onDataChange={onDataChange}
+          />
         ))}
       </tbody>
     </table>
-    )
+  );
 }
 
-
 export default function CT() {
-  const [qnum, setQNum] = useState('')
+  const processData = useRecoilValue(processDataState);
+  const setProcessData = useSetRecoilState(processDataState);
+  const params = useParams();
+  const location = useLocation();
+  const step = location.state.step;
+  const { tabId } = params;
+  const ntab = tabId;
+  const ctRef = useRef();
+
+  const [rowData, setRowData] = useState([]);
+
+  useEffect(() => {
+    ctRef.current = rowData;
+    console.log(ctRef.current,"ctRef")
+  }, [rowData]);
+
+  useEffect(() => {
+    console.log('코테 컴포넌트 마운트되었습니다.',processData);
+
+    // 언마운트될 때 실행할 함수 반환
+    return () => {
+      
+      // sendPutRequest(memoRef.current);
+      console.log(ntab, "ntab")
+      console.log(processData.test[ntab], "processData.test[ntab]")
+      
+      const updatedProcessData = {
+        ...processData,
+        test: [
+          ...processData.test.slice(0, ntab), // 이전 요소들을 유지합니다.
+          {
+            ...processData.test[ntab],
+            codingTestList: ctRef.current
+          },
+          ...processData.test.slice(ntab + 1)
+        ]
+      };
+      console.log('컴포넌트가 언마운트되었습니다.', ctRef.current);
+      console.log('컴포넌트가 언마운트되었습니다.', updatedProcessData);
+      setProcessData(updatedProcessData);
+    }
+    
+  }, []);
+
+
+
+  useEffect(() => {
+    if (processData) {
+      const codingTestList = processData[step][ntab].codingTestList;
+      setRowData(codingTestList);
+    }
+  }, [processData]);
+
+  const handleRowDataChange = (index, newData) => {
+    const updatedRowData = [...rowData];
+    updatedRowData[index] = newData;
+    setRowData(updatedRowData);
+  };
 
   return (
     <div className="ct">
-      <Header />
-      <Body qnum={qnum} setQNum={setQNum} />
+      <Header company={processData.company} />
+      <Body
+        qnum={rowData.length}
+        setQNum={setRowData}
+        codingTestList={rowData}
+        onDataChange={handleRowDataChange}
+      />
+      {/* <CTTable codingTestList={rowData} onDataChange={handleRowDataChange} /> */}
     </div>
-  )
+  );
 }
