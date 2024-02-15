@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import "./Memo.scss";
 import { useParams,useLocation } from "react-router";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue,useSetRecoilState } from "recoil";
 import { processDataState } from "../../../state/atoms";
 
-// 저장이랑 수정 어떻게 하지..
+
 
 const ContainerAll = styled.div`
   display: flex;
@@ -17,13 +17,15 @@ const ContainerAll = styled.div`
 `;
 
 function Memo() {
-  const [memo, setMemo] = useState(); // 현재 입력중인 메모
+  const [memo, setMemo] = useState([]); // 현재 입력중인 메모
   const [savedMemo, setSavedMemo] = useState(""); // 저장된 메모
   const textareaRef = useRef(null);
+  const memoRef = useRef();
 
 
 
   const processData = useRecoilValue(processDataState);
+  const setProcessData = useSetRecoilState(processDataState);
   
   const params = useParams();
   const location = useLocation(); // 어떤 스텝이니 test? interview ?
@@ -34,13 +36,47 @@ function Memo() {
   console.log(ntab,"stabId")
 
   useEffect(() => {
-    if (processData[step][ntab].memo) {
+    if (processData) {
       // const now = processData[step][tabId];
-      console.log(processData[step][ntab].memo, "NOW2222")
-      const t = processData[step][ntab].memo
+      console.log(processData[step][ntab].memoList, "NOW2222")
+      const t = processData[step][ntab].memoList
       setMemo(t);
+      memoRef.current = processData[step][ntab].memoList;
     }
-  }, [processData]);
+  }, []);
+
+  useEffect(() => {
+    memoRef.current = memo;
+    console.log(memoRef.current,"memoref")
+  }, [memo]);
+
+  useEffect(() => {
+    // 마운트될 때 실행할 코드
+    console.log('MEMO컴포넌트가 마운트되었습니다.',processData);
+
+    // 언마운트될 때 실행할 함수 반환
+    return () => {
+      console.log('컴포넌트가 언마운트되었습니다.',[memoRef.current]);
+      // sendPutRequest(memoRef.current);
+      const updatedProcessData = {
+        ...processData,
+        test: [
+          ...processData.test.slice(0, ntab), // 이전 요소들을 유지합니다.
+          {
+            ...processData.test[ntab], 
+            memoList: [memoRef.current]
+          },
+          ...processData.test.slice(ntab + 1), // ntab 다음 요소들을 유지합니다.
+        ]
+      };
+      
+      
+      setProcessData(updatedProcessData);
+      
+    };
+  }, []);
+
+  
 
   const handleResizeHeight = () => {
     if (textareaRef.current) {
@@ -52,7 +88,6 @@ function Memo() {
   // 메모 입력
   function handleMemoChange(e) {
     setMemo(e.target.value);
-    console.log(e.target.value);
   }
 
   // 메모 저장
@@ -90,7 +125,7 @@ function Memo() {
 
   return (
     <ContainerAll>
-      <textarea
+      {processData && <textarea
         rows={1}
         //   왜 새로고침할때랑, 쓸때랑 다르지..
         ref={textareaRef} // ref 연결
@@ -100,7 +135,7 @@ function Memo() {
           handleResizeHeight();
         }}
         placeholder="메모를 입력하세요."
-      ></textarea>
+      ></textarea>}
       {/* <button onClick={handleSaveLocalMemo}>저장</button> */}
     </ContainerAll>
   );

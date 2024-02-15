@@ -112,21 +112,26 @@ function QnAContainer() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(processData[step][ntab], " Q == = = = Q")
+  // useEffect(() => {
+  //   console.log(processData[step][ntab], " Q == = = = Q")
     
-  }, [processData[step][ntab]]);
+  // }, [processData[step][ntab]]);
   
 
   useEffect(() => {
-    console.log(qnas, " qnas")
-    const dts = qnas.map(({ qnaId, ...rest }) => ({
+    if (processData[step][ntab].qnaList) {
+      console.log(qnas, " qnas")
+      const dts = qnas.map(({ qnaId, ...rest }) => ({
       ...rest, // qnaId 필드를 제외한 나머지 필드들을 복사하여 dataToSend 배열에 추가
       company:company
-    }));
-    console.log(dts,"dts")
-    setDataToSend(dts)
-    valueRef.current = dts;
+      }));
+      console.log(dts,"dts")
+      setDataToSend(dts)
+      valueRef.current = dts;
+      
+
+    }
+    
     
 
   }, [qnas]);
@@ -148,11 +153,11 @@ function QnAContainer() {
 
   useEffect(() => {
     // 마운트될 때 실행할 코드
-    console.log('컴포넌트가 마운트되었습니다.');
+    console.log('컴포넌트가 마운트되었습니다.',processData);
 
     // 언마운트될 때 실행할 함수 반환
     return () => {
-      console.log('컴포넌트가 언마운트되었습니다.');
+      
       sendPutRequest(valueRef.current);
       const updatedProcessData = {
         ...processData,
@@ -170,7 +175,7 @@ function QnAContainer() {
       setProcessData(updatedProcessData);
       
       
-      // 여기서 특정 함수를 호출하거나 작업을 수행할 수 있습니다.
+      console.log('컴포넌트가 언마운트되었습니다.');
     };
   }, []);
 
@@ -231,7 +236,7 @@ function QnAContainer() {
   return (
     <>
       <ContainerAll>
-        <div className="content">
+        {processData && <div className="content">
           <div className="qnas">
             {qnas.map((q, index) => (
               <QnAComponent
@@ -251,7 +256,7 @@ function QnAContainer() {
           <div className="addButton">
             <IoAddCircleOutline size="60" color="#5D5D8A" onClick={AddQnA} />
           </div>
-        </div>
+        </div>}
       </ContainerAll>
     </>
   );
