@@ -168,8 +168,6 @@ export default function TypeTabs() {
         </select>
       </div>
       
-      {/* {templateType === 1 &&
-          <Button className={'navy'} width={'100px'} height={'40px'} onClick={openMasterModal}>{'불러오기'}</Button>} */}
       <div className="paper-menu">
         {/* <ContentRenderer nextTabId={templateType}/>
          */}
