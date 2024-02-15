@@ -20,7 +20,7 @@ const InputBox = styled.input`
 export default function Input({width, height, text, size, value, onChange}) {
     return (
         <div>
-            <StyleSheetManager shouldForwardProp={(prop) => prop === 'fontSize'}>
+            
                 <InputBox
                     width={width}
                     height={height}
@@ -29,7 +29,7 @@ export default function Input({width, height, text, size, value, onChange}) {
                     onChange={onChange}
                     size={size}
                 />
-            </StyleSheetManager>
+            
         </div>
     )
 }

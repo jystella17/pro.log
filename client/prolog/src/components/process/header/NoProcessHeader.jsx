@@ -6,6 +6,9 @@ import DatePick from "../../../common/components/DatePicker";
 import InputTag from "../../../common/components/InputTag"
 import Button from "../../../common/components/Button";
 import './ProcessHeader.scss'
+////////////////////
+import { useRecoilValue } from "recoil";
+import { processDataState } from "../../../state/atoms";
 
 const Dday = styled.div`
     background-color: rgb(249, 148, 23);
@@ -61,13 +64,18 @@ function SaveButton() {
 
 
 export default function ProcessHeader() {
-    const params = useParams()
-    const addProcessData = params.data
+    // const params = useParams()
+    // const addCompany = params.company
+    const processData = useRecoilValue(processDataState);
+    console.log(processData, "PD====")
+    if (!processData) {
+        return null;
+    }
     
     return (
         <div className='totalBox'>
             <div className='box1'>
-            <CompanyName company={addProcessData} />
+            <CompanyName company={processData.company} />
                 <InputTag backgroundcolor={'white'}/>
             </div>
             <div className="box2">
