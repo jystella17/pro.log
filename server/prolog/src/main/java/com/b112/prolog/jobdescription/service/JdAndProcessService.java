@@ -21,8 +21,8 @@ public class JdAndProcessService {
     private final ProcessService processService;
     private final JobDescriptionService jobDescriptionService;
 
-    public JdAndProcessListDto findAllJdAndProcess(String date){
-        List<JobDescription> jobDescriptionList = jobDescriptionService.findByPeriod(date);
+    public JdAndProcessListDto findAllJdAndProcess(String date, String year, String month){
+        List<JobDescription> jobDescriptionList = jobDescriptionService.findByPeriod(date, year, month);
         List<Process> processList = processService.getProcessList();
 
         JdAndProcessListDto build = JdAndProcessListDto.builder().jd(jobDescriptionList).process(processList).build();

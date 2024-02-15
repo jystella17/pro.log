@@ -54,8 +54,20 @@ public class UserService {
                 .build();
     }
 
+    public Map findUserAsMapById(String id) {
+        return Optional.ofNullable(
+                        mongoTemplate.findOne(new Query(
+                                Criteria.where("_id").is(id)
+                        ), Map.class, "users"))
+                .orElseThrow(UserNotFoundException::new);
+    }
+
     public Profile findCurrentUser() {
         return findUserById(AuthenticationUtils.getCurrentUserId());
+    }
+
+    public Map findCurrentUserAsMap() {
+        return findUserAsMapById(AuthenticationUtils.getCurrentUserId());
     }
 
     // Create
@@ -126,8 +138,6 @@ public class UserService {
         DeleteResult deleteResult = mongoTemplate.remove(new Query(
                 Criteria.where("_id").is(id)
         ), "users");
-
-        System.out.println("deleteResult.getDeletedCount() = " + deleteResult.getDeletedCount());
     }
 
     public void deleteCurrentUser() {

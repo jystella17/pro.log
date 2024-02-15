@@ -10,15 +10,15 @@ import java.util.List;
 public class CodingTestDto {
 
     private final boolean isSolved;
-    private final List<String> algorithm;
-    private final String level;
+    private final String algorithm;
+    private final int level;
     private final String memo;
 
     @Builder
-    public CodingTestDto(boolean isSolved, List<String> algorithm, String level, String memo) {
+    public CodingTestDto(boolean isSolved, String algorithm, int level, String memo) {
         this.isSolved = isSolved;
-        this.algorithm = (!algorithm.isEmpty()) ? algorithm : new ArrayList<>();
-        this.level = (!level.isEmpty()) ? level : "";
+        this.algorithm = (!algorithm.isEmpty()) ? algorithm : "";
+        this.level = level;
         this.memo = (!memo.isEmpty()) ? memo : "";
     }
 }
