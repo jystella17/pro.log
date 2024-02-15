@@ -19,7 +19,7 @@ function Process() {
     const setProcessData = useSetRecoilState(processDataState);
     const params = useParams()
     const [flag,setFlag] = useState(0)
-    console.log(params,"pp")
+    // console.log(params,"pp")
 
     // JSON 데이터를 받아온 후 Recoil 상태 업데이트
     useEffect(() => {
@@ -28,7 +28,7 @@ function Process() {
             .then(response => {
                 setProcessData(response.data);
                 setFlag(1)
-                console.log(response.data,"what is this")
+                // console.log(response.data,"what is this")
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
