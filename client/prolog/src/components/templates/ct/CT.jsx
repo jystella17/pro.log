@@ -180,13 +180,13 @@ export default function CT() {
       updatedTest.test[ntab].codingTestList = ctRef.current;
 
       setProcessData(updatedTest);
-      axios.put(`https://i10b112.p.ssafy.io/api/process`, updatedTest)
-            .then(response => {
-                // console.log('PUT 요청이 성공했습니다.', response);
-            })
-            .catch(error => {
-                // console.error('PUT 요청이 실패했습니다.', error);
-            });
+      // axios.put(`https://i10b112.p.ssafy.io/api/process`, updatedTest)
+      //       .then(response => {
+      //           // console.log('PUT 요청이 성공했습니다.', response);
+      //       })
+      //       .catch(error => {
+      //           // console.error('PUT 요청이 실패했습니다.', error);
+      //       });
     }
   }, []);
 

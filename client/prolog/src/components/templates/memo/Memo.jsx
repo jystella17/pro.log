@@ -78,10 +78,10 @@ function Memo() {
     updatedTest[step][ntab].memoList = [memoRef.current];
     // console.log('MeMo컴포넌트가 언마운트되었습니다.', updatedTest);
       setProcessData(updatedTest);
-      axios.put(`https://i10b112.p.ssafy.io/api/process`, updatedTest)
-            .then(response => {
-                // console.log('PUT 요청이 성공했습니다.', response);
-            })
+      // axios.put(`https://i10b112.p.ssafy.io/api/process`, updatedTest)
+      //       .then(response => {
+      //           // console.log('PUT 요청이 성공했습니다.', response);
+      //       })
             
       
     };
