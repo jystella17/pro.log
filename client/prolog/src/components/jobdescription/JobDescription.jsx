@@ -52,9 +52,10 @@ function JDContent({ selectedJd, closeModalHandler, day }) {
   
           fetchAddProcess({
             company: selectedJd.companyName,
-            step: 'assay',
+            step: 'paper',
             start_date: openingDate,
-            end_date: expirationDate
+            end_date: expirationDate,
+            tag: []
           })
             .then(res =>
               navigate(`/process/${res.data}`))

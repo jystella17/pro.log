@@ -70,7 +70,7 @@ function AddProcessContent({
 
   function saveAddProcess() {
     fetchAddProcess({
-      company: addCompany, step: addType, end_date: deadline
+      company: addCompany, step: addType, end_date: deadline, tag: []
     })
       .then(res =>
         navigate(`/process/${res.data}`))
