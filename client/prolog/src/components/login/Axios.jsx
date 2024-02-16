@@ -13,7 +13,7 @@ api.interceptors.request.use(
     // localStorage에서 accessToken을 불러오기
     // const accessToken = localStorage.getItem("accessToken");
     const accessToken = getCookie("access_token");
-    console.log("토큰", accessToken);
+    // console.log("토큰", accessToken);
 
     config.headers["Authorization"] = `Bearer ${accessToken || ""}`;
     config.headers["Content-Type"] = "application/json";
@@ -21,7 +21,7 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log("에러 1");
+    // console.log("에러 1");
     return Promise.reject(error);
   }
 );
@@ -33,7 +33,7 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    console.log(originalRequest);
+    // console.log(originalRequest);
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true; // 반복 요청 방지
       // refreshToken을 사용하여 accessToken 재발급 로직
@@ -51,10 +51,10 @@ api.interceptors.response.use(
         originalRequest.headers["Authorization"] = `Bearer ${refreshToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        console.log("리프레시 토큰 만료", refreshError);
-        alert("로그인이 만료되었습니다.");
+        // console.log("리프레시 토큰 만료", refreshError);
+        // alert("로그인이 만료되었습니다.");
         const navigate = useNavigate();
-        navigate("/login");
+        // navigate("/login");
 
         return Promise.reject(refreshError);
       }
