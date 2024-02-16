@@ -111,7 +111,7 @@ function QnAContainer() {
         const response = await api.get("/api/cover-letter");
         setQnAs(response.data || []);
       } catch (error) {
-        console.error("마스터자소서 불러오기 실패", error);
+        // console.error("마스터자소서 불러오기 실패", error);
         navigate("/login");
       }
     };
@@ -154,7 +154,7 @@ function QnAContainer() {
         setQnAs((prev) => prev.concat({ ...emptyQna, id }));
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
       });
   }
 
@@ -168,7 +168,7 @@ function QnAContainer() {
           // console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     }
   }
@@ -185,7 +185,7 @@ function QnAContainer() {
 
   // on Input end
   const handleChange = (id, question, answer) => {
-    console.log("id", id);
+    // console.log("id", id);
     api
       .put("/api/cover-letter", {
         id,
