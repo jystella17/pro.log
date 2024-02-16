@@ -8,54 +8,54 @@ import lombok.ToString;
 
 @Getter
 @Entity
-@Table(name ="JobDescription")
+@Table(name = "job_description")
 @NoArgsConstructor
 @ToString
 public class JobDescription {
 
     @Id
-    @Column(name ="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long jdId;
 
-    @Column(name="link")
+    @Column(name = "link")
     private String link;
 
-    @Column(name="keyword")
+    @Column(name = "keyword")
     private String keyword;
 
-    @Column(name="openingDate")
+    @Column(name = "opening_date")
     private String openingDate;
 
-    @Column(name ="expirationDate")
+    @Column(name = "expiration_date")
     private String expirationDate;
 
     @ManyToOne
-    @JoinColumn(name="company_id")
+    @JoinColumn(name = "company_id")
     private Company company;
 
-    @Column(name="job_title")
+    @Column(name = "job_title")
     private String jobTitle;
 
-    @Column(name="industry")
+    @Column(name = "industry")
     private String industry;
 
-    @Column(name="working_area")
+    @Column(name = "working_area")
     private String workingArea;
 
-    @Column(name="job_type")
+    @Column(name = "job_type")
     private String jobType;
 
-    @Column(name="jobMidCode")
+    @Column(name = "job_mid_code")
     private String jobMidCode;
 
-    @Column(name="experience")
+    @Column(name = "experience")
     private String experience;
 
-    @Column(name="education")
+    @Column(name = "education")
     private String education;
 
-    @Column(name="close_code")
+    @Column(name = "close_code")
     private String closeTypeCode;
 
     @Builder
