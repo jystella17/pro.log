@@ -171,7 +171,6 @@ export default function Calendar() {
         }
     }, [JDData])
     
-    console.log(mapCompanyData)
     return (
         <div className="calendar">
             <div>
