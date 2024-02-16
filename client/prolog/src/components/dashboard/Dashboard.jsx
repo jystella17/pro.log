@@ -16,7 +16,7 @@ function ProgressBarBox() {
         // console.log(response.data, "what is this");
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       });
   }, []);
 

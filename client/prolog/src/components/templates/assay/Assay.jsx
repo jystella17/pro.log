@@ -80,7 +80,7 @@ function QnAContainer() {
   const processData = useRecoilValue(processDataState);
   const setProcessData = useSetRecoilState(processDataState);
   const masterData = useRecoilValue(masterDataState);
-  console.log(processData)
+  // console.log(processData)
 
   const [qnas, setQnAs] = useState([]);
   const [dataToSend, setDataToSend] = useState();
@@ -155,29 +155,30 @@ function QnAContainer() {
 
   useEffect(() => {
     // 마운트될 때 실행할 코드
-    console.log('컴포넌트가 마운트되었습니다.',processData);
+    console.log('QNA컴포넌트가 마운트되었습니다.', processData);
+    console.log("ddd",valueRef.current)
 
     // 언마운트될 때 실행할 함수 반환
     return () => {
-      
-      sendPutRequest(valueRef.current);
-      const updatedProcessData = {
-        ...processData,
-        test: [
-          ...processData.test.slice(0, ntab), // 기존 배열의 0번째 요소부터 1번째 요소 직전까지를 복사합니다.
-          {
-            ...processData.test[ntab], // 기존 1번째 요소를 복사합니다.
-            qnaList: valueRef.current // qnaList를 types로 설정합니다.
-          },
-          ...processData.test.slice(ntab+1) // 기존 배열의 2번째 요소부터 끝까지를 복사합니다.
-        ]
-      };
-      
-      
-      setProcessData(updatedProcessData);
-      
-      
-      console.log('컴포넌트가 언마운트되었습니다.');
+      sendPutRequest(valueRef.current)
+      const deepCopy = obj => {
+        if (typeof obj !== 'object' || obj === null) {
+            return obj; // 객체가 아니거나 null인 경우 그대로 반환
+        }
+
+        const newObj = Array.isArray(obj) ? [] : {}; // 배열인지 객체인지에 따라 새로운 객체 생성
+
+        for (let key in obj) {
+            newObj[key] = deepCopy(obj[key]); // 재귀적으로 내부 객체들을 복사
+        }
+
+        return newObj;
+    };
+
+      const updatedTest = deepCopy(processData);
+      updatedTest[step][ntab].qnaList = [valueRef.current];
+    // console.log('MeMo컴포넌트가 언마운트되었습니다.', updatedTest);
+      // setProcessData(updatedTest);
     };
   }, []);
 
@@ -192,7 +193,7 @@ function QnAContainer() {
 
   async function sendPutRequest(data) {
     try {
-      console.log(data,"datatatatata")
+      // console.log(data,"datatatatata")
       if (data!==undefined) {
         console.log(data,"PUT AXIOS")
         // PUT 요청 보내기
@@ -210,8 +211,7 @@ function QnAContainer() {
 
   async function AddQnA() {
     try {
-      const response = await axios.post(`https://i10b112.p.ssafy.io/api/${pid}/${step}/${ntab}/qna`, {
-      });
+      const response = await axios.post(`https://i10b112.p.ssafy.io/api/${pid}/${step}/${ntab}/qna`, {});
       const oid = response.data.id; // 응답에서 id 값을 추출하여 oid 변수에 저장
       const newId = qnas.length > 0 ? Math.max(...qnas.map((q) => parseInt(q.qnaId.split("-")[0], 10))) + 1 : 0;
       setQnAs([...qnas, { qnaId: `${newId}-0`, id: oid, question: "", answer: "" }]);
@@ -243,23 +243,23 @@ function QnAContainer() {
   }
 
   // 불러오기 요청을 받았을 때 추가하는 함수
-  async function AddQnAMaster(masterId) {
-    if (masterData) {
-      const masterItem = masterData.find(item => item.id === masterId)
-      const newQnA = {
-        ...masterItem,
-        qnaId: `${qnas.length}-0`,
-      };
-      try {
-        await axios.post(`https://i10b112.p.ssafy.io/api/${pid}/${step}/${ntab}/qna`, {
-          newQnA
-        });
-        setQnAs([...qnas, newQnA]);
-      } catch (error) {
-        console.error("Error adding QnA:", error);
-      }
-    }
-  }
+  // async function AddQnAMaster(masterId) {
+  //   if (masterData) {
+  //     const masterItem = masterData.find(item => item.id === masterId)
+  //     const newQnA = {
+  //       ...masterItem,
+  //       qnaId: `${qnas.length}-0`,
+  //     };
+  //     try {
+  //       await axios.post(`https://i10b112.p.ssafy.io/api/${pid}/${step}/${ntab}/qna`, {
+  //         newQnA
+  //       });
+  //       setQnAs([...qnas, newQnA]);
+  //     } catch (error) {
+  //       console.error("Error adding QnA:", error);
+  //     }
+  //   }
+  // }
 
 
  
@@ -296,7 +296,6 @@ function QnAContainer() {
         isMasterOpen={isMasterOpen}
         setIsMasterOpen={setIsMasterOpen}
         openMasterModal={openMasterModal}
-        AddQnAMaster={AddQnAMaster}
       />
     </>
   );

@@ -4,6 +4,7 @@ import "./Memo.scss";
 import { useParams,useLocation } from "react-router";
 import { useRecoilValue,useSetRecoilState } from "recoil";
 import { processDataState } from "../../../state/atoms";
+import axios from "axios";
 
 
 
@@ -74,9 +75,14 @@ function Memo() {
     };
 
     const updatedTest = deepCopy(processData);
-    updatedTest[step][ntab].memoList = memoRef.current;
-    console.log('MeMo컴포넌트가 언마운트되었습니다.', updatedTest);
-    setProcessData(updatedTest);
+    updatedTest[step][ntab].memoList = [memoRef.current];
+    // console.log('MeMo컴포넌트가 언마운트되었습니다.', updatedTest);
+      setProcessData(updatedTest);
+      // axios.put(`https://i10b112.p.ssafy.io/api/process`, updatedTest)
+      //       .then(response => {
+      //           // console.log('PUT 요청이 성공했습니다.', response);
+      //       })
+            
       
     };
   }, []);

@@ -3,6 +3,7 @@ import { Checkbox, Rate } from 'antd';
 import { useParams, useLocation } from 'react-router';
 import { useRecoilValue,useSetRecoilState } from 'recoil';
 import { processDataState } from '../../../state/atoms';
+import axios from "axios";
 import Tag from '../../../common/components/InputTag';
 import NCT from "./NCT";
 import SmallInputBox from '../../../common/components/SmallInputBox';
@@ -158,7 +159,7 @@ export default function CT() {
   }, [rowData]);
 
   useEffect(() => {
-    console.log('코테 컴포넌트 마운트되었습니다.', processData);
+    // console.log('코테 컴포넌트 마운트되었습니다.', processData);
 
     return () => {
       const deepCopy = obj => {
@@ -178,10 +179,14 @@ export default function CT() {
       const updatedTest = deepCopy(processData);
       updatedTest.test[ntab].codingTestList = ctRef.current;
 
-      console.log(updatedTest, "updatedTest")
-      console.log('컴포넌트가 언마운트되었습니다.', ctRef.current);
-      console.log('컴포넌트가 언마운트되었습니다.', updatedTest);
       setProcessData(updatedTest);
+      // axios.put(`https://i10b112.p.ssafy.io/api/process`, updatedTest)
+      //       .then(response => {
+      //           // console.log('PUT 요청이 성공했습니다.', response);
+      //       })
+      //       .catch(error => {
+      //           // console.error('PUT 요청이 실패했습니다.', error);
+      //       });
     }
   }, []);
 

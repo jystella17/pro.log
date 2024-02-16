@@ -52,17 +52,18 @@ function JDContent({ selectedJd, closeModalHandler, day }) {
   
           fetchAddProcess({
             company: selectedJd.companyName,
-            step: 'assay',
+            step: 'paper',
             start_date: openingDate,
-            end_date: expirationDate
+            end_date: expirationDate,
+            tag: []
           })
             .then(res =>
-              console.log('저장 완료: ', res.data))
+              navigate(`/process/${res.data}`))
             .catch(err =>
               console.error(err.message))
         });
   
-      navigate('/process')
+      
     } else {
       console.log('selectedJd is undefined');
     }

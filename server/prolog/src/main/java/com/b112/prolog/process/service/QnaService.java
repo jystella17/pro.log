@@ -30,7 +30,7 @@ public class QnaService {
         Query q = new Query(Criteria.where("_id").is(oid));
         Update u = new Update();
 
-        String target = step+"."+index+"."+"content";
+        String target = step+"."+index+"."+"qnaList";
 //        u.push(target,qid.getId());
         u.push(target, qnaDto);
 //        u.set(step,)

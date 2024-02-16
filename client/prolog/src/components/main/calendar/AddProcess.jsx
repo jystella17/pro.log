@@ -70,14 +70,14 @@ function AddProcessContent({
 
   function saveAddProcess() {
     fetchAddProcess({
-      company: addCompany, step: addType, end_date: deadline
+      company: addCompany, step: addType, end_date: deadline, tag: []
     })
       .then(res =>
-        console.log('저장 완료: ', res.data))
+        navigate(`/process/${res.data}`))
       .catch(err =>
         console.error(err.message))
     
-    navigate('/process')
+    
   }
 
 
