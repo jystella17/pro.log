@@ -143,7 +143,7 @@ SSAFY 10기 2학기 공통프로젝트 - Pro.log
 
 ## ✔️ ERD
 
-![ProLog__3_](/uploads/66792d9d9b924135226d0c5d6043b6b2/ProLog__3_.png)
+![ProLog__4_](/uploads/06ddd26f07ec4430138fe6c992f009c1/ProLog__4_.png)
 
 ## ✔️ 프로젝트 파일 구조
 
