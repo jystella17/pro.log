@@ -12,7 +12,7 @@ SSAFY 10기 2학기 공통프로젝트 - Pro.log
 
 ## ✔️ 팀원 소개
 
-![Alt text](image.png)
+![스크린샷_465_](/uploads/6964f0bd1916058a81843cec45c91c62/스크린샷_465_.png)
 
 ## ✔️ 한 줄 소개
 
@@ -141,11 +141,11 @@ SSAFY 10기 2학기 공통프로젝트 - Pro.log
 
 ## ✔️ 시스템 구조도
 
-![Alt text](prolog_architecture.png)
+![prolog_architecture](/uploads/4a8168b082a54f978bfe2d4a264d1cb0/prolog_architecture.png)
 
 ## ✔️ ERD
 
-![Alt text](image-1.png)
+![ProLog__3_](/uploads/66792d9d9b924135226d0c5d6043b6b2/ProLog__3_.png)
 
 ## ✔️ 프로젝트 파일 구조
 
