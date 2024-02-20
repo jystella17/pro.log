@@ -200,16 +200,16 @@ export default function CT() {
   return (
     <div className="ct">
       <Header company={processData.company} />
-      {processData[step][ntab] !== undefined ? (
+      {/* {processData[step][ntab] !== undefined ? (
         <Body
           qnum={rowData.length}
           setQNum={setRowData}
           codingTestList={processData[step][ntab].codingTestList}
           onDataChange={handleRowDataChange}
         />
-      ) : (
+      ) : ( */}
         <NCT />
-      )}
+      {/* )} */}
     </div>
   );
 }
