@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { IoClose, IoAddCircleOutline } from "react-icons/io5";
 import "./QnA.scss";
 import { Input, ConfigProvider } from "antd";
-import Button from "../../common/components/Button";
 import api from "../login/Axios";
 
 const ContainerAll = styled.div`
@@ -202,7 +201,7 @@ function QnAContainer() {
           <MasterTitle>마스터 자기소개서</MasterTitle>
           <Explain>마스터 자기소개서를 만들어서 여러 자기소개서에 사용해보세요!</Explain>
         </div>
-        <div>{/* <Button className="navy" children="저장하기" onClick={SaveQnAs}></Button> */}</div>
+        
       </Container>
       <ContainerAll>
         <div className="qnas-button">

@@ -1,4 +1,4 @@
-import { Children } from "react"
+
 import Modal from 'react-modal'
 
 const customModal = Modal.Styles = {
