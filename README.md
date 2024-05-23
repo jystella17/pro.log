@@ -1,6 +1,9 @@
 # 📝 우리들의 취업 프로세스 로그, Pro.log
 
-![Pro.log.svg](/uploads/9efd85e5b06e2018e22419d0ed93cc3c/Pro.log.svg)
+
+![Pro log](https://github.com/B112Prolog/pro.log/assets/116855881/8e44594e-e72a-44a2-ad04-048798862024)
+
+
 
 # 프로젝트 진행 기간
 
@@ -10,7 +13,8 @@ SSAFY 10기 2학기 공통프로젝트 - Pro.log
 
 ## ✔️ 팀원 소개
 
-![스크린샷_465_](/uploads/6964f0bd1916058a81843cec45c91c62/스크린샷_465_.png)
+![스크린샷(465)](https://github.com/B112Prolog/pro.log/assets/116855881/d1bc911f-467a-490b-bd5e-cfdcdb14527e)
+
 
 ## ✔️ 한 줄 소개
 
@@ -139,11 +143,12 @@ SSAFY 10기 2학기 공통프로젝트 - Pro.log
 
 ## ✔️ 시스템 구조도
 
-![prolog_architecture](/uploads/4a8168b082a54f978bfe2d4a264d1cb0/prolog_architecture.png)
+![prolog_architecture](https://github.com/B112Prolog/pro.log/assets/116855881/c812dfa8-8631-4922-9822-37508cbabc35)
 
 ## ✔️ ERD
 
-![ProLog__4_](/uploads/06ddd26f07ec4430138fe6c992f009c1/ProLog__4_.png)
+![ProLog (5)](https://github.com/B112Prolog/pro.log/assets/116855881/f522ecd6-2798-4630-8709-3f244c0f0bcb)
+
 
 ## ✔️ 프로젝트 파일 구조
 
@@ -211,17 +216,16 @@ prolog-front
 
 ## ✔️ 프로젝트 산출물
 
-- <a href ="#"> 기획서 </a>
-- <a href ="#"> MVP Targeting </a>
-- <a href ="#"> 요구사항 정의서 </a>
-- <a href ="#"> 화면 설계 </a>
-- <a href ="#"> API 명세서 </a>
+- <a href ="https://hamster-is-perfect.notion.site/e57d82a9594a457d9f65cf78c6272a0c"> 기획서 </a>
+- <a href ="https://hamster-is-perfect.notion.site/d25562d5cf1b410f81006d0f30d76cfd?v=776db4bad9334203bc60ecd860423086"> MVP Targeting </a>
+- <a href ="https://hamster-is-perfect.notion.site/a61323f3ba4e448696c8f5da0a6125bf"> 요구사항 정의서 </a>
+- <a href ="https://hamster-is-perfect.notion.site/0dcfeebb1e7b475687bf4f35fbd0ad71?v=fab4f04c07b842e7a90438bee594c540"> 화면 설계 </a>
+- <a href ="https://hamster-is-perfect.notion.site/11a1bd57593a45e997fb3c913adc5138?v=0fab628a146442558994bc04adf1afdc"> API 명세서 </a>
 
 ## ✔️ 프로젝트 결과물
 
-- <a href ="#"> 포팅매뉴얼 </a>
-- <a href ="#"> 중간발표자료 </a>
-- <a href ="#"> 최종발표자료 </a>
+- <a href ="exec/1%2C2.%20B112_Prolog_%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.pdf"> 포팅매뉴얼 </a>
+- <a href ="exec/4.%20B112_Prolog_%EC%8B%9C%EC%97%B0%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.pdf"> 최종발표자료 </a>
 
 ## ✔️ Pro.log 서비스 화면
 ### 메인화면 (캘린더뷰)
