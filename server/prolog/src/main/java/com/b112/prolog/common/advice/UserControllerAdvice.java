@@ -30,4 +30,14 @@ public class UserControllerAdvice {
     public ResponseEntity<String> notAuthorizedException() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ExceptionMessage.ACCESS_DENIED.getMessage());
     }
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<String> userAlreadyExistsException() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionMessage.USER_ALREADY_EXISTS.getMessage());
+    }
+
+    @ExceptionHandler(LoginFailedException.class)
+    public ResponseEntity<String> loginFailedException() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionMessage.LOGIN_FAILED.getMessage());
+    }
 }

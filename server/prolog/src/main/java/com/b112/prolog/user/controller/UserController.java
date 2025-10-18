@@ -1,6 +1,10 @@
 package com.b112.prolog.user.controller;
 
+import com.b112.prolog.user.dto.LoginDto;
 import com.b112.prolog.user.dto.Profile;
+import com.b112.prolog.user.dto.RegisterDto;
+import com.b112.prolog.user.dto.TokenResponseDto;
+import com.b112.prolog.user.exception.LoginFailedException;
 import com.b112.prolog.user.service.RefreshTokenService;
 import com.b112.prolog.user.service.UserService;
 import com.b112.prolog.user.util.CookieUtils;
@@ -36,6 +40,16 @@ public class UserController {
 //    public ResponseEntity<?> editProfile(@RequestBody HashMap<String, Object> map) {
         userService.updateUserInfo(profile);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+        return ResponseEntity.ok().body(userService.register(registerDto));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<TokenResponseDto> login(@RequestBody LoginDto loginDto) throws LoginFailedException {
+        return ResponseEntity.ok().body(userService.login(loginDto));
     }
 
     /**

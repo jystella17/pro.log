@@ -43,9 +43,6 @@ public class UserPrincipalService implements UserDetailsService, UserDetailsPass
     }
 
     public UserPrincipal loadCurrentUser() {
-        log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-        log
-                .info(SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass().toString());
         return (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

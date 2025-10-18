@@ -1,9 +1,16 @@
 package com.b112.prolog.user.service;
 
+import com.b112.prolog.user.dto.LoginDto;
 import com.b112.prolog.user.dto.Profile;
+import com.b112.prolog.user.dto.RegisterDto;
+import com.b112.prolog.user.dto.TokenResponseDto;
+import com.b112.prolog.user.entity.CareerType;
 import com.b112.prolog.user.entity.User;
 import com.b112.prolog.user.entity.UserPrincipal;
+import com.b112.prolog.user.exception.LoginFailedException;
 import com.b112.prolog.user.exception.NotAuthenticatedException;
+import com.b112.prolog.user.exception.UserAlreadyExistException;
+import com.b112.prolog.user.jwt.TokenProvider;
 import com.b112.prolog.user.repository.TokenRepository;
 import com.b112.prolog.user.repository.UserRepository;
 import com.b112.prolog.user.exception.UserNotFoundException;
@@ -15,6 +22,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,13 +38,21 @@ public class UserService {
     private final TokenRepository tokenRepository;
     private final UserPrincipalService userPrincipalService;
     private final MongoTemplate mongoTemplate;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final TokenProvider tokenProvider;
+    private final RefreshTokenService refreshTokenService;
 
     public UserService(UserRepository userRepository, TokenRepository tokenRepository,
-                       UserPrincipalService userPrincipalService, MongoTemplate mongoTemplate) {
+                       UserPrincipalService userPrincipalService, MongoTemplate mongoTemplate,
+                       BCryptPasswordEncoder bCryptPasswordEncoder, TokenProvider tokenProvider,
+                       RefreshTokenService refreshTokenService) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.userPrincipalService = userPrincipalService;
         this.mongoTemplate = mongoTemplate;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.tokenProvider = tokenProvider;
+        this.refreshTokenService = refreshTokenService;
     }
 
     // Read
@@ -60,6 +76,7 @@ public class UserService {
                 .build();
     }
 
+    @Transactional
     public Profile findCurrentUserByEmail(String email) {
         User user = Optional.ofNullable(
                 mongoTemplate.findOne(new Query(Criteria.where("email").is(email)), User.class))
@@ -89,27 +106,71 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void register() {
-        //
+    // 회원가입
+    @Transactional
+    public String register(RegisterDto registerDto) {
+        Optional<User> existUser = userRepository.findUserByEmail(registerDto.getEmail());
+
+        if(existUser.isPresent()) {
+            throw new UserAlreadyExistException();
+        }
+
+        User user = User.builder()
+                .uuid(UUID.randomUUID().toString())
+                .password(bCryptPasswordEncoder.encode(registerDto.getPassword()))
+                .email(registerDto.getEmail())
+                .nickname(registerDto.getNickname())
+                .role("ROLE_USER")
+                .wishCompany(registerDto.getWishCompany())
+                .isDeveloper(registerDto.isDeveloper())
+                .careerType(CareerType.of(registerDto.getCareerType()))
+                .phoneNumber(registerDto.getPhoneNumber())
+                .build();
+
+        saveUser(user);
+        return user.getEmail();
     }
 
-    public void saveUserIfNotExists(User userInfo) {
-        Optional<User> existUser = userRepository.findUserByEmail(userInfo.getEmail());
+    @Transactional
+    public String registerAdmin(RegisterDto registerDto) throws  UserAlreadyExistException {
+        Optional<User> existUser = userRepository.findUserByEmail(registerDto.getEmail());
 
-        if (existUser.isEmpty()) {
-            User user = User.builder()
-                    .uuid(String.valueOf(UUID.randomUUID()))
-                    .password(userInfo.getPassword())
-                    .email(userInfo.getEmail())
-                    .nickname(userInfo.getNickname())
-                    .role(userInfo.getRoleType().getCode())
-                    .wishCompany(new ArrayList<>())
-                    .isDeveloper(userInfo.isDeveloper())
-                    .careerType(userInfo.getCareerType())
-                    .phoneNumber(userInfo.getPhoneNumber())
-                    .build();
+        if(existUser.isPresent()) {
+            throw new UserAlreadyExistException();
+        }
 
-            saveUser(user);
+        User user = User.builder()
+                .uuid(UUID.randomUUID().toString())
+                .password(bCryptPasswordEncoder.encode(registerDto.getPassword()))
+                .email(registerDto.getEmail())
+                .nickname(registerDto.getNickname())
+                .role("ROLE_ADMIN")
+                .wishCompany(registerDto.getWishCompany())
+                .isDeveloper(registerDto.isDeveloper())
+                .careerType(CareerType.of(registerDto.getCareerType()))
+                .phoneNumber(registerDto.getPhoneNumber())
+                .build();
+
+        saveUser(user);
+        return user.getEmail();
+    }
+
+    // 로그인
+    @Transactional
+    public TokenResponseDto login(LoginDto loginDto) throws LoginFailedException {
+        User user = Optional.ofNullable(
+                        mongoTemplate.findOne(new Query(Criteria.where("email").is(loginDto.getEmail())), User.class))
+                .orElseThrow(UserNotFoundException::new);
+
+        if (bCryptPasswordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            UserPrincipal userPrincipal = UserPrincipal.create(user);
+            String accessToken = tokenProvider.createAccessToken(userPrincipal);
+            String refreshToken = tokenProvider.createRefreshToken(userPrincipal);
+
+            refreshTokenService.saveRefreshToken(user.getUuid().toString(), refreshToken);
+            return TokenResponseDto.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+        } else {
+            throw new LoginFailedException();
         }
     }
 

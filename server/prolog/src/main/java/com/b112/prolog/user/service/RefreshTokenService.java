@@ -3,6 +3,7 @@ package com.b112.prolog.user.service;
 import com.b112.prolog.user.jwt.TokenProvider;
 import com.b112.prolog.user.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class RefreshTokenService {
         this.tokenProvider = tokenProvider;
     }
 
+    @Transactional
     public void saveRefreshToken(String uuid, String refreshToken) {
         tokenRepository.saveRefreshToken(uuid, refreshToken);
     }
