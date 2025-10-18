@@ -2,6 +2,7 @@ package com.b112.prolog.user.service;
 
 import com.b112.prolog.process.entity.Qna;
 import com.b112.prolog.user.entity.User;
+import com.b112.prolog.user.entity.UserPrincipal;
 import com.b112.prolog.user.repository.MasterQnaRepository;
 import com.b112.prolog.user.repository.UserRepository;
 import com.b112.prolog.user.exception.AccessDeniedException;
@@ -38,9 +39,9 @@ public class MasterQnaService {
     }
 
     // Read ✅
-    public List<Qna> findAll() {
+    public List<Qna> findAll(UserPrincipal userPrincipal) {
         User user = mongoTemplate.findOne(new Query(
-                Criteria.where("_id").is("AuthenticationUtils.getCurrentUserId()") // 수정필요
+                Criteria.where("_id").is(userPrincipal.getUuid())
         ), User.class, "users");
 
         return Optional.ofNullable(user).orElseThrow(AccessDeniedException::new).getQnaList();

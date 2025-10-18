@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 public class User {
     @Id
-    private final UUID uuid;
+    private final String uuid;
     private final String password;
     private final String email;
     private final String nickname;
@@ -33,20 +33,21 @@ public class User {
     private final LocalDateTime lastJwtIssuedAt;
 
     @Builder
-    public User(String uuid, String password, String email, String nickname, String role, List<String> wishCompany,
-                boolean isDeveloper, CareerType careerType, String phoneNumber) {
-        this.uuid = UUID.fromString(uuid);
+    public User(String uuid, String password, String email, String nickname, RoleType roleType,
+                List<String> wishCompany, List<Process> processes, boolean isDeveloper, CareerType careerType,
+                List<Qna> qnaList, String phoneNumber, LocalDateTime lastJwtIssuedAt) {
+        this.uuid = uuid;
         this.password = password;
         this.email = email;
         this.nickname = nickname;
-        this.roleType = RoleType.of(role);
+        this.roleType = roleType;
         this.wishCompany = wishCompany;
-        this.processes = new ArrayList<>();
+        this.processes = processes;
         this.isDeveloper = isDeveloper;
         this.careerType = careerType;
-        this.qnaList = new ArrayList<>();
+        this.qnaList = qnaList;
         this.phoneNumber = phoneNumber;
-        this.lastJwtIssuedAt = LocalDateTime.now();
+        this.lastJwtIssuedAt = lastJwtIssuedAt != null ? lastJwtIssuedAt : LocalDateTime.now();
     }
 
     @Override

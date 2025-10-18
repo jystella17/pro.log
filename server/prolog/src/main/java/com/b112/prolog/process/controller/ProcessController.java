@@ -3,21 +3,25 @@ package com.b112.prolog.process.controller;
 import com.b112.prolog.process.dto.ProcessDto;
 import com.b112.prolog.process.service.ProcessService;
 
-import lombok.RequiredArgsConstructor;
+import com.b112.prolog.user.entity.UserPrincipal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProcessController {
 
     private final ProcessService processService;
 
+    public ProcessController(ProcessService processService) {
+        this.processService = processService;
+    }
+
     @GetMapping("/process")
-    public ResponseEntity<?> findByAll(){
+    public ResponseEntity<?> findByAll(@AuthenticationPrincipal UserPrincipal userPrincipal){
         try{
             return new ResponseEntity<>(processService.getProcessList(),HttpStatus.OK);
         }catch (Exception e){
@@ -27,12 +31,13 @@ public class ProcessController {
 
     /**?
      *  해당 Process 조회
-     * @param processid 프로세스 ID
+     * @param processId 프로세스 ID
      */
     @GetMapping("/{processid}")
-    public ResponseEntity<?> findProcess(@PathVariable String processid){
+    public ResponseEntity<?> findProcess(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                         @PathVariable String processId){
         try{
-            return ResponseEntity.ok(processService.getProcess(processid));
+            return ResponseEntity.ok(processService.getProcess(processId));
         } catch (Exception e){
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }
@@ -55,7 +60,8 @@ public class ProcessController {
      * @param templatetype 어떤 타입의 템플릿 열었는지 ?  1: QnA템플릿 2:코테템플릿 3:토글 4:메모
      */
     @PutMapping("/{processid}/{step}/{templatetype}")
-    public ResponseEntity<?> updateTemplate(@PathVariable String processid, @PathVariable String step,
+    public ResponseEntity<?> updateTemplate(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                            @PathVariable String processid, @PathVariable String step,
                                             @PathVariable int templatetype){
 
         try{
@@ -67,7 +73,8 @@ public class ProcessController {
     }
 
     @PutMapping("/process")
-    public ResponseEntity<?> updateProcess (@RequestBody ProcessDto dto){
+    public ResponseEntity<?> updateProcess (@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                            @RequestBody ProcessDto dto){
         try{
             processService.updateProcess(dto);
         } catch (Exception e){

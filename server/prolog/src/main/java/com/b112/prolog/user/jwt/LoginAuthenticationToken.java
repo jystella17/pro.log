@@ -2,15 +2,17 @@ package com.b112.prolog.user.jwt;
 
 import com.b112.prolog.user.entity.UserPrincipal;
 import lombok.Getter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Getter
-public class LoginAuthenticationToken extends UsernamePasswordAuthenticationToken {
+public class LoginAuthenticationToken extends AbstractAuthenticationToken {
 
     private final UserPrincipal userPrincipal;
 
     public LoginAuthenticationToken(UserPrincipal userPrincipal) {
-        super(userPrincipal.getEmail(), userPrincipal.getPassword(), userPrincipal.getAuthorities());
+        super(userPrincipal.getAuthorities());
 
         if (userPrincipal.getAuthorities() != null) {
             this.userPrincipal = userPrincipal;
@@ -20,4 +22,13 @@ public class LoginAuthenticationToken extends UsernamePasswordAuthenticationToke
         }
     }
 
+    @Override
+    public Object getCredentials() {
+        return null;
+    }
+
+    @Override
+    public UserPrincipal getPrincipal() {
+        return this.userPrincipal;
+    }
 }

@@ -5,12 +5,7 @@ import com.b112.prolog.user.dto.Profile;
 import com.b112.prolog.user.dto.RegisterDto;
 import com.b112.prolog.user.dto.TokenResponseDto;
 import com.b112.prolog.user.exception.LoginFailedException;
-import com.b112.prolog.user.service.RefreshTokenService;
 import com.b112.prolog.user.service.UserService;
-import com.b112.prolog.user.util.CookieUtils;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +16,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final RefreshTokenService refreshTokenService; // 리프레시 토큰 저장, 삭제 등을 처리
-    // private final TokenProvider tokenProvider; // 토큰 생성, 유효성 검사 등을 처리
 
-    public UserController(UserService userService, RefreshTokenService refreshTokenService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.refreshTokenService = refreshTokenService;
     }
 
     @GetMapping("/profile")
@@ -37,7 +29,6 @@ public class UserController {
 
     @PutMapping("/profile")
     public ResponseEntity<?> editProfile(@RequestBody Profile profile) {
-//    public ResponseEntity<?> editProfile(@RequestBody HashMap<String, Object> map) {
         userService.updateUserInfo(profile);
         return ResponseEntity.ok().build();
     }
@@ -47,7 +38,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.register(registerDto));
     }
 
-    @PostMapping("/register")
+    @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(@RequestBody LoginDto loginDto) throws LoginFailedException {
         return ResponseEntity.ok().body(userService.login(loginDto));
     }

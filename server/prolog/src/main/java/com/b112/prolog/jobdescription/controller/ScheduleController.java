@@ -7,11 +7,13 @@ import com.b112.prolog.jobdescription.service.JobDescriptionService;
 import com.b112.prolog.process.dto.ProcessDto;
 import com.b112.prolog.process.entity.Process;
 import com.b112.prolog.process.service.ProcessService;
+import com.b112.prolog.user.entity.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +38,8 @@ public class ScheduleController {
      * @return ResponseEntity
      */
     @GetMapping("/calendar/{year}/{month}")
-    public ResponseEntity<?> calendarView(@PathVariable("year") String year, @PathVariable("month") String month) {
+    public ResponseEntity<?> calendarView(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                          @PathVariable("year") String year, @PathVariable("month") String month) {
         String date = year + "-" + month;
 
         try {
@@ -58,7 +61,8 @@ public class ScheduleController {
      * @return ResponseEntity
      */
     @GetMapping("/calendar/{title}")
-    public ResponseEntity<?> calendarView(@PathVariable("title") String title) {
+    public ResponseEntity<?> calendarView(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                          @PathVariable("title") String title) {
         try {
             List<JobDescription> jobDescriptionList = jobDescriptionService.findByJobTitleContaining(title);
 
@@ -77,7 +81,7 @@ public class ScheduleController {
      * Process리스트 전체 받아옴
      */
     @GetMapping("/kanban")
-    public ResponseEntity<?> kanbanView() {
+    public ResponseEntity<?> kanbanView(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         try {
             List<Process> pcList = processService.getProcessList();
 
@@ -96,7 +100,8 @@ public class ScheduleController {
      * List <{processid , step ( essay, test, interview  . .)} > 로 요청
      */
     @PutMapping("/kanban")
-    public ResponseEntity<?> updateKanban(@RequestBody List<ProcessDto> processDto) {
+    public ResponseEntity<?> updateKanban(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                          @RequestBody List<ProcessDto> processDto) {
         try {
             processService.updateKanban(processDto);
         } catch (Exception e) {
@@ -106,7 +111,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/calendar/{jdid}")
-    public ResponseEntity<?> viewJD(@PathVariable Long jdid) {
+    public ResponseEntity<?> viewJD(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable Long jdid) {
         try {
             Optional<JobDescription> jobDescription = jobDescriptionService.findOne(jdid);
 
@@ -127,7 +132,8 @@ public class ScheduleController {
      * @param dto JD에 있는 정보들
      */
     @PostMapping("/process")
-    public ResponseEntity<?> insertProcess(@RequestBody ProcessDto dto) {
+    public ResponseEntity<?> insertProcess(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                           @RequestBody ProcessDto dto) {
         try {
             Process pc = processService.insertProcess(dto);
 

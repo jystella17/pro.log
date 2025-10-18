@@ -5,6 +5,7 @@ import com.b112.prolog.user.dto.Profile;
 import com.b112.prolog.user.dto.RegisterDto;
 import com.b112.prolog.user.dto.TokenResponseDto;
 import com.b112.prolog.user.entity.CareerType;
+import com.b112.prolog.user.entity.RoleType;
 import com.b112.prolog.user.entity.User;
 import com.b112.prolog.user.entity.UserPrincipal;
 import com.b112.prolog.user.exception.LoginFailedException;
@@ -120,7 +121,7 @@ public class UserService {
                 .password(bCryptPasswordEncoder.encode(registerDto.getPassword()))
                 .email(registerDto.getEmail())
                 .nickname(registerDto.getNickname())
-                .role("ROLE_USER")
+                .roleType(RoleType.USER)
                 .wishCompany(registerDto.getWishCompany())
                 .isDeveloper(registerDto.isDeveloper())
                 .careerType(CareerType.of(registerDto.getCareerType()))
@@ -144,10 +145,12 @@ public class UserService {
                 .password(bCryptPasswordEncoder.encode(registerDto.getPassword()))
                 .email(registerDto.getEmail())
                 .nickname(registerDto.getNickname())
-                .role("ROLE_ADMIN")
+                .roleType(RoleType.ADMIN)
                 .wishCompany(registerDto.getWishCompany())
+                .processes(new ArrayList<>())
                 .isDeveloper(registerDto.isDeveloper())
                 .careerType(CareerType.of(registerDto.getCareerType()))
+                .qnaList(new ArrayList<>())
                 .phoneNumber(registerDto.getPhoneNumber())
                 .build();
 
@@ -158,9 +161,12 @@ public class UserService {
     // 로그인
     @Transactional
     public TokenResponseDto login(LoginDto loginDto) throws LoginFailedException {
+        /**
         User user = Optional.ofNullable(
                         mongoTemplate.findOne(new Query(Criteria.where("email").is(loginDto.getEmail())), User.class))
                 .orElseThrow(UserNotFoundException::new);
+         **/
+        User user = userRepository.findUserByEmail(loginDto.getEmail()).orElseThrow(UserNotFoundException::new);
 
         if (bCryptPasswordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
             UserPrincipal userPrincipal = UserPrincipal.create(user);

@@ -1,5 +1,6 @@
 package com.b112.prolog.user.jwt;
 
+import com.b112.prolog.user.entity.UserPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(accessToken) && tokenProvider.isValidToken(accessToken)) {
             Authentication authentication = tokenProvider.getAuthentication(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            log.info("JWT 인증 성공 : {}", authentication.getPrincipal());
         }
 
         filterChain.doFilter(request, response);

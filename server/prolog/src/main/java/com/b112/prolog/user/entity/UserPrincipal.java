@@ -36,9 +36,9 @@ public class UserPrincipal implements UserDetails {
 
     public static UserPrincipal create(User user) {
         List<GrantedAuthority> authorityList = Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_USER"));
+                new SimpleGrantedAuthority(user.getRoleType().getCode()));
 
-        return new UserPrincipal(user.getUuid().toString(), user.getPassword(), user.getEmail(), user.getNickname(),
+        return new UserPrincipal(user.getUuid(), user.getPassword(), user.getEmail(), user.getNickname(),
                 user.getPhoneNumber(), user.getRoleType().getCode(), user.getLastJwtIssuedAt(), authorityList);
     }
 
@@ -70,11 +70,9 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime after = LocalDateTime.of(lastJwtIssuedAt.getYear(), lastJwtIssuedAt.getMonth(),
-                lastJwtIssuedAt.getDayOfMonth(), lastJwtIssuedAt.getHour(), lastJwtIssuedAt.getMinute())
-                .plusMinutes(15);
+        LocalDateTime expiry = lastJwtIssuedAt.plusDays(7);
 
-        return !after.isAfter(now);
+        return now.isBefore(expiry);
     }
 
     @Override
