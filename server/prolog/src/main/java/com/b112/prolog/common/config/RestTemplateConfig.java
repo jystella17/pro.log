@@ -1,4 +1,4 @@
-package com.b112.prolog.user.config;
+package com.b112.prolog.common.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

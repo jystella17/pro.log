@@ -2,15 +2,13 @@ package com.b112.prolog.user.service;
 
 import com.b112.prolog.user.dto.Profile;
 import com.b112.prolog.user.entity.User;
-import com.b112.prolog.user.exception.UserNotFoundException;
-import com.b112.prolog.user.info.OAuth2UserInfo;
-import com.b112.prolog.user.jwt.TokenProvider;
+import com.b112.prolog.user.entity.UserPrincipal;
+import com.b112.prolog.user.exception.NotAuthenticatedException;
 import com.b112.prolog.user.repository.TokenRepository;
 import com.b112.prolog.user.repository.UserRepository;
-import com.b112.prolog.user.util.AuthenticationUtils;
+import com.b112.prolog.user.exception.UserNotFoundException;
 import com.mongodb.client.result.DeleteResult;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.ExecutableUpdateOperation;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,27 +18,51 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class UserService {
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
-    private final TokenProvider tokenProvider;
-
+    private final UserPrincipalService userPrincipalService;
     private final MongoTemplate mongoTemplate;
 
+    public UserService(UserRepository userRepository, TokenRepository tokenRepository,
+                       UserPrincipalService userPrincipalService, MongoTemplate mongoTemplate) {
+        this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
+        this.userPrincipalService = userPrincipalService;
+        this.mongoTemplate = mongoTemplate;
+    }
+
     // Read
-    public Profile findUserById(String id) {
+    @Transactional
+    public Profile findUserById(String uuid) {
         User user = Optional.ofNullable(
                         mongoTemplate.findOne(new Query(
-                                Criteria.where("_id").is(id)
+                                Criteria.where("_id").is(uuid)
                         ), User.class, "users"))
+                .orElseThrow(UserNotFoundException::new); // Exception 수정 필요
+
+        return Profile.builder()
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .wishCompany(user.getWishCompany())
+                .processes(user.getProcesses())
+                .isDeveloper(user.isDeveloper())
+                .careerType(user.getCareerType().getDisplayName())
+                .qnaList(user.getQnaList())
+                .phoneNumber(user.getPhoneNumber())
+                .build();
+    }
+
+    public Profile findCurrentUserByEmail(String email) {
+        User user = Optional.ofNullable(
+                mongoTemplate.findOne(new Query(Criteria.where("email").is(email)), User.class))
                 .orElseThrow(UserNotFoundException::new);
 
         return Profile.builder()
@@ -48,48 +70,43 @@ public class UserService {
                 .nickname(user.getNickname())
                 .wishCompany(user.getWishCompany())
                 .processes(user.getProcesses())
-                .developer(user.isDeveloper())
-                .newbie(user.isNewbie())
-                .qnas(user.getQnas())
+                .isDeveloper(user.isDeveloper())
+                .careerType(user.getCareerType().getDisplayName())
+                .qnaList(user.getQnaList())
                 .phoneNumber(user.getPhoneNumber())
                 .build();
     }
 
-    public Map findUserAsMapById(String id) {
-        return Optional.ofNullable(
-                        mongoTemplate.findOne(new Query(
-                                Criteria.where("_id").is(id)
-                        ), Map.class, "users"))
-                .orElseThrow(UserNotFoundException::new);
-    }
-
     public Profile findCurrentUser() {
-        return findUserById(AuthenticationUtils.getCurrentUserId());
-    }
+        UserPrincipal userPrincipal = userPrincipalService.loadCurrentUser();
 
-    public Map findCurrentUserAsMap() {
-        return findUserAsMapById(AuthenticationUtils.getCurrentUserId());
+        return findUserById(userPrincipal.getUuid());
     }
 
     // Create
+    @Transactional
     public void saveUser(User user) {
         userRepository.save(user);
     }
 
-    public void saveUserIfNotExists(OAuth2UserInfo userInfo) {
-        Optional<User> existUser = userRepository.findById(userInfo.getId());
+    public void register() {
+        //
+    }
+
+    public void saveUserIfNotExists(User userInfo) {
+        Optional<User> existUser = userRepository.findUserByEmail(userInfo.getEmail());
 
         if (existUser.isEmpty()) {
             User user = User.builder()
-                    .id(userInfo.getId())
+                    .uuid(String.valueOf(UUID.randomUUID()))
+                    .password(userInfo.getPassword())
                     .email(userInfo.getEmail())
-                    .nickname(userInfo.getNickName())
+                    .nickname(userInfo.getNickname())
+                    .role(userInfo.getRoleType().getCode())
                     .wishCompany(new ArrayList<>())
-                    .processes(new ArrayList<>())
-                    .developer(false)
-                    .newbie(true)
-                    .qnas(new ArrayList<>())
-                    .phoneNumber("")
+                    .isDeveloper(userInfo.isDeveloper())
+                    .careerType(userInfo.getCareerType())
+                    .phoneNumber(userInfo.getPhoneNumber())
                     .build();
 
             saveUser(user);
@@ -125,7 +142,7 @@ public class UserService {
     public void updateUserInfo(Profile profile) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
-                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+                        Criteria.where("_id").is("AuthenticationUtils.getCurrentUserId()")));
 
         Update update = new Update();
         Optional.ofNullable(profile.getEmail()).ifPresent(value ->
@@ -136,8 +153,8 @@ public class UserService {
                 update.set("wishCompany", value));
         Optional.of(profile.isDeveloper()).ifPresent(value ->
                 update.set("developer", value));
-        Optional.of(profile.isNewbie()).ifPresent(value ->
-                update.set("newbie", value));
+        Optional.of(profile.getCareerType()).ifPresent(value ->
+                update.set("careerType", value));
         Optional.ofNullable(profile.getPhoneNumber()).ifPresent(value ->
                 update.set("phoneNumber", value));
 
@@ -148,14 +165,14 @@ public class UserService {
     public void updateUserProcess(String id) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
-                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+                        Criteria.where("_id").is("AuthenticationUtils.getCurrentUserId()")));
         updateTarget.apply(new Update().push("processes", id)).first();
     }
 
     public void updateUserQna(String qnaId) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
-                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+                        Criteria.where("_id").is("AuthenticationUtils.getCurrentUserId()")));
         updateTarget.apply(new Update().push("qnas", qnaId)).first();
     }
 
@@ -166,20 +183,20 @@ public class UserService {
     }
 
     public void deleteCurrentUser() {
-        deleteUserById(AuthenticationUtils.getCurrentUserId());
+        deleteUserById("AuthenticationUtils.getCurrentUserId()");
     }
 
     public void deleteUserQna(String id) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
-                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+                        Criteria.where("_id").is("AuthenticationUtils.getCurrentUserId()")));
         updateTarget.apply(new Update().pull("qnas", id)).all();
     }
 
     public void deleteUserProcess(String id) {
         ExecutableUpdateOperation.UpdateWithUpdate<User> updateTarget = mongoTemplate.update(User.class)
                 .matching(new Query(
-                        Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())));
+                        Criteria.where("_id").is("AuthenticationUtils.getCurrentUserId()")));
         updateTarget.apply(new Update().pull("process", id)).all();
     }
 

@@ -8,38 +8,61 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Document(collection = "users")
 @Getter
-@Builder
 public class User {
     @Id
-    private String id; // OAuth Provider가 제공한 사용자 고유 식별 id
-    private String email;
-    private String nickname;
-    private List<String> wishCompany;
+    private final UUID uuid;
+    private final String password;
+    private final String email;
+    private final String nickname;
+    private final RoleType roleType;
+    private final List<String> wishCompany;
     @DBRef
-    private List<Process> processes;
-    private boolean developer;
-    private boolean newbie;
+    private final List<Process> processes;
+    private final boolean isDeveloper;
+    private final CareerType careerType;
     @DBRef
-    private List<Qna> qnas;
+    private final List<Qna> qnaList;
+    private final String phoneNumber;
+    private final LocalDateTime lastJwtIssuedAt;
 
-    private String phoneNumber;
+    @Builder
+    public User(String uuid, String password, String email, String nickname, String role, List<String> wishCompany,
+                boolean isDeveloper, CareerType careerType, String phoneNumber) {
+        this.uuid = UUID.fromString(uuid);
+        this.password = password;
+        this.email = email;
+        this.nickname = nickname;
+        this.roleType = RoleType.of(role);
+        this.wishCompany = wishCompany;
+        this.processes = new ArrayList<>();
+        this.isDeveloper = isDeveloper;
+        this.careerType = careerType;
+        this.qnaList = new ArrayList<>();
+        this.phoneNumber = phoneNumber;
+        this.lastJwtIssuedAt = LocalDateTime.now();
+    }
 
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id='" + uuid + '\'' +
                 ", email='" + email + '\'' +
                 ", nickname='" + nickname + '\'' +
+                ", roleType=" + roleType.getCode() + '\'' +
                 ", wishCompany=" + wishCompany +
                 ", processes=" + processes +
-                ", developer=" + developer +
-                ", newbie=" + newbie +
-                ", qnas=" + qnas +
+                ", isDeveloper=" + isDeveloper +
+                ", newbie=" + careerType.getCode() +
+                ", qnaList=" + qnaList +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", lastJwtIssuedAt='" + lastJwtIssuedAt + '\'' +
                 '}';
     }
 }

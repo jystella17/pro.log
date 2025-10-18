@@ -1,7 +1,6 @@
 package com.b112.prolog.user.controller;
 
 import com.b112.prolog.user.dto.Profile;
-import com.b112.prolog.user.jwt.TokenProvider;
 import com.b112.prolog.user.service.RefreshTokenService;
 import com.b112.prolog.user.service.UserService;
 import com.b112.prolog.user.util.CookieUtils;
@@ -12,23 +11,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.b112.prolog.user.jwt.TokenProvider.*;
-
 @Slf4j
-@AllArgsConstructor
 @RequestMapping("/api/user")
 @RestController
 public class UserController {
 
     private final UserService userService;
     private final RefreshTokenService refreshTokenService; // 리프레시 토큰 저장, 삭제 등을 처리
-    private final TokenProvider tokenProvider; // 토큰 생성, 유효성 검사 등을 처리
+    // private final TokenProvider tokenProvider; // 토큰 생성, 유효성 검사 등을 처리
+
+    public UserController(UserService userService, RefreshTokenService refreshTokenService) {
+        this.userService = userService;
+        this.refreshTokenService = refreshTokenService;
+    }
 
     @GetMapping("/profile")
-    public ResponseEntity<?> getProfile() {
+    public ResponseEntity<?> getProfile(@RequestParam String email) {
 
-        return ResponseEntity.ok().body(userService.findCurrentUser());
-//        return ResponseEntity.ok().body(userService.findCurrentUser());
+        return ResponseEntity.ok().body(userService.findCurrentUserByEmail(email));
     }
 
     @PutMapping("/profile")
@@ -38,6 +38,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    /**
     @GetMapping("/token/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request, HttpServletResponse response) {
 
@@ -58,6 +59,5 @@ public class UserController {
 
         return ResponseEntity.ok().build();
     }
-
-
+**/
 }

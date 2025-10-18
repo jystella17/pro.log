@@ -21,9 +21,6 @@ public class Company {
     @Column(name = "name")
     private String companyName;
 
-//    @OneToMany(mappedBy = "company")
-//    private List<JobDescription> jobDescriptions = new ArrayList<>();
-
     @Builder
     public Company(Long companyId, String companyName) {
         this.companyId = companyId;

@@ -2,11 +2,11 @@ package com.b112.prolog.user.service;
 
 import com.b112.prolog.process.entity.Qna;
 import com.b112.prolog.user.entity.User;
-import com.b112.prolog.user.exception.AccessDeniedException;
-import com.b112.prolog.user.exception.DataNotFoundException;
 import com.b112.prolog.user.repository.MasterQnaRepository;
 import com.b112.prolog.user.repository.UserRepository;
-import com.b112.prolog.user.util.AuthenticationUtils;
+import com.b112.prolog.user.exception.AccessDeniedException;
+import com.b112.prolog.user.exception.DataNotFoundException;
+
 import com.mongodb.client.result.DeleteResult;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -37,16 +37,14 @@ public class MasterQnaService {
         return qna.getId();
     }
 
-
     // Read ✅
     public List<Qna> findAll() {
         User user = mongoTemplate.findOne(new Query(
-                Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())
+                Criteria.where("_id").is("AuthenticationUtils.getCurrentUserId()") // 수정필요
         ), User.class, "users");
 
-        return Optional.ofNullable(user).orElseThrow(AccessDeniedException::new).getQnas();
+        return Optional.ofNullable(user).orElseThrow(AccessDeniedException::new).getQnaList();
     }
-
 
     // Update ✅
     public String updateMasterQna(Map<String, String> json) {
@@ -74,6 +72,8 @@ public class MasterQnaService {
             DeleteResult deleteResult = mongoTemplate.remove(new Query(
                     Criteria.where("_id").is(id)
             ), "qna");
+
+            log.info("MasterQna " + id + "is deleted : " + deleteResult);
         }
     }
 
@@ -85,12 +85,13 @@ public class MasterQnaService {
         return hasMasterQna(json.get("id"));
     }
 
+
     public boolean hasMasterQna(String id) {
         User user = mongoTemplate.findOne(new Query(
-                Criteria.where("_id").is(AuthenticationUtils.getCurrentUserId())), User.class, "users");
+                Criteria.where("_id").is("AuthenticationUtils.getCurrentUserId()")), User.class, "users"); // 수정필요
 
 
-        List<Qna> qnas = Optional.ofNullable(user).orElseThrow(AccessDeniedException::new).getQnas();
+        List<Qna> qnas = Optional.ofNullable(user).orElseThrow(AccessDeniedException::new).getQnaList();
 
         boolean own = qnas.stream().anyMatch(qna -> Optional.ofNullable(qna.getId()).orElseThrow(DataNotFoundException::new).equals(id));
 

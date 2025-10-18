@@ -1,66 +1,40 @@
 package com.b112.prolog.user.service;
 
-import com.b112.prolog.user.util.AuthenticationUtils;
-import com.b112.prolog.user.exception.RefreshTokenExpiredException;
-import static com.b112.prolog.user.jwt.TokenProvider.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
-
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import com.b112.prolog.user.jwt.TokenProvider;
+import com.b112.prolog.user.repository.TokenRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.util.Optional;
-
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class RefreshTokenService {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final TokenRepository tokenRepository;
+    private final TokenProvider tokenProvider;
 
-    @Transactional
-    public void saveRefreshToken(String refreshToken) {
-        redisTemplate.opsForValue().set(AuthenticationUtils.getCurrentUserId(), refreshToken, Duration.ofSeconds(REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS));
+    public RefreshTokenService(TokenRepository tokenRepository, TokenProvider tokenProvider) {
+        this.tokenRepository = tokenRepository;
+        this.tokenProvider = tokenProvider;
     }
 
-    @Transactional
-    public String findRefreshTokenById(String id) {
-        return Optional.ofNullable(redisTemplate.opsForValue().get(id)).orElseThrow(RefreshTokenExpiredException::new);
+    public void saveRefreshToken(String uuid, String refreshToken) {
+        tokenRepository.saveRefreshToken(uuid, refreshToken);
     }
 
-    @Transactional
-    public String findCurrentUserRefreshToken() {
-        String id = AuthenticationUtils.getCurrentUserId();
-        return findRefreshTokenById(id);
+    public void deleteRefreshToken(String uuid) {
+        tokenRepository.deleteRefreshToken(uuid);
     }
 
-    @Transactional
-    public void findCurrentUserRefreshTokenAndCompareWith(String requestRefreshToken) {
-        String token = findCurrentUserRefreshToken();
-        log.info("User RefreshToken: " + token);
-        log.info("Request RefreshToken: " + requestRefreshToken);
-
-        if (!token.equals(requestRefreshToken))
-            throw new RefreshTokenExpiredException();
+    public void addAtkToBlacklist(String uuid, HttpServletRequest request) {
+        String accessToken = tokenProvider.resolveToken(request);
+        tokenRepository.addToBlackList(uuid, accessToken);
     }
 
-    @Transactional
-    public void deleteRefreshTokenById(String id) {
-        redisTemplate.delete(id);
-    }
-
-    @Transactional
-    public void deleteCurrentUserRefreshToken() {
-        String id = AuthenticationUtils.getCurrentUserId();
-        deleteRefreshTokenById(id);
-    }
-
-    @Transactional
-    public void reissueCurrentUserRefreshToken(String refreshToken) {
-        this.deleteCurrentUserRefreshToken();
-        this.saveRefreshToken(refreshToken);
+    public void logout(String uuid, HttpServletRequest request) {
+        deleteRefreshToken(uuid);
+        addAtkToBlacklist(uuid, request);
     }
 }

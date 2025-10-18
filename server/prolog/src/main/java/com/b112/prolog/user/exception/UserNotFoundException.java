@@ -1,8 +1,9 @@
 package com.b112.prolog.user.exception;
 
-import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class UserNotFoundException extends DataAccessException {
+public class UserNotFoundException extends UsernameNotFoundException {
+
     public UserNotFoundException() {
         super(ExceptionMessage.USER_NOT_FOUND.getMessage());
     }

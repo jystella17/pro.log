@@ -6,12 +6,13 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ExceptionMessage {
-    USER_NOT_FOUND("User Not Found"),
+
+    USER_NOT_FOUND("No Such User"),
     NOT_AUTHENTICATED("Not Authenticated"),
-    LOGOUT_FAILED("Logout Failed"),
     ACCESS_TOKEN_EXPIRED("Access Token Expired"),
     REFRESH_TOKEN_EXPIRED("Refresh Token Expired"),
-    ACCESS_DENIED("Access Denied"),
+    ACCESS_DENIED("Access Not Allowed"),
     DATA_NOT_FOUND("Data Not Found");
+
     private final String message;
 }

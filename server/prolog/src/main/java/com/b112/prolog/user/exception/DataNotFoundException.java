@@ -4,7 +4,7 @@ import org.springframework.dao.DataAccessException;
 
 public class DataNotFoundException extends DataAccessException {
 
-    public DataNotFoundException() {
+    public DataNotFoundException(){
         super(ExceptionMessage.DATA_NOT_FOUND.getMessage());
     }
 

@@ -2,7 +2,9 @@ package com.b112.prolog.process.entity;
 
 import com.b112.prolog.process.dto.Template;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import lombok.AccessLevel;
@@ -23,34 +25,34 @@ public class Process {
     @Id
     private String id;
     private String company;
-    private int end_status;
+    private int endStatus;
     private String step;
     private String progress;
     private List<String> tag;
-    private String start_date;
-    private String end_date;
+    private LocalDateTime startFrom;
+    private LocalDateTime endTo;
     private List<Template> essay;
     private List<Template> test;
     private List<Template> interview;
-    private int jd_id;
+    private int jdId;
     private String jdName;
 
     @Builder
-    public Process(String id, String company, int end_status, String step, String progress,
-                   List<String> tag, String start_date, String end_date, List<Template> essay,
-                   List<Template> test, List<Template> interview, int jd_id, String jdName) {
+    public Process(String id, String company, int endStatus, String step, String progress,
+                   List<String> tag, LocalDateTime startFrom, LocalDateTime endTo, List<Template> essay,
+                   List<Template> test, List<Template> interview, int jdId, String jdName) {
         this.id = id;
         this.company = company;
-        this.end_status = end_status;
+        this.endStatus = endStatus;
         this.step = step;
         this.progress = progress;
         this.tag = tag;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.startFrom = startFrom;
+        this.endTo = endTo;
         this.essay = (essay != null) ? essay : new ArrayList<>();
         this.test = (test != null) ? test : new ArrayList<>();
         this.interview = (interview != null) ? interview : new ArrayList<>();
-        this.jd_id = jd_id;
+        this.jdId = jdId;
         this.jdName = jdName;
     }
 

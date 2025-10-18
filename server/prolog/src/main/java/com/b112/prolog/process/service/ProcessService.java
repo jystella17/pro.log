@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
-import org.bson.assertions.Assertions;
 import org.springframework.stereotype.Service;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -57,10 +56,10 @@ public class ProcessService {
     }
 
     public Process insertProcess(ProcessDto dto){
-        Process pcc = Process.builder().company(dto.getCompany()).end_status(dto.getEnd_status()).step(dto.getStep())
-                .progress(dto.getProgress()).tag(dto.getTag()).start_date(dto.getStart_date())
-                .end_date(dto.getEnd_date()).essay(dto.getEssay()).test(dto.getTest())
-                .interview(dto.getInterview()).jd_id(dto.getJd_id()).build();
+        Process pcc = Process.builder().company(dto.getCompany()).endStatus(dto.getEndStatus()).step(dto.getStep())
+                .progress(dto.getProgress()).tag(dto.getTag()).startFrom(dto.getStartFrom())
+                .endTo(dto.getEndTo()).essay(dto.getEssay()).test(dto.getTest())
+                .interview(dto.getInterview()).jdId(dto.getJdId()).build();
 
         return processRepository.save(pcc);
     }
