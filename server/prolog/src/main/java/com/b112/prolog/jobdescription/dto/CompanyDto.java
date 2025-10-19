@@ -6,6 +6,12 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CompanyDto {
-    private Long companyId;
-    private String companyName;
+
+    private final Long companyId;
+    private final String companyName;
+
+    public CompanyDto(Long companyId, String companyName) {
+        this.companyId = companyId;
+        this.companyName = companyName;
+    }
 }

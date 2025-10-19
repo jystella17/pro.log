@@ -73,7 +73,6 @@ public class CacheJd {
         this.industry = jd.getIndustry();
         this.workingArea = jd.getWorkingArea();
         this.jobType = jd.getJobType();
-        this.jobMidCode = jd.getJobMidCode();
         this.experience = jd.getExperience();
         this.education = jd.getEducation();
         this.closeTypeCode = jd.getCloseTypeCode();

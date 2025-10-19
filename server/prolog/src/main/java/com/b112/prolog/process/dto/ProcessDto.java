@@ -15,8 +15,8 @@ public class ProcessDto {
     private String step;
     private String progress;
     private List<String> tag;
-    private LocalDateTime startFrom;
-    private LocalDateTime endTo;
+    private String startFrom;
+    private String endTo;
     private List<Template> essay;
     private List<Template> test;
     private List<Template> interview;
@@ -26,7 +26,7 @@ public class ProcessDto {
 
     @Builder
     public ProcessDto(String id, String company, int endStatus, String step, String progress, List<String> tag,
-                      LocalDateTime startFrom, LocalDateTime endTo, List<Template> essay, List<Template> test,
+                      String startFrom, String endTo, List<Template> essay, List<Template> test,
                       List<Template> interview, int jdId) {
         this.id = id;
         this.company = company;
@@ -44,7 +44,7 @@ public class ProcessDto {
 
     @Builder
     public ProcessDto(String company, int endStatus, String step, String progress, List<String> tag,
-                      LocalDateTime startFrom, LocalDateTime endTo, List<Template> essay, List<Template> test,
+                      String startFrom, String endTo, List<Template> essay, List<Template> test,
                       List<Template> interview, int jdId) {
         this.company = company;
         this.endStatus = endStatus;

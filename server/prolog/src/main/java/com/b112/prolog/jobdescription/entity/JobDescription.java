@@ -46,8 +46,8 @@ public class JobDescription {
     @Column(name = "job_type")
     private String jobType;
 
-    @Column(name = "job_mid_code")
-    private String jobMidCode;
+    //@Column(name = "job_mid_code")
+    //private String jobMidCode;
 
     @Column(name = "experience")
     private String experience;
@@ -59,8 +59,9 @@ public class JobDescription {
     private String closeTypeCode;
 
     @Builder
-    public JobDescription(Long jdId, String link, String keyword, String openingDate, String expirationDate, Company company, String jobTitle, String industry, String workingArea, String jobType, String jobMidCode, String experience, String education, String closeTypeCode) {
-        this.jdId = jdId;
+    public JobDescription(String link, String keyword, String openingDate, String expirationDate,
+                          Company company, String jobTitle, String industry, String workingArea, String jobType,
+                          String experience, String education, String closeTypeCode) {
         this.link = link;
         this.keyword = keyword;
         this.openingDate = openingDate;
@@ -70,7 +71,7 @@ public class JobDescription {
         this.industry = industry;
         this.workingArea = workingArea;
         this.jobType = jobType;
-        this.jobMidCode = jobMidCode;
+        //this.jobMidCode = jobMidCode;
         this.experience = experience;
         this.education = education;
         this.closeTypeCode = closeTypeCode;

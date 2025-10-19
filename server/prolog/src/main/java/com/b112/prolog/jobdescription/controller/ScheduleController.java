@@ -1,6 +1,7 @@
 package com.b112.prolog.jobdescription.controller;
 
 import com.b112.prolog.jobdescription.dto.JdAndProcessListDto;
+import com.b112.prolog.jobdescription.dto.JobDescriptionDto;
 import com.b112.prolog.jobdescription.entity.JobDescription;
 import com.b112.prolog.jobdescription.service.JdAndProcessService;
 import com.b112.prolog.jobdescription.service.JobDescriptionService;
@@ -60,9 +61,9 @@ public class ScheduleController {
      * @param title String
      * @return ResponseEntity
      */
-    @GetMapping("/calendar/{title}")
+    @GetMapping("/calendar")
     public ResponseEntity<?> calendarView(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                                          @PathVariable("title") String title) {
+                                          @RequestParam("title") String title) {
         try {
             List<JobDescription> jobDescriptionList = jobDescriptionService.findByJobTitleContaining(title);
 
@@ -145,6 +146,12 @@ public class ScheduleController {
         } catch (Exception e) {
             return exceptionHandling(e);
         }
+    }
+
+    @PostMapping("/job-description")
+    public ResponseEntity<String> insertJobDescription(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                                 @RequestBody JobDescriptionDto jobDescriptionDto) {
+        return ResponseEntity.ok().body(jobDescriptionService.saveNewJobDescription(jobDescriptionDto));
     }
 
     private ResponseEntity<String> exceptionHandling(Exception e) {

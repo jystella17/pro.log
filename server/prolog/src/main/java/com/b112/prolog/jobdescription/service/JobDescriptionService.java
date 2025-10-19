@@ -1,8 +1,10 @@
 package com.b112.prolog.jobdescription.service;
 
 import com.b112.prolog.jobdescription.cache.CacheJd;
+import com.b112.prolog.jobdescription.dto.JobDescriptionDto;
 import com.b112.prolog.jobdescription.entity.Company;
 import com.b112.prolog.jobdescription.entity.JobDescription;
+import com.b112.prolog.jobdescription.exception.JdAlreadyExistsException;
 import com.b112.prolog.jobdescription.repository.CompanyRepository;
 import com.b112.prolog.jobdescription.repository.JobDescriptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +30,6 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class JobDescriptionService {
 
@@ -35,6 +37,11 @@ public class JobDescriptionService {
 
     private final JobDescriptionRepository jdRepository;
     private final CompanyRepository companyRepository;
+
+    public JobDescriptionService(JobDescriptionRepository jdRepository, CompanyRepository companyRepository) {
+        this.jdRepository = jdRepository;
+        this.companyRepository = companyRepository;
+    }
 
     /**
      * 전체 JD 조회
@@ -86,7 +93,7 @@ public class JobDescriptionService {
      * @return 검색어를 포함한 공고
      */
     public List<JobDescription> findByJobTitleContaining (String title){
-        return jdRepository.findByJobTitleContaining(title);
+        return jdRepository.findByJobTitleContaining("%"+title+"%ystel");
     }
 
     /**
@@ -122,5 +129,35 @@ public class JobDescriptionService {
         } else {
             return true;
         }
+    }
+
+    @Transactional
+    public String saveNewJobDescription(JobDescriptionDto jobDescriptionDto) {
+        Company company = companyRepository.findCompanyByCompanyName(jobDescriptionDto.getCompanyName())
+                .orElseGet(() -> {
+                    Company newCompany = Company.builder().companyName(jobDescriptionDto.getCompanyName()).build();
+                    return companyRepository.save(newCompany);
+                });
+
+        if (!jdRepository.findByJobTitle(jobDescriptionDto.getJobTitle()).isEmpty()) {
+            throw new JdAlreadyExistsException();
+        };
+
+        JobDescription jobDescription = JobDescription.builder()
+                .link(jobDescriptionDto.getLink())
+                .keyword(jobDescriptionDto.getKeyword())
+                .openingDate(jobDescriptionDto.getOpeningDate())
+                .expirationDate(jobDescriptionDto.getExpirationDate())
+                .company(company)
+                .jobTitle(jobDescriptionDto.getJobTitle())
+                .industry(jobDescriptionDto.getIndustry())
+                .workingArea(jobDescriptionDto.getWorkingArea())
+                .jobType(jobDescriptionDto.getJobType())
+                .experience(jobDescriptionDto.getExperience())
+                .education(jobDescriptionDto.getEducation())
+                .closeTypeCode(jobDescriptionDto.getCloseTypeCode())
+                .build();
+
+        return jdRepository.save(jobDescription).getJobTitle();
     }
 }

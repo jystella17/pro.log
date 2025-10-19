@@ -1,16 +1,13 @@
 package com.b112.prolog.jobdescription.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Entity
 @Table(name = "company")
-@RequiredArgsConstructor
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Company {
 
     @Id
@@ -22,10 +19,7 @@ public class Company {
     private String companyName;
 
     @Builder
-    public Company(Long companyId, String companyName) {
-        this.companyId = companyId;
+    public Company(String companyName) {
         this.companyName = companyName;
     }
-
 }
-

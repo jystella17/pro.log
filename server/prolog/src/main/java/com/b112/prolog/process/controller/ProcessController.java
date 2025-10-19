@@ -1,6 +1,7 @@
 package com.b112.prolog.process.controller;
 
 import com.b112.prolog.process.dto.ProcessDto;
+import com.b112.prolog.process.entity.Process;
 import com.b112.prolog.process.service.ProcessService;
 
 import com.b112.prolog.user.entity.UserPrincipal;
@@ -47,12 +48,12 @@ public class ProcessController {
      *  JD를 통해 받은 정보로 최초 Process 생성
      * @param dto JD에 있는 정보들
      */
-//    @PostMapping("/process")
-//    public String insertProcess(@RequestBody ProcessDto dto){
-//        //ProcessDto pc = processService.insertProcess(dto);
-//        Process pc = processService.insertProcess(dto);
-//        return pc.getId();
-//    }
+    @PostMapping("/process")
+    public ResponseEntity<String> insertProcess(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                                @RequestBody ProcessDto dto){
+        Process pc = processService.insertProcess(dto);
+        return ResponseEntity.ok().body(pc.getJdName());
+    }
 
     /**?
      *  template추가 시 호출

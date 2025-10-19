@@ -26,11 +26,15 @@ import org.springframework.data.mongodb.core.query.Update;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class ProcessService {
 
     private final ProcessRepository processRepository;
     private final QnaRepository qnaRepository;
+
+    public ProcessService(ProcessRepository processRepository, QnaRepository qnaRepository) {
+        this.processRepository = processRepository;
+        this.qnaRepository = qnaRepository;
+    }
 
     public List<Process> getProcessList() {
         return processRepository.findAll();
