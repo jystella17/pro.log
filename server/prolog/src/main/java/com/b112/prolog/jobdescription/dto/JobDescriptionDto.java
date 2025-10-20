@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @ToString
 public class JobDescriptionDto {
@@ -40,6 +42,14 @@ public class JobDescriptionDto {
         this.industry = industry;
         //this.jobMidCode = jobMidCode;
         this.closeTypeCode = closeTypeCode;
+    }
+
+    public String getYear() {
+        return openingDate.substring(0, 4);
+    }
+
+    public String getMonth() {
+        return openingDate.substring(5, 7);
     }
 }
 

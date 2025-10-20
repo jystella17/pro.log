@@ -30,7 +30,7 @@ public class JobDescriptionDataGenerator implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (jobDescriptionRepository.count() > 0) {
-            System.out.println("JobDescription data already exists. Skipping generation.");
+            log.info("JobDescription data already exists. Skipping generation.");
             return;
         }
 

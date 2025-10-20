@@ -44,10 +44,10 @@ public class ScheduleController {
         String date = year + "-" + month;
 
         try {
-            JdAndProcessListDto jdAndProcessListDto = jdAndProcessService.findAllJdAndProcess(date, year, month);
+            List<JobDescription> jdList = jobDescriptionService.findByPeriod(date, year, month);
 
-            if (jdAndProcessListDto.getJd() != null || jdAndProcessListDto.getProcess() != null) {
-                return new ResponseEntity<>(jdAndProcessListDto, HttpStatus.OK);
+            if (!jdList.isEmpty()) {
+                return new ResponseEntity<>(jdList, HttpStatus.OK);
             } else {
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
@@ -151,7 +151,10 @@ public class ScheduleController {
     @PostMapping("/job-description")
     public ResponseEntity<String> insertJobDescription(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                  @RequestBody JobDescriptionDto jobDescriptionDto) {
-        return ResponseEntity.ok().body(jobDescriptionService.saveNewJobDescription(jobDescriptionDto));
+
+        List<JobDescription> jobDescriptionList = jobDescriptionService.saveNewJobDescription(jobDescriptionDto);
+        return ResponseEntity.ok().body(
+                jobDescriptionList.get(jobDescriptionList.size()-1).getJobTitle());
     }
 
     private ResponseEntity<String> exceptionHandling(Exception e) {

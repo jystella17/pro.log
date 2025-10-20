@@ -15,6 +15,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -73,6 +74,7 @@ public class JobDescriptionService {
      * @param jdId Long
      * @return Optional<JobDescription>
      */
+    @Transactional
     public Optional<JobDescription> findOne(Long jdId) {
         return jdRepository.findById(jdId);
     }
@@ -92,8 +94,9 @@ public class JobDescriptionService {
      * @param title String
      * @return 검색어를 포함한 공고
      */
+    @Transactional
     public List<JobDescription> findByJobTitleContaining (String title){
-        return jdRepository.findByJobTitleContaining("%"+title+"%ystel");
+        return jdRepository.findByJobTitleContaining("%"+title+"%");
     }
 
     /**
@@ -132,7 +135,8 @@ public class JobDescriptionService {
     }
 
     @Transactional
-    public String saveNewJobDescription(JobDescriptionDto jobDescriptionDto) {
+    @CachePut(cacheNames = "job-description", key = "#jobDescriptionDto.year + '_' + #jobDescriptionDto.month")
+    public List<JobDescription> saveNewJobDescription(JobDescriptionDto jobDescriptionDto) {
         Company company = companyRepository.findCompanyByCompanyName(jobDescriptionDto.getCompanyName())
                 .orElseGet(() -> {
                     Company newCompany = Company.builder().companyName(jobDescriptionDto.getCompanyName()).build();
@@ -158,6 +162,9 @@ public class JobDescriptionService {
                 .closeTypeCode(jobDescriptionDto.getCloseTypeCode())
                 .build();
 
-        return jdRepository.save(jobDescription).getJobTitle();
+        jdRepository.save(jobDescription);
+
+        return jdRepository.findAllByOpeningDateStartingWithOrExpirationDateStartingWith(
+                jobDescriptionDto.getOpeningDate().substring(0, 7), jobDescription.getOpeningDate().substring(0, 7));
     }
 }
