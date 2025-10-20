@@ -1,5 +1,7 @@
 package com.b112.prolog.user.service;
 
+import com.b112.prolog.user.entity.CareerType;
+import com.b112.prolog.user.entity.RoleType;
 import com.b112.prolog.user.entity.User;
 import com.b112.prolog.user.entity.UserPrincipal;
 import com.b112.prolog.user.exception.UserNotFoundException;
@@ -12,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -44,7 +48,8 @@ class UserPrincipalServiceTest {
     @DisplayName("UUID로 유저 정보 조회")
     void loadUserByUsername() {
         // given
-        User user = new User(uuid, password, email, nickname, role, phoneNumber);
+        User user = new User(uuid, password, email, nickname, RoleType.USER, new ArrayList<>(), new ArrayList<>(),
+                true, CareerType.GRADUATE, new ArrayList<>(), phoneNumber, LocalDateTime.now());
         when(userRepository.findById(uuid)).thenReturn(Optional.of(user));
 
         // when
